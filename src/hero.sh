@@ -64,7 +64,7 @@ fn_hero() {
 
     # Create import section in index2 files.
     # for outline
-    sed "s:\(.*\)\.svelte:import \1 from './/&':" index2 > index3
+    sed "s:\(.*\)\.svelte:import \1 from './&':" index2 > index3
     bannerColor 'Created index.js file with import.' "green" "*"
 
     #################
@@ -123,7 +123,7 @@ fn_hero() {
 
     # Create import section in index2 files.
     # for solid
-    sed "s:\(.*\)\.svelte:import \1 from './/&':" index2 > index3
+    sed "s:\(.*\)\.svelte:import \1 from './&':" index2 > index3
     bannerColor 'Created index.js file with import.' "green" "*"
     
 
