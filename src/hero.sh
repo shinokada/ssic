@@ -8,10 +8,10 @@ fn_hero() {
     }
 
     # copy optimized from the cloned dir to heroicons dir
-    mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}/heroicons"
+    mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
 
     # create a file icon-names.txt with names without svelte
-    cd "${CURRENTDIR}/heroicons/outline" || exit
+    cd "${CURRENTDIR}/optimized/outline" || exit
     rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon/' -- *.svg  && ls > icon-names.txt
 
     # Add , after each line in icon-names.txt
