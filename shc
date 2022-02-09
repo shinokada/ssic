@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Title:         Svelte heroicons creater
+# Title:         shc: Svelte heroicons creater
 # Description:   Create Heroicons for Svelte-heroicons
 # Author:        Shinichi Okada <okada.shin@gmail.com>
 # Date:          2022-02-10
