@@ -15,7 +15,7 @@ fn_hero() {
 
     # clone it
     bannerColor 'Cloning Heroicons.' "green" "*"
-    git clone "${GITHEROURL}" || {
+    git clone "${GITHEROURL}" > /dev/null 2>&1 || {
         echo "not able to clone"
         exit 1
     }
