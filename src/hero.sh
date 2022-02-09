@@ -1,6 +1,5 @@
 fn_hero() {
-    # create heroicons dir
-    mkdir "${CURRENTDIR}/heroicons"
+    
     # clone heroicons from github
     cd "${CURRENTDIR}/heroicons" || exit 1
     git clone "${GITHEROURL}" || {
@@ -9,7 +8,7 @@ fn_hero() {
     }
 
     # copy optimized from the cloned dir to heroicons dir
-    mv "${CURRENTDIR}/heroicons/heroicons-master/optimized" "${CURRENTDIR}/heroicons"
+    mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}/heroicons"
 
     # create a file icon-names.txt with names without svelte
     cd "${CURRENTDIR}/heroicons/outline" || exit
