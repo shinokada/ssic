@@ -75,7 +75,7 @@ fn_hero() {
     #  modify file names
     bannerColor 'Renaming all files in solid dir.' "blue" "*"
     # in heroicons/solid rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconSolid.svelte/' -- *.svg  
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconSolid.svelte/' -- *.svg  > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
@@ -136,4 +136,6 @@ fn_hero() {
     rm -rf "${CURRENTDIR}/heroicons"
     
     bannerColor 'All done.' "green" "*"
+
+     bannerColor 'Copy all files in the main dir to svelte-heroicons lib directory.' 'magenta' '='
 }
