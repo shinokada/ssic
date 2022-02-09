@@ -1,5 +1,10 @@
 # SHC: Svelte Heroicons Creator
 
+## Requirements
+
+- Bash >= 5
+- GNU sed
+
 ## Installation
 
 Using Awesome package manager.
