@@ -128,7 +128,7 @@ fn_hero() {
     # 3. append }
     echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
 
-    rm names.txt index2 index3
+    # rm names.txt index2 index3
 
     bannerColor 'Added export to index.js file.' "green" "*"
 
