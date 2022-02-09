@@ -4,57 +4,103 @@ fn_hero() {
     cd "${CURRENTDIR}" || exit 1
     # if heroicons dir remove it
     if [ -d "${CURRENTDIR}/heroicons" ]; then
+      bannerColor 'Removing the previous heroicons dir.' "blue" "*"
       rm -rf "${CURRENTDIR}/heroicons"
     fi
 
     # clone it
+    bannerColor 'Cloning Heroicons.' "green" "*"
     git clone "${GITHEROURL}" || {
         echo "not able to clone"
         exit 1
     }
 
     # copy optimized from the cloned dir to heroicons dir
+    bannerColor 'Moving heroicons/optimized to the root.' "green" "*"
     mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
 
-    # create a file icon-names.txt with names without svelte
+    ######################### 
+    #        OUTLINE        #
+    #########################
+    bannerColor 'Changing dir to optimized/outline' "blue" "*"
     cd "${CURRENTDIR}/optimized/outline" || exit
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon/' -- *.svg  && ls > icon-names.txt
-
-    # Add , after each line in icon-names.txt
-    sed -i 's/$/,/' icon-names.txt
-
+    
+    #  modify file names
+    bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline and heroicons/solid rename file names 
     rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  
+    bannerColor 'Renaming is done.' "green" "*"
 
+    # For each svelte file modify contents of all file by adding
+    bannerColor 'Modifying all files.' "blue" "*"
 
-    #  modify contents of all file by adding
-    # 1. replace viewBox="0 0 20 20" to {viewBox} for solid and
     # viewBox="0 0 24 24" to {viewBox} for outline
     sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
 
-    # 2. & 3. insert script tag at the beginning for solid and insert class={className}
-    sed -i '1s/^/<script>export let className="h-6 w-6"; viewBox="0 0 20 20"<\/script>/' ./*.* && sed -i 's/fill/class={className} &/' ./*.*
-
-    # for outline insert script tag at the beginning for solid  and insert class={className}
+    # Insert script tag at the beginning for solid and insert class={className} and viewBox
     sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24";<\/script>/' ./*.* && sed -i 's/fill/class={className} &/' ./*.*
 
-    # ls file names to each index.txt
-    ls "*.svelte" > index.txt
-    # modify index.js file
-    # for outline
-    sed -i "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index.txt
-    # for solid
-    sed -i "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt
+    bannerColor 'Modification is done in outline dir.' "green" "*"
 
-    # Adding export
-    # 1 insert export {} to index.js, 2 insert icon-names to index.js after export {
-    echo 'export {' >> index.txt && cat index.txt icon-names.txt > index.js && echo '}' >> index.js
+    bannerColor 'Creating index.js file.' "blue" "*"
+    # list file names to each index.txt
+    ls "*.svelte" > index.txt
+
+    # create a names.txt
+    sed 's/.svelte//' index.txt > names.txt
+    # Add , after each line in names.txt
+    sed -i 's/$/,/' names.txt
+
+    # Create import section in index-outline.txt and index-solid.txt files.
+    # for outline
+    sed "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index.txt > index-outline.txt
+    # for solid
+    sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
+
+
+    ######################### 
+    #         SOLID         #
+    #########################
+    bannerColor 'Changing dir to optimized/solid' "blue" "*"
+    cd "${CURRENTDIR}/optimized/solid" || exit
+
+    #  modify file names
+    bannerColor 'Renaming all files in solid dir.' "blue" "*"
+    # in heroicons/outline and heroicons/solid rename file names 
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  
+    bannerColor 'Renaming is done.' "green" "*"
     
-    # copy index.js to outline and solid dir
-    cp "${CURRENTDIR}/heroicons/index.js" "${CURRENTDIR}/heroicons/outline" "${CURRENTDIR}/heroicons/solid"
+    # For each svelte file modify contents of all file by adding
+    bannerColor 'Modifying all files.' "blue" "*"
+
+    # viewBox="0 0 20 20" to {viewBox} for solid
+    sed -i 's/viewBox="0 0 20 20"/{viewBox}/' ./*.*
+
+    # Insert script tag at the beginning for solid and insert class={className} and viewBox
+    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 20 20"<\/script>/' ./*.* && sed -i 's/fill/class={className} &/' ./*.*
+
+    bannerColor 'Modification is done in solid dir.' "green" "*"
+
+    # rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon/' -- *.svg  && ls > icon-names.txt
+    
+    #################
+    #    INDEX.JS   #
+    #################
+    
+
+    # Add export{} section
+    # 1 insert export { to index.js, 
+    # 2 insert icon-names to index.js after export { 
+    # 3. append }
+    echo 'export {' >> index-outline.txt && cat index-outline.txt names.txt > index-outline.js && echo '}' >> index-outline.js
+    echo 'export {' >> index-solid.txt && cat index-solid.txt names.txt > index-solid.js && echo '}' >> index-solid.js
+    
+    # copy index.js files to outline and solid dir
+    mv "${CURRENTDIR}/heroicons/index-outline.js" "${CURRENTDIR}/heroicons/outline/index.js" 
+    mv "${CURRENTDIR}/heroicons/index-solid.js" "${CURRENTDIR}/heroicons/solid/index.js"    
     # clean up
     rm icon-names.txt index.txt
-    rm -rf "${CURRENTDIR}/heroicons/heroicons-master"
+    rm -rf "${CURRENTDIR}/heroicons"
     
     echo "Done."
 }
