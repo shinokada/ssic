@@ -16,6 +16,11 @@ check_bash() {
     fi
 }
 
+# sed version
+is_gnu_sed(){
+    sed --version >/dev/null 2>&1
+}
+
 ### Colors ##
 ESC=$(printf '\033')
 RESET="${ESC}[0m"

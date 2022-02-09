@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Title:         Shellscript Starter
-# Description:   Shellscript starter for Bash/Zsh/Sh/Ksh
-# Author:        your-name <yourname@gmail.com>
-# Date:          2022-01-10
+# Title:         Svelte heroicons creater
+# Description:   Create Heroicons for Svelte-heroicons
+# Author:        Shinichi Okada <okada.shin@gmail.com>
+# Date:          2022-02-10
 
 set -eu
 VERSION="0.0.1"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
-VAR1="VAR1"
+GITHEROURL="https://github.com/tailwindlabs/heroicons"
 VAR2="VAR2"
 VAR3="VAR3"
 
@@ -57,13 +57,13 @@ script_dir=${self%/*}
     . "${script_dir}/lib/getoptions.sh"
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
-    . "${script_dir}/lib/cmd1_definition.sh"
-    . "${script_dir}/lib/cmd2_definition.sh"
-    . "${script_dir}/lib/create_definition.sh"
+    . "${script_dir}/lib/hero_definition.sh"
+    # . "${script_dir}/lib/cmd2_definition.sh"
+    # . "${script_dir}/lib/create_definition.sh"
     # import only one of helpers file
     # . "${script_dir}/lib/shell_helpers.sh"
     # or
-    # . "${script_dir}/lib/bash_helpers.sh"
+    . "${script_dir}/lib/bash_helpers.sh"
 }
 
 # Keep it. You need this for main parser.
@@ -80,7 +80,10 @@ eval "set -- $REST"
 # fi
 
 # If you are using Bash, check Bash version
-# check_bash 5
+check_bash 5
+
+# Check if sed is GNU
+is_gnu_sed || echo 'Please install GNU sed'
 
 # Check dependencies of your script
 # check_cmd jq
@@ -92,13 +95,13 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
-    cmd1)
-        eval "$(getoptions parser_definition_cmd1 parse "$0")"
+    hero)
+        eval "$(getoptions parser_definition_hero parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/cmd1.sh"
-        fn_cmd1 "$@"
+        . "${script_dir}/src/hero.sh"
+        fn_hero "$@"
         ;;
     cmd2)
         eval "$(getoptions parser_definition_cmd2 parse "$0")"
