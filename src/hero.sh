@@ -21,7 +21,7 @@ fn_hero() {
       bannerColor 'Removing the previous optimized dir.' "blue" "*"
       rm -rf "${CURRENTDIR}/optimized"
     fi
-    
+
     mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
 
     ######################### 
@@ -49,7 +49,7 @@ fn_hero() {
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
-    ls "*.svelte" > index.txt
+    ls "${CURRENTDIR}/optimized/outline/*.svelte" > index.txt
 
     # create a names.txt
     sed 's/.svelte//' index.txt > names.txt
@@ -62,7 +62,7 @@ fn_hero() {
     # for solid
     sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
 
-
+    exit
     ######################### 
     #         SOLID         #
     #########################
