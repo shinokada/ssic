@@ -49,11 +49,10 @@ fn_hero() {
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
-    # find . -type f -name ".svelte" > index.txt
     find . -type f '(' -name '*.svelte' ')' > index.txt
-    # for n in *; do 
-    #     printf '%s\n' "$n"; 
-    # done > index.txt
+    
+    # removed ./ from each line
+    sed 's/^.\///' ./optimized/outline/index.txt > index.txt
 
     exit
     # create a names.txt
@@ -66,6 +65,8 @@ fn_hero() {
     sed "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index.txt > index-outline.txt
     # for solid
     sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
+
+    
 
     exit
     ######################### 
