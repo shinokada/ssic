@@ -49,7 +49,7 @@ fn_hero() {
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
-    find "${CURRENTDIR}/optimized/outline" -type f -name ".svelte" > index.txt
+    find . -type f -name ".svelte" > index.txt
     # for n in *; do 
     #     printf '%s\n' "$n"; 
     # done > index.txt
