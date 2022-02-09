@@ -13,10 +13,10 @@ Create a dir and run:
 ```sh
 mkdir ~/Downloads/heroicons
 cd ~/Downloads/heroicons
-shc
+shc hero
 ```
 
-All the icons are under `optimized` dir.
+All the icons are under `main` dir.
 
 Move it to `svelte-heroicons` dir.
 
@@ -29,3 +29,8 @@ npm run package
 cd package
 npm publish
 ```
+
+## two command
+
+`shc two` command will create `optimize/outline` and `optimize/solid`
+directories and their `index.js` in the dir.
