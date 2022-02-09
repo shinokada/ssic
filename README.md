@@ -1,24 +1,31 @@
-# Shellscript starter
+# SHC: Svelte Heroicons Creator
 
-[Please read the article]()
+## Installation
 
-## Getting started
+Using Awesome package manager.
 
-Clone or download the repo.
+```sh
+awesome install shinokada/shc
+```
 
-## What in this?
+Create a dir and run:
 
-- Unit test
-- Structure
-- Sample commands
-- Utils (text, banner)
-- Shell and Bash helpers
+```sh
+mkdir ~/Downloads/heroicons
+cd ~/Downloads/heroicons
+shc
+```
 
-## Credits
+All the icons are under `optimized` dir.
 
-- [Shellspec](https://github.com/shellspec/shellspec) for unit testing
-- [getoptions](https://github.com/ko1nksm/getoptions) for option parser
-- [readlinkf](https://github.com/ko1nksm/readlinkf) for POSIX compliant readlink -f
-- [Bash helpers](https://github.com/dylanaraps/pure-bash-bible)
-- [Shell helpers](https://github.com/dylanaraps/pure-sh-bible)
-- [Banners](https://github.com/yousefvand/shellman)
+Move it to `svelte-heroicons` dir.
+
+Create a package and publish.
+
+```sh
+cd /path/to/svelte-heroicons
+// update the version in the package.json
+npm run package
+cd package
+npm publish
+```

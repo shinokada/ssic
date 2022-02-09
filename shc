@@ -86,51 +86,8 @@ check_bash 5
 # Check if sed is GNU
 is_gnu_sed || echo 'Please install GNU sed'
 
-# Check dependencies of your script
-# check_cmd jq
-# check_cmd you_dont_have_it
 
 # shellcheck disable=SC1091
 . "${script_dir}/src/hero.sh"
 
 fn_hero "$@"
-
-# Add more commands.
-# Don't forget to add your command in lib/main_definition.sh
-# if [ $# -gt 0 ]; then
-#     cmd=$1
-#     shift
-#     case $cmd in
-#     hero)
-#         eval "$(getoptions parser_definition_hero parse "$0")"
-#         parse "$@"
-#         eval "set -- $REST"
-#         # shellcheck disable=SC1091
-#         . "${script_dir}/src/hero.sh"
-#         fn_hero "$@"
-#         ;;
-#     cmd2)
-#         eval "$(getoptions parser_definition_cmd2 parse "$0")"
-#         parse "$@"
-#         eval "set -- $REST"
-#         # shellcheck disable=SC1091
-#         . "${script_dir}/src/cmd2.sh"
-#         fn_cmd2 "$@"
-#         ;;
-#     text_example)
-#         # shellcheck disable=SC1091
-#         . "${script_dir}/src/text_example.sh"
-#         fn_text
-#         ;;
-#     create)
-#         eval "$(getoptions parser_definition_create parse "$0")"
-#         parse "$@"
-#         eval "set -- $REST"
-#         # shellcheck disable=SC1091
-#         . "${script_dir}/src/create.sh"
-#         fn_create "$@"
-#         ;;
-#     # more lines
-#     --) ;; # no subcommand, arguments only
-#     esac
-# fi
