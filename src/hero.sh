@@ -4,7 +4,7 @@ fn_hero() {
     # and it contains all Heroicons.
     # Move it's contents to Repo svelte-heroicons' lib dir.
     ######################
-    
+
     # clone heroicons from github
     cd "${CURRENTDIR}" || exit 1
     # if heroicons dir remove it
@@ -30,6 +30,10 @@ fn_hero() {
     mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
 
     # create main dir
+    if [ -d "${CURRENTDIR}/main" ]; then
+      bannerColor 'Removing the previous main dir.' "blue" "*"
+      rm -rf "${CURRENTDIR}/main"
+    fi
     mkdir "${CURRENTDIR}/main"
 
     ######################### 
