@@ -25,7 +25,7 @@ fn_hero() {
     mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
 
     # create main dir
-    mkdir "${CURRENTDIR}/heroicons/main"
+    mkdir "${CURRENTDIR}/main"
 
     ######################### 
     #        OUTLINE        #
@@ -53,7 +53,7 @@ fn_hero() {
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
     # Move all files to main dir
-    mv ./* "${CURRENTDIR}/heroicons/main"
+    mv ./* "${CURRENTDIR}/main"
 
     
     ######################### 
@@ -83,12 +83,12 @@ fn_hero() {
     bannerColor 'Modification is done in solid dir.' "green" "*"
 
     # Move all files to main dir
-    mv ./* "${CURRENTDIR}/heroicons/main"
+    mv ./* "${CURRENTDIR}/main"
 
     #############################
     #    INDEX.JS PART 1 IMPORT #
     #############################
-    cd "${CURRENTDIR}/heroicons/main" || exit 1
+    cd "${CURRENTDIR}/main" || exit 1
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
@@ -118,10 +118,6 @@ fn_hero() {
     # 2 insert icon-names to index.js after export { 
     # 3. append }
     echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
-
-    rm names.txt index2 index3
-
-    bannerColor 'Added export to index.js file.' "green" "*"
 
     rm names.txt index2 index3
 
