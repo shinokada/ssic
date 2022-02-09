@@ -1,7 +1,7 @@
 fn_hero() {
     
     # clone heroicons from github
-    cd "${CURRENTDIR}/heroicons" || exit 1
+    cd "${CURRENTDIR}" || exit 1
     git clone "${GITHEROURL}" || {
         echo "not able to clone"
         exit 1
