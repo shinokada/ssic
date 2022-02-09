@@ -45,7 +45,7 @@ fn_hero() {
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconOutline.svelte/' -- *.svg  
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconOutline.svelte/' -- *.svg > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
@@ -75,7 +75,7 @@ fn_hero() {
     #  modify file names
     bannerColor 'Renaming all files in solid dir.' "blue" "*"
     # in heroicons/solid rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconSolid.svelte/' -- *.svg  > /dev/null 2>&1
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconSolid.svelte/' -- *.svg > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
