@@ -66,7 +66,7 @@ fn_hero() {
     bannerColor 'Created index.js file with import.' "green" "*"
     # for solid
     # sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
-    rm names.txt index.txt
+    
 
     #################
     #    INDEX.JS   #
@@ -79,10 +79,11 @@ fn_hero() {
     # 3. append }
     echo 'export {' >> index-outline.txt && cat index-outline.txt names.txt > index-outline.js && echo '}' >> index-outline.js
     echo 'export {' >> index-solid.txt && cat index-solid.txt names.txt > index-solid.js && echo '}' >> index-solid.js
+
+    rm names.txt index.txt
+
     bannerColor 'Added export to index.js file.' "green" "*"
-
-
-
+    
     exit
     ######################### 
     #         SOLID         #
