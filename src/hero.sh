@@ -2,6 +2,12 @@ fn_hero() {
     
     # clone heroicons from github
     cd "${CURRENTDIR}" || exit 1
+    # if heroicons dir remove it
+    if [ -d "${CURRENTDIR}/heroicons" ]; then
+      rm -rf "${CURRENTDIR}/heroicons"
+    fi
+
+    # clone it
     git clone "${GITHEROURL}" || {
         echo "not able to clone"
         exit 1
