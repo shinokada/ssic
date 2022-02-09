@@ -49,20 +49,20 @@ fn_hero() {
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
-    find . -type f '(' -name '*.svelte' ')' > index
+    find . -type f '(' -name '*.svelte' ')' > index1
     
     # removed ./ from each line
-    sed 's/^.\///' index > index.txt
-    rm index
+    sed 's/^.\///' index1 > index2
+    rm index1
 
     # create a names.txt
-    sed 's/.svelte//' index.txt > names.txt
+    sed 's/.svelte//' index2 > names.txt
     # Add , after each line in names.txt
     sed -i 's/$/,/' names.txt
 
     # Create import section in index-outline.txt and index-solid.txt files.
     # for outline
-    sed "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index.txt > index.js
+    sed "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index2 > index3
     bannerColor 'Created index.js file with import.' "green" "*"
     # for solid
     # sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
@@ -77,13 +77,13 @@ fn_hero() {
     # 1 insert export { to index.js, 
     # 2 insert icon-names to index.js after export { 
     # 3. append }
-    echo 'export {' >> index-outline.txt && cat index-outline.txt names.txt > index-outline.js && echo '}' >> index-outline.js
-    echo 'export {' >> index-solid.txt && cat index-solid.txt names.txt > index-solid.js && echo '}' >> index-solid.js
+    echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
+    # echo 'export {' >> index-solid.txt && cat index-solid.txt names.txt > index-solid.js && echo '}' >> index-solid.js
 
-    rm names.txt index.txt
+    rm names.txt index2 index3
 
     bannerColor 'Added export to index.js file.' "green" "*"
-    
+
     exit
     ######################### 
     #         SOLID         #
