@@ -11,8 +11,7 @@ SCRIPT_NAME=$(basename "$0")
 
 # Set variables
 GITHEROURL="https://github.com/tailwindlabs/heroicons"
-VAR2="VAR2"
-VAR3="VAR3"
+
 
 # Keep readlinkf function
 readlinkf() {
