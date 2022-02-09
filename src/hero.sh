@@ -64,7 +64,7 @@ fn_hero() {
 
     # Create import section in index2 files.
     # for outline
-    sed "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index2 > index3
+    sed "s:\(.*\)\.svelte:import \1 from './/&':" index2 > index3
     bannerColor 'Created index.js file with import.' "green" "*"
 
     #################
@@ -123,7 +123,7 @@ fn_hero() {
 
     # Create import section in index2 files.
     # for solid
-    sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index2 > index3
+    sed "s:\(.*\)\.svelte:import \1 from './/&':" index2 > index3
     bannerColor 'Created index.js file with import.' "green" "*"
     
 
@@ -144,7 +144,6 @@ fn_hero() {
     bannerColor 'Added export to index.js file.' "green" "*"
 
     # clean up
-    rm icon-names.txt index.txt
     rm -rf "${CURRENTDIR}/heroicons"
     
     bannerColor 'All done.' "green" "*"
