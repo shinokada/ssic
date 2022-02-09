@@ -11,6 +11,8 @@ SCRIPT_NAME=$(basename "$0")
 
 # Set variables
 GITHEROURL="https://github.com/tailwindlabs/heroicons"
+CURRENTDIR=$(pwd)
+echo "Your current dir is: ${CURRENTDIR}"
 
 
 # Keep readlinkf function

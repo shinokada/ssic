@@ -1,18 +1,18 @@
 fn_hero() {
     # create heroicons dir
-    mkdir "${script_dir}/heroicons"
+    mkdir "${CURRENTDIR}/heroicons"
     # clone heroicons from github
-    cd "${script_dir}/heroicons" || exit 1
+    cd "${CURRENTDIR}/heroicons" || exit 1
     git clone "${GITHEROURL}" || {
         echo "not able to clone"
         exit 1
     }
 
     # copy optimized from the cloned dir to heroicons dir
-    mv "${script_dir}/heroicons/heroicons-master/optimized" "${script_dir}/heroicons"
+    mv "${CURRENTDIR}/heroicons/heroicons-master/optimized" "${CURRENTDIR}/heroicons"
 
     # create a file icon-names.txt with names without svelte
-    cd "${script_dir}/heroicons/outline" || exit
+    cd "${CURRENTDIR}/heroicons/outline" || exit
     rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon/' -- *.svg  && ls > icon-names.txt
 
     # Add , after each line in icon-names.txt
@@ -46,10 +46,10 @@ fn_hero() {
     echo 'export {' >> index.txt && cat index.txt icon-names.txt > index.js && echo '}' >> index.js
     
     # copy index.js to outline and solid dir
-    cp "${script_dir}/heroicons/index.js" "${script_dir}/heroicons/outline" "${script_dir}/heroicons/solid"
+    cp "${CURRENTDIR}/heroicons/index.js" "${CURRENTDIR}/heroicons/outline" "${CURRENTDIR}/heroicons/solid"
     # clean up
     rm icon-names.txt index.txt
-    rm -rf "${script_dir}/heroicons/heroicons-master"
+    rm -rf "${CURRENTDIR}/heroicons/heroicons-master"
     
     echo "Done."
 }
