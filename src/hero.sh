@@ -49,10 +49,11 @@ fn_hero() {
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
-    find . -type f '(' -name '*.svelte' ')' > index.txt
+    find . -type f '(' -name '*.svelte' ')' > index
     
     # removed ./ from each line
-    sed 's/^.\///' ./optimized/outline/index.txt > index.txt
+    sed 's/^.\///' index > index.txt
+    rm index
 
     exit
     # create a names.txt
