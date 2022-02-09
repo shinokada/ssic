@@ -24,6 +24,9 @@ fn_hero() {
 
     mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
 
+    # create main dir
+    mkdir "${CURRENTDIR}/heroicons/main"
+
     ######################### 
     #        OUTLINE        #
     #########################
@@ -33,7 +36,7 @@ fn_hero() {
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconOutline.svelte/' -- *.svg  
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
@@ -49,50 +52,21 @@ fn_hero() {
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
-    bannerColor 'Creating index.js file.' "blue" "*"
-    # list file names to each index.txt
-    find . -type f '(' -name '*.svelte' ')' > index1
-    
-    # removed ./ from each line
-    sed 's/^.\///' index1 > index2
-    rm index1
-
-    # create a names.txt
-    sed 's/.svelte//' index2 > names.txt
-    # Add , after each line in names.txt
-    sed -i 's/$/,/' names.txt
-
-    # Create import section in index2 files.
-    # for outline
-    sed "s:\(.*\)\.svelte:import \1 from './&':" index2 > index3
-    bannerColor 'Created index.js file with import.' "green" "*"
-
-    #################
-    #    INDEX.JS   #
-    #################
-    
-    bannerColor 'Adding export to index.js file.' "blue" "*"
-    # Add export{} section
-    # 1 insert export { to index.js, 
-    # 2 insert icon-names to index.js after export { 
-    # 3. append }
-    echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
-
-    rm names.txt index2 index3
-
-    bannerColor 'Added export to index.js file.' "green" "*"
+    # Move all files to main dir
+    mv ./* "${CURRENTDIR}/heroicons/main"
 
     
     ######################### 
     #         SOLID         #
     #########################
+
     bannerColor 'Changing dir to optimized/solid' "blue" "*"
     cd "${CURRENTDIR}/optimized/solid" || exit
 
     #  modify file names
     bannerColor 'Renaming all files in solid dir.' "blue" "*"
     # in heroicons/solid rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconSolid.svelte/' -- *.svg  
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
@@ -108,11 +82,19 @@ fn_hero() {
 
     bannerColor 'Modification is done in solid dir.' "green" "*"
 
+    # Move all files to main dir
+    mv ./* "${CURRENTDIR}/heroicons/main"
+
+    #############################
+    #    INDEX.JS PART 1 IMPORT #
+    #############################
+    cd "${CURRENTDIR}/heroicons/main" || exit 1
+
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
     find . -type f '(' -name '*.svelte' ')' > index1
     
-    # removed ./ from each line
+    # remove ./ from each line
     sed 's/^.\///' index1 > index2
     rm index1
 
@@ -126,18 +108,20 @@ fn_hero() {
     sed "s:\(.*\)\.svelte:import \1 from './&':" index2 > index3
     bannerColor 'Created index.js file with import.' "green" "*"
     
+    ##########################
+    # INDEX.JS PART 2 EXPORT #
+    ##########################
 
-    #################
-    #    INDEX.JS   #
-    #################
-    
     bannerColor 'Adding export to index.js file.' "blue" "*"
     # Add export{} section
     # 1 insert export { to index.js, 
     # 2 insert icon-names to index.js after export { 
     # 3. append }
     echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
-    # echo 'export {' >> index-solid.txt && cat index-solid.txt names.txt > index-solid.js && echo '}' >> index-solid.js
+
+    rm names.txt index2 index3
+
+    bannerColor 'Added export to index.js file.' "green" "*"
 
     rm names.txt index2 index3
 
