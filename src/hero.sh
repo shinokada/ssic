@@ -55,7 +55,7 @@ fn_hero() {
     sed 's/^.\///' index > index.txt
     rm index
 
-    exit
+    
     # create a names.txt
     sed 's/.svelte//' index.txt > names.txt
     # Add , after each line in names.txt
@@ -65,9 +65,7 @@ fn_hero() {
     # for outline
     sed "s:\(.*\)\.svelte:import \1 from './heroicons/outline/&':" index.txt > index-outline.txt
     # for solid
-    sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
-
-    
+    # sed "s:\(.*\)\.svelte:import \1 from './heroicons/solid/&':" index.txt > index-solid.txt
 
     exit
     ######################### 
