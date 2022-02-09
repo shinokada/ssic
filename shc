@@ -6,13 +6,13 @@
 # Date:          2022-02-10
 
 set -eu
-VERSION="1.0.0"
+VERSION="1.1.0"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
 GITHEROURL="https://github.com/tailwindlabs/heroicons"
 CURRENTDIR=$(pwd)
-echo "Your current dir is: ${CURRENTDIR}"
+# echo "Your current dir is: ${CURRENTDIR}"
 
 
 # Keep readlinkf function
@@ -59,11 +59,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
     . "${script_dir}/lib/hero_definition.sh"
-    # . "${script_dir}/lib/cmd2_definition.sh"
-    # . "${script_dir}/lib/create_definition.sh"
-    # import only one of helpers file
-    # . "${script_dir}/lib/shell_helpers.sh"
-    # or
+    . "${script_dir}/lib/two_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
 }
 
@@ -90,4 +86,31 @@ is_gnu_sed || echo 'Please install GNU sed'
 # shellcheck disable=SC1091
 . "${script_dir}/src/hero.sh"
 
-fn_hero "$@"
+# fn_hero "$@"
+
+# Add more commands.
+# Don't forget to add your command in lib/main_definition.sh
+if [ $# -gt 0 ]; then
+    cmd=$1
+    shift
+    case $cmd in
+    hero)
+        eval "$(getoptions parser_definition_hero parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/hero.sh"
+        fn_hero "$@"
+        ;;
+    two)
+        eval "$(getoptions parser_definition_two parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/two.sh"
+        fn_two "$@"
+        ;;
+    # more lines
+    --) ;; # no subcommand, arguments only
+    esac
+fi
