@@ -1,5 +1,7 @@
 # SHC: Svelte Heroicons Creator
 
+This script creates a Svelte-heroicons.
+
 ## Requirements
 
 - Bash >= 5
@@ -7,7 +9,7 @@
 
 ## Installation
 
-Using Awesome package manager.
+Using [Awesome package manager](https://github.com/shinokada/awesome).
 
 ```sh
 awesome install shinokada/shc
