@@ -37,7 +37,7 @@ cd package
 npm publish
 ```
 
-## two command
+## two command (Untested)
 
 `shc two` command will create `optimize/outline` and `optimize/solid`
 directories and their `index.js` in the dir.
