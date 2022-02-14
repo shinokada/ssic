@@ -1,6 +1,6 @@
-# SHC: Svelte Heroicons Creator
+# SIC: Svelte SVG Icon Creator
 
-This script creates a Svelte-heroicons.
+This script creates a Svelte-heroicons and simpl-icons.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ This script creates a Svelte-heroicons.
 Using [Awesome package manager](https://github.com/shinokada/awesome).
 
 ```sh
-awesome install shinokada/shc
+awesome install shinokada/svelte-svgicon-creator
 ```
 
 Create a dir and run:
@@ -20,7 +20,7 @@ Create a dir and run:
 ```sh
 mkdir ~/Downloads/heroicons
 cd ~/Downloads/heroicons
-shc hero
+sic hero
 ```
 
 All the icons are under `main` dir.
@@ -39,5 +39,5 @@ npm publish
 
 ## two command (Untested)
 
-`shc two` command will create `optimize/outline` and `optimize/solid`
+`sic two` command will create `optimize/outline` and `optimize/solid`
 directories and their `index.js` in the dir.

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-# Title:         shc: Svelte heroicons creater
-# Description:   Create Heroicons for Svelte-heroicons
+# Title:         shc: Svelte SVG Icon creater
+# Description:   Create Heroicons and Simple-icons for Svelte
 # Author:        Shinichi Okada <okada.shin@gmail.com>
 # Date:          2022-02-10
 
 set -eu
-VERSION="1.2.0"
+VERSION="1.3.0"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
-GITHEROURL="https://github.com/tailwindlabs/heroicons"
+
 CURRENTDIR=$(pwd)
 # echo "Your current dir is: ${CURRENTDIR}"
 

@@ -4,7 +4,7 @@ fn_hero() {
     # and it contains all Heroicons.
     # Move it's contents to Repo svelte-heroicons' lib dir.
     ######################
-
+    GITURL="https://github.com/tailwindlabs/heroicons"
     # clone heroicons from github
     cd "${CURRENTDIR}" || exit 1
     # if heroicons dir remove it
@@ -15,7 +15,7 @@ fn_hero() {
 
     # clone it
     bannerColor 'Cloning Heroicons.' "green" "*"
-    git clone "${GITHEROURL}" > /dev/null 2>&1 || {
+    git clone "${GITURL}" > /dev/null 2>&1 || {
         echo "not able to clone"
         exit 1
     }
