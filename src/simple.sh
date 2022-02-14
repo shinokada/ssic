@@ -87,9 +87,9 @@ fn_simple() {
 
     bannerColor 'Added export to index.js file.' "green" "*"
 
-    bannerColor "Cleaning up ${CURRENTDIR}/{DIRNAME}." "blue" "*"
+    bannerColor "Cleaning up ${CURRENTDIR}/${DIRNAME}." "blue" "*"
     # clean up
-    rm -rf "${CURRENTDIR}/{DIRNAME}"
+    rm -rf "${CURRENTDIR}/${DIRNAME}"
     
     bannerColor 'All done.' "green" "*"
 }
