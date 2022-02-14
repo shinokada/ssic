@@ -23,8 +23,8 @@ fn_simple() {
     # copy optimized from the cloned dir to heroicons dir
     bannerColor 'Moving icons dir to the root.' "green" "*"
     if [ -d "${CURRENTDIR}/${ICONDIR}" ]; then
-      bannerColor 'Removing the previous optimized dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${DIRNAME}/${ICONDIR}"
+      bannerColor 'Removing the previous icons dir.' "blue" "*"
+      rm -rf "${CURRENTDIR}/${ICONDIR}"
     fi
 
     mv "${CURRENTDIR}/${DIRNAME}/${ICONDIR}" "${CURRENTDIR}"
