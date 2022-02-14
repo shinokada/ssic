@@ -42,7 +42,7 @@ fn_simple() {
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file
