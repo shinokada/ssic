@@ -24,10 +24,10 @@ fn_simple() {
     bannerColor 'Moving icons dir to the root.' "green" "*"
     if [ -d "${CURRENTDIR}/${ICONDIR}" ]; then
       bannerColor 'Removing the previous optimized dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${ICONDIR}"
+      rm -rf "${CURRENTDIR}/${DIRNAME}/${ICONDIR}"
     fi
 
-    mv "${CURRENTDIR}/${ICONDIR}" "${CURRENTDIR}"
+    mv "${CURRENTDIR}/${DIRNAME}/${ICONDIR}" "${CURRENTDIR}"
 
     ######################### 
     #        ICONS      #
