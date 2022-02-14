@@ -34,6 +34,10 @@ fn_simple() {
     #########################
     bannerColor 'Changing dir to icons dir' "blue" "*"
     cd "${CURRENTDIR}/${ICONDIR}" || exit
+
+    bannerColor 'Removing all files starting with a number.' "blue" "*"
+    find . -type f -name "[0-9]*"  -exec rm {} \;
+    bannerColor 'Done.' "green" "*"
     
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
