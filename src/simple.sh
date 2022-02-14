@@ -87,11 +87,6 @@ fn_simple() {
 
     bannerColor 'Added export to index.js file.' "green" "*"
 
-    
-    rm names.txt index2 index3
-
-    bannerColor 'Added export to index.js file.' "green" "*"
-
     # clean up
     rm -rf "${CURRENTDIR}/{DIRNAME}"
     
