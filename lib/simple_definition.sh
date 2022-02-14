@@ -1,4 +1,4 @@
-parser_definition_two() {
+parser_definition_simple() {
     setup REST plus:true help:usage abbr:true -- \
         "Usage: ${2##*/} [options...] [arguments...]" ''
     msg -- 'getoptions basic example' ''

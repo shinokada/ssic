@@ -9,7 +9,7 @@ parser_definition() {
     msg -- '' 'Commands: '
     msg -- 'Use command -h for a command help.'
     cmd hero -- "Create Heroicons in one directory."
-    cmd two -- "Create Heroicons in two directories, heroicons/outline and heroicons/solid."
+    cmd simple -- "Create Simple-icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 

@@ -59,7 +59,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
     . "${script_dir}/lib/hero_definition.sh"
-    . "${script_dir}/lib/two_definition.sh"
+    . "${script_dir}/lib/simple_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
 }
 
@@ -102,13 +102,13 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/hero.sh"
         fn_hero "$@"
         ;;
-    two)
-        eval "$(getoptions parser_definition_two parse "$0")"
+    simple)
+        eval "$(getoptions parser_definition_simple parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/two.sh"
-        fn_two "$@"
+        . "${script_dir}/src/simple.sh"
+        fn_simple "$@"
         ;;
     # more lines
     --) ;; # no subcommand, arguments only
