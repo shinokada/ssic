@@ -49,7 +49,7 @@ fn_simple() {
     sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24";<\/script>/' ./*.* && sed -i 's/fill/class={className} &/' ./*.*
+    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24";<\/script>/' ./*.* && sed -i 's/xmlns/class={className} &/' ./*.*
     # END OF VIEWBOX
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
