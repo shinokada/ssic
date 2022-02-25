@@ -12,15 +12,17 @@ This script creates a Svelte-heroicons and simpl-icons.
 Using [Awesome package manager](https://github.com/shinokada/awesome).
 
 ```sh
-awesome install shinokada/svelte-svgicon-creator
+awesome install shinokada/ssic
 ```
+
+## Creating Heroicons
 
 Create a dir and run:
 
 ```sh
 mkdir ~/Downloads/heroicons
 cd ~/Downloads/heroicons
-sic hero
+ssic hero
 ```
 
 All the icons are under `main` dir.
@@ -37,7 +39,9 @@ cd package
 npm publish
 ```
 
-## two command (Untested)
+## Creating Simpleicons
 
-`sic two` command will create `optimize/outline` and `optimize/solid`
-directories and their `index.js` in the dir.
+```sh
+ssic simple
+```
+

@@ -49,11 +49,11 @@ fn_simple() {
     bannerColor 'Modifying all files.' "blue" "*"
 
     # VIEWBOX
-    # viewBox="0 0 24 24" to {viewBox} for outline
+    # Change from viewBox="0 0 24 24" to {viewBox} for outline
     sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24";<\/script>/' ./*.* && sed -i 's/xmlns/class={className} &/' ./*.*
+    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24"; export let fill="#000000"<\/script>/' ./*.* && sed -i 's/xmlns/class={className} fill={fill} &/' ./*.*
     # END OF VIEWBOX
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
