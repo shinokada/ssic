@@ -52,6 +52,9 @@ fn_feather() {
     # Change from viewBox="0 0 24 24" to {viewBox}
     sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
 
+    # Remove fill="none" from all files
+    sed -i 's/fill="none"//' ./*.*
+
     # Insert script tag at the beginning and insert class={className} and viewBox
     sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24"; export let fill="#000000"<\/script>/' ./*.* && sed -i 's/xmlns/class={className} fill={fill} &/' ./*.*
     # END OF VIEWBOX
