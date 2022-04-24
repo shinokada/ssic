@@ -48,16 +48,21 @@ fn_feather() {
     # For each svelte file modify contents of all file
     bannerColor 'Modifying all files.' "blue" "*"
 
-    # VIEWBOX
-    # Change from viewBox="0 0 24 24" to {viewBox}
-    sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
+    # Change from width="24" and height="24" to width={size} and height={size}
+    sed -i 's/width="24"/width={size}/' ./*.*
+    sed -i 's/height="24"/height={size}/' ./*.*
+
+    # Change stroke="currentColor" to stroke={color}
+    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
 
     # Remove fill="none" from all files
-    sed -i 's/fill="none"//' ./*.*
+    # sed -i 's/fill="none"//' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24"; export let fill="none"<\/script>/' ./*.* && sed -i 's/xmlns/class={className} fill={fill} &/' ./*.*
-    # END OF VIEWBOX
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor"; export let ref<\/script>/' ./*.* 
+
+    # Insert {...$$restprops} at the end of each file
+    sed -i 's/<svg/<svg {...$$restProps}/' ./*.*
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
