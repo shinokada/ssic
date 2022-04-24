@@ -8,6 +8,7 @@ parser_definition() {
 
     msg -- '' 'Commands: '
     msg -- 'Use command -h for a command help.'
+    cmd feather -- "Create Feathericons."
     cmd hero -- "Create Heroicons in one directory."
     cmd simple -- "Create Simple-icons."
     # cmd text_example -- "Print different type of texts."
