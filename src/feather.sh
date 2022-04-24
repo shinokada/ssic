@@ -20,7 +20,7 @@ fn_feather() {
         exit 1
     }
 
-    # copy optimized from the cloned dir to heroicons dir
+    # copy bin from the cloned dir to feathericons dir
     bannerColor 'Moving feather/bin to the root.' "green" "*"
     if [ -d "${CURRENTDIR}/bin" ]; then
       bannerColor 'Removing the previous bin dir.' "blue" "*"
