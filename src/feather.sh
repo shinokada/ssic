@@ -56,7 +56,7 @@ fn_feather() {
     sed -i 's/fill="none"//' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24"; export let fill="#000000"<\/script>/' ./*.* && sed -i 's/xmlns/class={className} fill={fill} &/' ./*.*
+    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24"; export let fill="none"<\/script>/' ./*.* && sed -i 's/xmlns/class={className} fill={fill} &/' ./*.*
     # END OF VIEWBOX
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
