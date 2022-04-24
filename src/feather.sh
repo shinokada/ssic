@@ -20,7 +20,7 @@ fn_feather() {
         exit 1
     }
 
-    # copy optimized from the cloned dir to heroicons dir
+    # move to the dir
     bannerColor 'Moving icons dir to the root.' "green" "*"
     if [ -d "${CURRENTDIR}/${ICONDIR}" ]; then
       bannerColor 'Removing the previous icons dir.' "blue" "*"
@@ -28,7 +28,7 @@ fn_feather() {
     fi
 
     mv "${CURRENTDIR}/${DIRNAME}/${ICONDIR}" "${CURRENTDIR}"
-    exit
+    
     ######################### 
     #        ICONS      #
     #########################
@@ -49,7 +49,7 @@ fn_feather() {
     bannerColor 'Modifying all files.' "blue" "*"
 
     # VIEWBOX
-    # Change from viewBox="0 0 24 24" to {viewBox} for outline
+    # Change from viewBox="0 0 24 24" to {viewBox}
     sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
