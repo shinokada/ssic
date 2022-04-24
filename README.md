@@ -15,7 +15,7 @@ Using [Awesome package manager](https://github.com/shinokada/awesome).
 awesome install shinokada/ssic
 ```
 
-## Creating Heroicons
+## How to create Heroicons
 
 Create a dir and run:
 
@@ -39,9 +39,18 @@ cd package
 npm publish
 ```
 
-## Creating Simpleicons
+## How to create Simpleicons
 
 ```sh
+mkdir ~/Downloads/simpleicons
+cd ~/Downloads/simpleicons
 ssic simple
 ```
 
+## How to create Feathericons
+
+```sh
+mkdir ~/Downloads/feathericons
+cd ~/Downloads/feathericons
+ssic feather
+```
