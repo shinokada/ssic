@@ -59,7 +59,7 @@ fn_feather() {
     # sed -i 's/fill="none"//' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let size="24"; export let color="currentColor"; export let ref<\/script>/' ./*.* 
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
 
     # Insert {...$$restprops} at the end of each file
     sed -i 's/<svg/<svg {...$$restProps}/' ./*.*
