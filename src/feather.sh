@@ -3,7 +3,7 @@ fn_feather() {
     # This script creates simple-icons. 
     ###########################################################
     GITURL="git@github.com:feathericons/feather.git"
-    DIRNAME='feathericons'
+    DIRNAME='feather'
     ICONDIR='icons'
     # clone icons from github
     cd "${CURRENTDIR}" || exit 1
