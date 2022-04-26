@@ -11,6 +11,7 @@ parser_definition() {
     cmd feather -- "Create Feathericons."
     cmd hero -- "Create Heroicons in one directory."
     cmd simple -- "Create Simple-icons."
+    cmd lucide -- "Create Lucide-icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 

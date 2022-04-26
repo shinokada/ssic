@@ -8,7 +8,7 @@ fn_hero() {
     DIRNAME='heroicons'
     # clone heroicons from github
     cd "${CURRENTDIR}" || exit 1
-    # if heroicons dir remove it
+    # if there is the heroicons dir, remove it
     if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
       bannerColor 'Removing the previous heroicons dir.' "blue" "*"
       rm -rf "${CURRENTDIR}/${DIRNAME}"
@@ -53,7 +53,10 @@ fn_hero() {
     bannerColor 'Modifying all files.' "blue" "*"
 
     # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill/width={size} height={size} class={$$props.class} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} &/' ./*.*
+
+    # Insert class={$$props.class} after aria-hidden="true"
+    sed -i 's/aria-hidden="true"/& class={$$props.class}/' ./*.*
 
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
@@ -79,7 +82,10 @@ fn_hero() {
     bannerColor 'Modifying all files.' "blue" "*"
 
     # Insert script tag at the beginning for solid and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill/stroke="currentColor" width={size} height={size} class={$$props.class} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill=/stroke="currentColor" width={size} height={size} &/' ./*.*
+
+    # Insert class={$$props.class} after aria-hidden="true"
+    sed -i 's/aria-hidden="true"/& class={$$props.class}/' ./*.*
 
     bannerColor 'Modification is done in solid dir.' "green" "*"
 
@@ -97,7 +103,6 @@ fn_hero() {
     
     # remove ./ from each line
     sed 's/^.\///' index1 > index2
-    rm index1
 
     # create a names.txt
     sed 's/.svelte//' index2 > names.txt
@@ -120,7 +125,8 @@ fn_hero() {
     # 3. append }
     echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
 
-    # rm names.txt index2 index3
+    # remove unnecessary files
+    rm names.txt index1 index2 index3
 
     bannerColor 'Added export to index.js file.' "green" "*"
 

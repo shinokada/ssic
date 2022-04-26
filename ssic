@@ -7,7 +7,7 @@
 # Update:        2022-04-24
 
 set -eu
-VERSION="1.4.0"
+VERSION="1.5.0"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
@@ -60,6 +60,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
     . "${script_dir}/lib/hero_definition.sh"
+    . "${script_dir}/lib/lucide_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
@@ -90,6 +91,14 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
+    lucide)
+        eval "$(getoptions parser_definition_lucide parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/lucide.sh"
+        fn_lucide "$@"
+        ;;
     feather)
         eval "$(getoptions parser_definition_feather parse "$0")"
         parse "$@"

@@ -1,9 +1,9 @@
-fn_feather() {
+fn_lucide() {
     ###########################################################
-    # This script creates feather-icons. 
+    # This script creates lucide-icons. 
     ###########################################################
-    GITURL="git@github.com:feathericons/feather.git"
-    DIRNAME='feather'
+    GITURL="git@github.com:lucide-icons/lucide.git"
+    DIRNAME='lucide'
     ICONDIR='icons'
     # clone icons from github
     cd "${CURRENTDIR}" || exit 1
@@ -42,7 +42,7 @@ fn_feather() {
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Icon.svelte/' -- *.svg  > /dev/null 2>&1
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/.svelte/' -- *.svg  > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file
@@ -54,9 +54,6 @@ fn_feather() {
 
     # Change stroke="currentColor" to stroke={color}
     sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
-
-    # Remove fill="none" from all files
-    # sed -i 's/fill="none"//' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
     sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
