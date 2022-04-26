@@ -5,12 +5,13 @@ fn_hero() {
     # Move it's contents to Repo svelte-heroicons' lib dir.
     ######################
     GITURL="https://github.com/tailwindlabs/heroicons"
+    DIRNAME='heroicons'
     # clone heroicons from github
     cd "${CURRENTDIR}" || exit 1
     # if heroicons dir remove it
-    if [ -d "${CURRENTDIR}/heroicons" ]; then
+    if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
       bannerColor 'Removing the previous heroicons dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/heroicons"
+      rm -rf "${CURRENTDIR}/${DIRNAME}"
     fi
 
     # clone it
@@ -27,7 +28,7 @@ fn_hero() {
       rm -rf "${CURRENTDIR}/optimized"
     fi
 
-    mv "${CURRENTDIR}/heroicons/optimized" "${CURRENTDIR}"
+    mv "${CURRENTDIR}/${DIRNAME}/optimized" "${CURRENTDIR}"
 
     # create main dir
     if [ -d "${CURRENTDIR}/main" ]; then
@@ -51,13 +52,9 @@ fn_hero() {
     # For each svelte file modify contents of all file by adding
     bannerColor 'Modifying all files.' "blue" "*"
 
-    # VIEWBOX
-    # viewBox="0 0 24 24" to {viewBox} for outline
-    sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
+    # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
+    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill/width={size} height={size} class={$$props.class} &/' ./*.*
 
-    # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24";<\/script>/' ./*.* && sed -i 's/fill/class={className} &/' ./*.*
-    # END OF VIEWBOX
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
@@ -81,13 +78,8 @@ fn_hero() {
     # For each svelte file modify contents of all file by adding
     bannerColor 'Modifying all files.' "blue" "*"
 
-    # VIEWBOX
-    # viewBox="0 0 20 20" to {viewBox} for solid
-    sed -i 's/viewBox="0 0 20 20"/{viewBox}/' ./*.*
-
-    # Insert script tag at the beginning for solid and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 20 20";<\/script>/' ./*.* && sed -i 's/fill/class={className} &/' ./*.*
-    # END OF VIEWBOX
+    # Insert script tag at the beginning for solid and insert width={size} height={size} class={$$props.class}
+    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill/stroke="currentColor" width={size} height={size} class={$$props.class} &/' ./*.*
 
     bannerColor 'Modification is done in solid dir.' "green" "*"
 

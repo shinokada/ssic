@@ -47,13 +47,9 @@ fn_simple() {
     # For each svelte file modify contents of all file
     bannerColor 'Modifying all files.' "blue" "*"
 
-    # VIEWBOX
-    # Change from viewBox="0 0 24 24" to {viewBox} for outline
-    sed -i 's/viewBox="0 0 24 24"/{viewBox}/' ./*.*
-
-    # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let className="h-6 w-6"; export let viewBox="0 0 24 24"; export let fill="#000000"<\/script>/' ./*.* && sed -i 's/xmlns/class={className} fill={fill} &/' ./*.*
-    # END OF VIEWBOX
+    # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
+    sed -i '1s/^/<script>export let size="24"; export let fill="#000000"<\/script>/' ./*.* && sed -i 's/xmlns/width={size} height={size} class={$$props.class} fill={fill} &/' ./*.*
+   
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
