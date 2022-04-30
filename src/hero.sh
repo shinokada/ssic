@@ -46,14 +46,17 @@ fn_hero() {
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconOutline.svelte/' -- *.svg > /dev/null 2>&1
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Outline.svelte/' -- *.svg > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
     bannerColor 'Modifying all files.' "blue" "*"
 
     # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} &/' ./*.*
+
+    # Change stroke="currentColor" to stroke={color}
+    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
 
     # Insert class={$$props.class} after aria-hidden="true"
     sed -i 's/aria-hidden="true"/& class={$$props.class}/' ./*.*
@@ -75,14 +78,20 @@ fn_hero() {
     #  modify file names
     bannerColor 'Renaming all files in solid dir.' "blue" "*"
     # in heroicons/solid rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/IconSolid.svelte/' -- *.svg > /dev/null 2>&1
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Solid.svelte/' -- *.svg > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
     # For each svelte file modify contents of all file by adding
     bannerColor 'Modifying all files.' "blue" "*"
 
     # Insert script tag at the beginning for solid and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/fill=/stroke="currentColor" width={size} height={size} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/stroke="currentColor" width={size} height={size} &/' ./*.*
+
+    # Change stroke="currentColor" to stroke={color}
+    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
+
+    # Change fill="currentColor" to fill={color}
+    sed -i 's/fill="currentColor"/fill={color}/' ./*.*
 
     # Insert class={$$props.class} after aria-hidden="true"
     sed -i 's/aria-hidden="true"/& class={$$props.class}/' ./*.*

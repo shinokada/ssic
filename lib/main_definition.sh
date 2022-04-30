@@ -12,6 +12,7 @@ parser_definition() {
     cmd hero -- "Create Heroicons in one directory."
     cmd simple -- "Create Simple-icons."
     cmd lucide -- "Create Lucide-icons."
+    cmd flag -- "Create country flag icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 
