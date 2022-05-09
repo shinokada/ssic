@@ -10,6 +10,7 @@ parser_definition() {
     msg -- 'Use command -h for a command help.'
     cmd feather -- "Create Feathericons."
     cmd hero -- "Create Heroicons in one directory."
+    cmd ion -- "Create Ionicons."
     cmd simple -- "Create Simple-icons."
     cmd lucide -- "Create Lucide-icons."
     cmd flag -- "Create country flag icons."

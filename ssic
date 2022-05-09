@@ -7,7 +7,7 @@
 # Update:        2022-04-24
 
 set -eu
-VERSION="1.7.0"
+VERSION="1.8.0"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
@@ -60,6 +60,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
     . "${script_dir}/lib/hero_definition.sh"
+    . "${script_dir}/lib/ion_definition.sh"
     . "${script_dir}/lib/lucide_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
@@ -99,6 +100,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/flag.sh"
         fn_flag "$@"
+        ;;
+     ion)
+        eval "$(getoptions parser_definition_ion parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/ion.sh"
+        fn_ion "$@"
         ;;
     lucide)
         eval "$(getoptions parser_definition_lucide parse "$0")"
