@@ -20,8 +20,7 @@ awesome install shinokada/ssic
 Create a dir and run:
 
 ```sh
-mkdir ~/Downloads/heroicons
-cd ~/Downloads/heroicons
+mkdir ~/Downloads/heroicons && cd $_
 ssic hero
 ```
 
@@ -42,15 +41,27 @@ npm publish
 ## How to create Simpleicons
 
 ```sh
-mkdir ~/Downloads/simpleicons
-cd ~/Downloads/simpleicons
+mkdir ~/Downloads/simpleicons && cd $_
 ssic simple
 ```
 
 ## How to create Feathericons
 
 ```sh
-mkdir ~/Downloads/feathericons
-cd ~/Downloads/feathericons
+mkdir ~/Downloads/feathericons && cd $_
 ssic feather
+```
+
+## How to create Flags
+
+```sh
+mkdir ~/Downloads/flags && cd $_
+ssic flag
+```
+
+## How to create Ionicons
+
+```sh
+mkdir ~/Downloads/ion && cd $_
+ssic ion
 ```
