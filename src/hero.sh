@@ -85,10 +85,12 @@ fn_hero() {
     bannerColor 'Modifying all files.' "blue" "*"
 
     # Insert script tag at the beginning for solid and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/stroke="currentColor" width={size} height={size} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} &/' ./*.*
 
     # Change stroke="currentColor" to stroke={color}
-    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
+    # removed since it is not needed
+    # https://github.com/shinokada/svelte-heros/pull/3/files
+    # sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
 
     # Change fill="currentColor" to fill={color}
     sed -i 's/fill="currentColor"/fill={color}/' ./*.*
