@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/shinokada/ssic/compare/v1.8.0...v1.8.1) (2022-05-13)
+
+
+### Bug Fixes
+
+* removed stroke from Hero solid icons ([8555611](https://github.com/shinokada/ssic/commit/85556110fd95f61246baee097e70923d42778dc3))
+
 ## [1.3.0](https://github.com/shinokada/ssic/compare/v1.2.0...v1.3.0) (2022-04-24)
 
 
