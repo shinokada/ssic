@@ -14,6 +14,7 @@ parser_definition() {
     cmd simple -- "Create Simple-icons."
     cmd lucide -- "Create Lucide-icons."
     cmd flag -- "Create country flag icons."
+    cmd awesome -- "Create Awesome icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 

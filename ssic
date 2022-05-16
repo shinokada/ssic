@@ -59,6 +59,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/getoptions.sh"
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
+    . "${script_dir}/lib/awesome_definition.sh"
     . "${script_dir}/lib/hero_definition.sh"
     . "${script_dir}/lib/ion_definition.sh"
     . "${script_dir}/lib/lucide_definition.sh"
@@ -93,6 +94,14 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
+    awesome)
+        eval "$(getoptions parser_definition_awesome parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/awesome.sh"
+        fn_awesome "$@"
+        ;;
     flag)
         eval "$(getoptions parser_definition_flag parse "$0")"
         parse "$@"
