@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/shinokada/ssic/compare/v1.8.1...v1.9.0) (2022-05-16)
+
+
+### Features
+
+* add font-awesome ([722b315](https://github.com/shinokada/ssic/commit/722b31598868e94c374ad205c2183c2648347eb8))
+
 ### [1.8.1](https://github.com/shinokada/ssic/compare/v1.8.0...v1.8.1) (2022-05-13)
 
 
