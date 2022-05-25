@@ -64,6 +64,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/ion_definition.sh"
     . "${script_dir}/lib/lucide_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
+    . "${script_dir}/lib/material_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
     . "${script_dir}/lib/flag_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
@@ -141,6 +142,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/hero.sh"
         fn_hero "$@"
+        ;;
+    material)
+        eval "$(getoptions parser_definition_material parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/material_design.sh"
+        fn_material "$@"
         ;;
     simple)
         eval "$(getoptions parser_definition_simple parse "$0")"

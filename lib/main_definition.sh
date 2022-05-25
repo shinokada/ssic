@@ -11,6 +11,7 @@ parser_definition() {
     cmd feather -- "Create Feathericons."
     cmd hero -- "Create Heroicons in one directory."
     cmd ion -- "Create Ionicons."
+    cmd material -- "Create Material-design-icons."
     cmd simple -- "Create Simple-icons."
     cmd lucide -- "Create Lucide-icons."
     cmd flag -- "Create country flag icons."
