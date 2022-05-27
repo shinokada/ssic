@@ -1,58 +1,52 @@
-fn_material() {
+fn_circle_flags() {
     ################
     # This script creates all icons in src/lib directory.
     ######################
-    GITURL="git@github.com:Templarian/MaterialDesign.git"
-    DIRNAME='MaterialDesign'
-    SVGDIR='svg'
-    LOCAL_REPO_NAME="$HOME/Svelte/svelte-materialdesign"
+    GITURL="https://github.com/HatScripts/circle-flags"
+    DIRNAME='circle-flags'
+    SVGDIR='flags'
+    LOCAL_REPO_NAME="$HOME/Svelte/svelte-circle-flags"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
     # clone from github
     cd "${CURRENTDIR}" || exit 1
-    # if there is the svg dir, remove it
-    if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
+    # if there is the svgs, remove it
+    if [ -d "${CURRENTDIR}" ]; then
       bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-      rm -rf "${CURRENTDIR}/${DIRNAME}"
+      rm -rf "${CURRENTDIR:?}/"*
     fi
 
     # clone the repo
     bannerColor "Cloning ${DIRNAME}." "green" "*"
-    git clone "${GITURL}" > /dev/null 2>&1 || {
+    npx degit "${GITURL}/${SVGDIR}" > /dev/null 2>&1 || {
         echo "not able to clone"
         exit 1
     }
-
-    # copy svgs dir from the cloned dir
-    bannerColor 'Moving svgs dir to the root.' "green" "*"
-    if [ -d "${CURRENTDIR}/${SVGDIR}" ]; then
-      bannerColor 'Removing the previous svgs dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${SVGDIR}"
-    fi
-
-    mv "${CURRENTDIR}/${DIRNAME}/${SVGDIR}" "${CURRENTDIR}"
     
-    bannerColor "Changing dir to ${SVGDIR}" "blue" "*"
-    cd "${CURRENTDIR}/${SVGDIR}" || exit
+    # remove all directories
+    bannerColor "Deleting language and fictional dir" "red" "*"
+    rm -rf "${CURRENTDIR}"/fictional "${CURRENTDIR}"/language || exit
 
-    # For each svelte file modify contents of all file by 
+    # remove all symlinks
+    bannerColor "Deleting all symlinks" "red" "*"
+    find "${CURRENTDIR}" -type l -exec rm {} \;
+
+    # For each svg file modify contents by 
     bannerColor 'Modifying all files.' "blue" "*"
 
-    # removing <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-    sed -i 's;<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">;;' ./*.*
-
-    # removing width="24" height="24"
-    sed -i 's/width="24" height="24"//' ./*.*
-
     # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+
+    # Change from width="512" and height="512" to width={size} and height={size}
+    sed -i 's/width="512"/width={size}/' ./*.*
+    sed -i 's/height="512"/height={size}/' ./*.*
 
     # get textname from filename
-    for filename in "${CURRENTDIR}/${SVGDIR}"/*;
+    for filename in "${CURRENTDIR}"/*;
     do
     FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
     # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
+    sed -i "s;</script>;export let ariaLabel=\"flag of ${FILENAME}\" &;" "${filename}"
     done
 
     #  modify file names
@@ -69,7 +63,7 @@ fn_material() {
     bannerColor 'Modification is done in the dir.' "green" "*"
 
     # Move all files to lib dir
-    mv ./* "${CURRENTDIR}"
+    # mv ./* "${CURRENTDIR}"
 
     
     #############################

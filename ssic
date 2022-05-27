@@ -56,18 +56,22 @@ script_dir=${self%/*}
 # Import files
 # shellcheck disable=SC1091
 {
-    . "${script_dir}/lib/getoptions.sh"
-    . "${script_dir}/lib/main_definition.sh"
-    . "${script_dir}/lib/utils.sh"
     . "${script_dir}/lib/awesome_definition.sh"
+    . "${script_dir}/lib/bash_helpers.sh"
+    . "${script_dir}/lib/circle_flags_definition.sh"
+    . "${script_dir}/lib/feather_definition.sh"
+    . "${script_dir}/lib/file_definition.sh"
+    . "${script_dir}/lib/flag_definition.sh"
+    . "${script_dir}/lib/flagicons_definition.sh"
+    . "${script_dir}/lib/getoptions.sh"
     . "${script_dir}/lib/hero_definition.sh"
     . "${script_dir}/lib/ion_definition.sh"
     . "${script_dir}/lib/lucide_definition.sh"
-    . "${script_dir}/lib/feather_definition.sh"
+    . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/material_definition.sh"
+    . "${script_dir}/lib/google_material_design_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
-    . "${script_dir}/lib/flag_definition.sh"
-    . "${script_dir}/lib/bash_helpers.sh"
+    . "${script_dir}/lib/utils.sh"
 }
 
 # Keep it. You need this for main parser.
@@ -103,6 +107,30 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/awesome.sh"
         fn_awesome "$@"
         ;;
+    circle-flags)
+        eval "$(getoptions parser_definition_circle_flags parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/circle_flags.sh"
+        fn_circle_flags "$@"
+        ;;
+    feather)
+        eval "$(getoptions parser_definition_feather parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/feather.sh"
+        fn_feather "$@"
+        ;;
+    file)
+        eval "$(getoptions parser_definition_file parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/file.sh"
+        fn_file "$@"
+        ;;
     flag)
         eval "$(getoptions parser_definition_flag parse "$0")"
         parse "$@"
@@ -111,7 +139,31 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/flag.sh"
         fn_flag "$@"
         ;;
-     ion)
+    flag-icons)
+        eval "$(getoptions parser_definition_flagicons parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flag-icons.sh"
+        fn_flagicons "$@"
+        ;;
+    google-material-design)
+        eval "$(getoptions parser_definition_google_material_design parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/google_material_design.sh"
+        fn_google_material_design "$@"
+        ;;
+    hero)
+        eval "$(getoptions parser_definition_hero parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/hero.sh"
+        fn_hero "$@"
+        ;;
+    ion)
         eval "$(getoptions parser_definition_ion parse "$0")"
         parse "$@"
         eval "set -- $REST"
@@ -126,22 +178,6 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/lucide.sh"
         fn_lucide "$@"
-        ;;
-    feather)
-        eval "$(getoptions parser_definition_feather parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/feather.sh"
-        fn_feather "$@"
-        ;;
-    hero)
-        eval "$(getoptions parser_definition_hero parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/hero.sh"
-        fn_hero "$@"
         ;;
     material)
         eval "$(getoptions parser_definition_material parse "$0")"

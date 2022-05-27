@@ -6,66 +6,62 @@ fn_hero() {
     ######################
     GITURL="https://github.com/tailwindlabs/heroicons"
     DIRNAME='heroicons'
+    SVGDIR='optimized'
+    LOCAL_REPO_NAME="$HOME/Svelte/svelte-heros"
+    SVELTE_LIB_DIR='src/lib'
+    CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
     # clone heroicons from github
     cd "${CURRENTDIR}" || exit 1
-    # if there is the heroicons dir, remove it
-    if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
-      bannerColor 'Removing the previous heroicons dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${DIRNAME}"
-    fi
+
+    # remove files from ${CURRENTDIR}
+    bannerColor "Removing the previous dir." "blue" "*"
+    rm -rf "${CURRENTDIR:?}/"*
+    # remove hidden files .DS_Store etc
+    find "${CURRENTDIR}" -type f -name ".*" -delete
 
     # clone it
-    bannerColor 'Cloning Heroicons.' "green" "*"
-    git clone "${GITURL}" > /dev/null 2>&1 || {
+    bannerColor "Cloning ${DIRNAME}." "green" "*"
+    npx degit "${GITURL}/${SVGDIR}" > /dev/null 2>&1 || {
         echo "not able to clone"
         exit 1
     }
-
-    # copy optimized from the cloned dir to heroicons dir
-    bannerColor 'Moving heroicons/optimized to the root.' "green" "*"
-    if [ -d "${CURRENTDIR}/optimized" ]; then
-      bannerColor 'Removing the previous optimized dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/optimized"
-    fi
-
-    mv "${CURRENTDIR}/${DIRNAME}/optimized" "${CURRENTDIR}"
-
-    # create main dir
-    if [ -d "${CURRENTDIR}/main" ]; then
-      bannerColor 'Removing the previous main dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/main"
-    fi
-    mkdir "${CURRENTDIR}/main"
 
     ######################### 
     #        OUTLINE        #
     #########################
     bannerColor 'Changing dir to optimized/outline' "blue" "*"
-    cd "${CURRENTDIR}/optimized/outline" || exit
+    cd "${CURRENTDIR}/outline" || exit
     
+    # For each svelte file modify contents of all file by adding
+    bannerColor 'Modifying all files.' "blue" "*"
+
+    # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+
+    # Change stroke="currentColor" to stroke={color}
+    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
+
+    # remove aria-hidden="true"
+    sed -i 's/aria-hidden="true"//' ./*.*
+
+    # get textname from filename
+    for filename in "${CURRENTDIR}/outline"/*;
+    do
+    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
+    # echo "${FILENAME}"
+    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
+    done
+
     #  modify file names
     bannerColor 'Renaming all files in outline dir.' "blue" "*"
     # in heroicons/outline rename file names 
     rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Outline.svelte/' -- *.svg > /dev/null 2>&1
     bannerColor 'Renaming is done.' "green" "*"
 
-    # For each svelte file modify contents of all file by adding
-    bannerColor 'Modifying all files.' "blue" "*"
-
-    # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} &/' ./*.*
-
-    # Change stroke="currentColor" to stroke={color}
-    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
-
-    # Insert class={$$props.class} after aria-hidden="true"
-    sed -i 's/aria-hidden="true"/& class={$$props.class}/' ./*.*
-
-
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
-    # Move all files to main dir
-    mv ./* "${CURRENTDIR}/main"
+    # Move all files to lib dir
+    mv ./* "${CURRENTDIR}"
 
     
     ######################### 
@@ -73,19 +69,13 @@ fn_hero() {
     #########################
 
     bannerColor 'Changing dir to optimized/solid' "blue" "*"
-    cd "${CURRENTDIR}/optimized/solid" || exit
-
-    #  modify file names
-    bannerColor 'Renaming all files in solid dir.' "blue" "*"
-    # in heroicons/solid rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Solid.svelte/' -- *.svg > /dev/null 2>&1
-    bannerColor 'Renaming is done.' "green" "*"
+    cd "${CURRENTDIR}/solid" || exit
 
     # For each svelte file modify contents of all file by adding
     bannerColor 'Modifying all files.' "blue" "*"
 
     # Insert script tag at the beginning for solid and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} &/' ./*.*
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/fill=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
 
     # Change stroke="currentColor" to stroke={color}
     # removed since it is not needed
@@ -95,18 +85,32 @@ fn_hero() {
     # Change fill="currentColor" to fill={color}
     sed -i 's/fill="currentColor"/fill={color}/' ./*.*
 
-    # Insert class={$$props.class} after aria-hidden="true"
-    sed -i 's/aria-hidden="true"/& class={$$props.class}/' ./*.*
+    # Remove aria-hidden="true"
+    sed -i 's/aria-hidden="true"//' ./*.*
+
+    # get textname from filename
+    for filename in "${CURRENTDIR}/solid"/*;
+    do
+    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
+    # echo "${FILENAME}"
+    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
+    done
 
     bannerColor 'Modification is done in solid dir.' "green" "*"
 
+    #  modify file names
+    bannerColor 'Renaming all files in solid dir.' "blue" "*"
+    # in heroicons/solid rename file names 
+    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/Solid.svelte/' -- *.svg > /dev/null 2>&1
+    bannerColor 'Renaming is done.' "green" "*"
+
     # Move all files to main dir
-    mv ./* "${CURRENTDIR}/main"
+    mv ./* "${CURRENTDIR}"
 
     #############################
     #    INDEX.JS PART 1 IMPORT #
     #############################
-    cd "${CURRENTDIR}/main" || exit 1
+    cd "${CURRENTDIR}" || exit 1
 
     bannerColor 'Creating index.js file.' "blue" "*"
     # list file names to each index.txt
@@ -142,7 +146,7 @@ fn_hero() {
     bannerColor 'Added export to index.js file.' "green" "*"
 
     # clean up
-    rm -rf "${CURRENTDIR}/heroicons"
+    rm -rf "${CURRENTDIR}/outline" "${CURRENTDIR}/solid"
     
     bannerColor 'All done.' "green" "*"
 

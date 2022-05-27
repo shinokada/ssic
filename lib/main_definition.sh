@@ -8,14 +8,18 @@ parser_definition() {
 
     msg -- '' 'Commands: '
     msg -- 'Use command -h for a command help.'
+    cmd awesome -- "Create Awesome icons."
+    cmd circle-flags -- "Create Circle-flags."
     cmd feather -- "Create Feathericons."
+    cmd file -- "Create file-icons."
+    cmd flag -- "Create country flag icons."
+    cmd flag-icons -- "Create country flag icons from https://github.com/lipis/flag-icons/tree/main/flags/4x3."
     cmd hero -- "Create Heroicons in one directory."
     cmd ion -- "Create Ionicons."
-    cmd material -- "Create Material-design-icons."
-    cmd simple -- "Create Simple-icons."
     cmd lucide -- "Create Lucide-icons."
-    cmd flag -- "Create country flag icons."
-    cmd awesome -- "Create Awesome icons."
+    cmd material -- "Create Material-design-icons from https://github.com/Templarian/MaterialDesign."
+    cmd google-material-design -- "Create Material-design-icons from https://github.com/marella/material-design-icons/tree/main/svg."
+    cmd simple -- "Create Simple-icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 

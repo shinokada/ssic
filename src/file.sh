@@ -1,54 +1,46 @@
-fn_material() {
+fn_file() {
     ################
     # This script creates all icons in src/lib directory.
     ######################
-    GITURL="git@github.com:Templarian/MaterialDesign.git"
-    DIRNAME='MaterialDesign'
+    GITURL="https://github.com/file-icons/icons"
+    DIRNAME='icons'
     SVGDIR='svg'
-    LOCAL_REPO_NAME="$HOME/Svelte/svelte-materialdesign"
+    LOCAL_REPO_NAME="$HOME/Svelte/svelte-file-icons"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
     # clone from github
     cd "${CURRENTDIR}" || exit 1
-    # if there is the svg dir, remove it
-    if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
+    # if there is the svg files, remove it
+    if [ -d "${CURRENTDIR}" ]; then
       bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-      rm -rf "${CURRENTDIR}/${DIRNAME}"
+      rm -rf "${CURRENTDIR:?}/"*
     fi
 
     # clone the repo
     bannerColor "Cloning ${DIRNAME}." "green" "*"
-    git clone "${GITURL}" > /dev/null 2>&1 || {
-        echo "not able to clone"
-        exit 1
+    npx degit "${GITURL}/${SVGDIR}" > /dev/null 2>&1 || {
+      echo "not able to clone"
+      exit 1
     }
-
-    # copy svgs dir from the cloned dir
-    bannerColor 'Moving svgs dir to the root.' "green" "*"
-    if [ -d "${CURRENTDIR}/${SVGDIR}" ]; then
-      bannerColor 'Removing the previous svgs dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${SVGDIR}"
-    fi
-
-    mv "${CURRENTDIR}/${DIRNAME}/${SVGDIR}" "${CURRENTDIR}"
-    
-    bannerColor "Changing dir to ${SVGDIR}" "blue" "*"
-    cd "${CURRENTDIR}/${SVGDIR}" || exit
 
     # For each svelte file modify contents of all file by 
     bannerColor 'Modifying all files.' "blue" "*"
 
-    # removing <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-    sed -i 's;<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">;;' ./*.*
+    bannerColor 'Inserting to all files.' "blue" "*"
+    sed -i 's/[0-9]*px/{size}/g' ./*.* && sed -i 's/>/ viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
 
-    # removing width="24" height="24"
-    sed -i 's/width="24" height="24"//' ./*.*
+    # sed -i 's/width="[^"]*/width="{size}/;s/height[^>]*/height="{size}" viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel}/' ./*.*
+
+
+    # replace "[0-9]*" with "{size}"
+    sed -i 's/"[0-9]*"/"{size}"/g' ./*.*
 
     # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
-
+    # replacing from width to > with content
+    sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
+    
     # get textname from filename
-    for filename in "${CURRENTDIR}/${SVGDIR}"/*;
+    for filename in "${CURRENTDIR}"/*;
     do
     FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
     # echo "${FILENAME}"
@@ -58,20 +50,22 @@ fn_material() {
     #  modify file names
     bannerColor 'Renaming all files in the dir.' "blue" "*"
 
+    # replace # with Sharp and + with Plus in the file names
+    rename -v 's/\#/Sharp/g' ./*.svg > /dev/null 2>&1
+    rename -v 's/\+/Plus/g' ./*.svg > /dev/null 2>&1
+    
+    # replace . with _ in the file names
+    mv draw.io.svg draw_io.svg
+
     # rename files with number at the beginning with A
     # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
     rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-    ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte"
-  }ge' ./*.svg > /dev/null 2>&1
+    ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg > /dev/null 2>&1
 
     bannerColor 'Renaming is done.' "green" "*"
 
     bannerColor 'Modification is done in the dir.' "green" "*"
 
-    # Move all files to lib dir
-    mv ./* "${CURRENTDIR}"
-
-    
     #############################
     #    INDEX.JS PART 1 IMPORT #
     #############################
