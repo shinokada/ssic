@@ -71,31 +71,31 @@ fn_google_material_design() {
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" filled
 
     # Move all files to lib dir
-    mv "${CURRENTDIR}/${SVGDIR}/filled"/* "${CURRENTDIR}"
+    mkdir "${CURRENTDIR}/filled" && mv "${CURRENTDIR}/${SVGDIR}/filled"/* "${CURRENTDIR}/filled"
 
     # call fn_modify_svg to modify svg files and rename them and move file to lib dir
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" outlined
 
     # Move all files to lib dir
-    mv "${CURRENTDIR}/${SVGDIR}/outlined"/* "${CURRENTDIR}"
+    mkdir "${CURRENTDIR}/outlined" && mv "${CURRENTDIR}/${SVGDIR}/outlined"/* "${CURRENTDIR}/outlined"
 
     # call fn_modify_svg to modify svg files and rename them and move file to lib dir
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" round
 
     # Move all files to lib dir
-    mv "${CURRENTDIR}/${SVGDIR}/round"/* "${CURRENTDIR}"
+    mkdir "${CURRENTDIR}/round" && mv "${CURRENTDIR}/${SVGDIR}/round"/* "${CURRENTDIR}/round"
 
     # call fn_modify_svg to modify svg files and rename them and move file to lib dir
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" sharp
 
     # Move all files to lib dir
-    mv "${CURRENTDIR}/${SVGDIR}/sharp"/* "${CURRENTDIR}"
+    mkdir "${CURRENTDIR}/sharp" && mv "${CURRENTDIR}/${SVGDIR}/sharp"/* "${CURRENTDIR}/sharp"
 
     # call fn_modify_svg to modify svg files and rename them and move file to lib dir
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" two-tone
 
     # Move all files to lib dir
-    mv "${CURRENTDIR}/${SVGDIR}/two-tone"/* "${CURRENTDIR}"
+    mkdir "${CURRENTDIR}/two-tone" && mv "${CURRENTDIR}/${SVGDIR}/two-tone"/* "${CURRENTDIR}/two-tone"
     
     #############################
     #    INDEX.JS PART 1 IMPORT #
@@ -103,35 +103,10 @@ fn_google_material_design() {
     cd "${CURRENTDIR}" || exit 1
 
     bannerColor 'Creating index.js file.' "blue" "*"
-    # list file names to each index.txt
-    find . -type f '(' -name '*.svelte' ')' > index1
-    
-    # remove ./ from each line
-    sed 's/^.\///' index1 > index2
 
-    # create a names.txt
-    sed 's/.svelte//' index2 > names.txt
-    # Add , after each line in names.txt
-    sed -i 's/$/,/' names.txt
-
-    # Create import section in index2 files.
-    # for solid
-    sed "s:\(.*\)\.svelte:import \1 from './&':" index2 > index3
-    bannerColor 'Created index.js file with import.' "green" "*"
-    
-    ##########################
-    # INDEX.JS PART 2 EXPORT #
-    ##########################
-
-    bannerColor 'Adding export to index.js file.' "blue" "*"
-    # Add export{} section
-    # 1 insert export { to index.js, 
-    # 2 insert icon-names to index.js after export { 
-    # 3. append }
-    echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
-
-    # remove unnecessary files
-    rm names.txt index1 index2 index3
+    find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
+    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
+    }' >index.js
 
     bannerColor 'Added export to index.js file.' "green" "*"
 
