@@ -58,6 +58,7 @@ script_dir=${self%/*}
 {
     . "${script_dir}/lib/awesome_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
+    . "${script_dir}/lib/bootstrap_definition.sh"
     . "${script_dir}/lib/circle_flags_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
     . "${script_dir}/lib/file_definition.sh"
@@ -70,6 +71,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/material_definition.sh"
     . "${script_dir}/lib/google_material_design_definition.sh"
+    . "${script_dir}/lib/remix_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
     . "${script_dir}/lib/utils.sh"
 }
@@ -106,6 +108,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/awesome.sh"
         fn_awesome "$@"
+        ;;
+    bootstrap)
+        eval "$(getoptions parser_definition_bootstrap parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/bootstrap.sh"
+        fn_bootstrap "$@"
         ;;
     circle-flags)
         eval "$(getoptions parser_definition_circle_flags parse "$0")"
@@ -186,6 +196,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/material_design.sh"
         fn_material "$@"
+        ;;
+    remix)
+        eval "$(getoptions parser_definition_remix parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/remix.sh"
+        fn_remix "$@"
         ;;
     simple)
         eval "$(getoptions parser_definition_simple parse "$0")"

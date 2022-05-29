@@ -26,15 +26,12 @@ fn_file() {
     # For each svelte file modify contents of all file by 
     bannerColor 'Modifying all files.' "blue" "*"
 
+    # 1. replace width="any number or string" to width="{size}"
+    # 2. replace height="any number or string" to height="{size}"
+    # 3. insert viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} before closeing first >
     bannerColor 'Inserting to all files.' "blue" "*"
-    sed -i 's/[0-9]*px/{size}/g' ./*.* && sed -i 's/>/ viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
-
-    # sed -i 's/width="[^"]*/width="{size}/;s/height[^>]*/height="{size}" viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel}/' ./*.*
-
-
-    # replace "[0-9]*" with "{size}"
-    sed -i 's/"[0-9]*"/"{size}"/g' ./*.*
-
+    sed -i 's/width="[^"]*"/width="{size}"/g' ./*.* > /dev/null 2>&1 && sed -i 's/height="[^"]*"/height="{size}"/g' ./*.* > /dev/null 2>&1 && sed -i 's/>/ viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.* > /dev/null 2>&1
+    
     # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
     # replacing from width to > with content
     sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
