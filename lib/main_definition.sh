@@ -22,6 +22,7 @@ parser_definition() {
     cmd google-material-design -- "Create Material-design-icons from https://github.com/marella/material-design-icons/tree/main/svg."
     cmd remix -- "Create Remixicons."
     cmd simple -- "Create Simple-icons."
+    cmd tabler -- "Create Tabler-icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 

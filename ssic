@@ -73,6 +73,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/google_material_design_definition.sh"
     . "${script_dir}/lib/remix_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
+    . "${script_dir}/lib/tabler_definition.sh"
     . "${script_dir}/lib/utils.sh"
 }
 
@@ -212,6 +213,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/simple.sh"
         fn_simple "$@"
+        ;;
+    tabler)
+        eval "$(getoptions parser_definition_tabler parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/tabler.sh"
+        fn_tabler "$@"
         ;;
     # more lines
     --) ;; # no subcommand, arguments only
