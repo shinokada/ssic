@@ -1,6 +1,6 @@
 fn_modify_svg(){
-  DIR=$1
-  SUBDIR=$2
+  DIR=$1 # ${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}
+  SUBDIR=$2 # src
 
   bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
   cd "${DIR}/${SUBDIR}" || exit
@@ -12,16 +12,16 @@ fn_modify_svg(){
   # remove fill="black"
   for SUBSRC in "${DIR}/${SUBDIR}"/*;
   do
-    # echo "${SUBSRC}" /Users/shinichiokada/Svelte/svelte-heros/src/lib/src/outline
-    SUBDIRNAME=$(basename "${SUBSRC}")
+    # echo "${SUBSRC}" /Users/shinichiokada/Svelte/svelte-teenyicons/src/lib/src/outline
+      SUBDIRNAME=$(basename "${SUBSRC}")
 
-    cd "${SUBSRC}" || exit
-    for file in *
-    do
+      cd "${SUBSRC}" || exit
+      for file in *
+      do
         # if ${DIR}/${file} doesn't exist, create it
         if [ ! -f "${DIR}/${file}" ]; then
-        # copy "${script_dir}/templates/teeny.txt" to ${DIR}/${file}
-        cp "${script_dir}/templates/hero.txt" "${DIR}/${file}"
+          # copy "${script_dir}/templates/teeny.txt" to ${DIR}/${file}
+          cp "${script_dir}/templates/teeny.txt" "${DIR}/${file}"
         fi
         # echo "${file}"
         SVGPATH=$(sed '1d; $d' "$file")
@@ -29,25 +29,14 @@ fn_modify_svg(){
         SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
         
         sed -i "s;replace_svg_${SUBDIRNAME};${SVGPATH};" "${DIR}/${file}"
-    done
+      done
   done
+  bannerColor "Modifying all files is done." "cyan" "*"
   # remove src dir
   bannerColor "Removing src dir." "blue" "*"
   rm -rf "${CURRENTDIR:?}/${SUBDIR}"
   bannerColor "Removed ${SUBDIR} dir." "green" "*"
-
-  bannerColor "Replacing fill="#..." and stroke="#..." with fill={color}." "blue" "*"
-  sed -i 's/fill="[^"]*"/fill="${color}"/g' "${CURRENTDIR:?}"/*.* 
-  sed -i 's/stroke="[^"]*"/stroke="${color}"/g' "${CURRENTDIR:?}"/*.* 
-  bannerColor "Replacing completed." "green" "*"
-
-  bannerColor "Adding fill=none before viewBox=0 0 24 24." "blue" "*"
-  # since you are adding fill="${color}" previously, you need to insert it before viewBox="0 0 24 24"
-  sed -i 's/viewBox="0 0 24 24"/fill="none" viewBox="0 0 24 24"/' "${CURRENTDIR:?}"/*.*
-  bannerColor "Added fill=none before viewBox=0 0 24 24." "green" "*"
-
 }
-
 
 fn_modify_filenames(){
   CURRENTDIR=$1
@@ -73,14 +62,14 @@ fn_modify_filenames(){
   bannerColor 'Modification is done in the dir.' "green" "*"
 }
 
-fn_hero() {
+fn_teeny() {
     ################
     # This script creates all icons in src/lib directory.
     ######################
-    GITURL="git@github.com:tailwindlabs/heroicons.git"
-    DIRNAME='heroicons'
+    GITURL="https://github.com/teenyicons/teenyicons"
+    DIRNAME='teenyicons'
     SVGDIR='src'
-    LOCAL_REPO_NAME="$HOME/Svelte/svelte-heros"
+    LOCAL_REPO_NAME="$HOME/Svelte/svelte-teenyicons"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
     

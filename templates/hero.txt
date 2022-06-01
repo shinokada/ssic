@@ -1,0 +1,31 @@
+<script lang="ts">
+  export let size = "24";
+  export let color="currentColor";
+  export let variation: "solid" | "outline" = "outline";
+  let svgpath: string;
+  let svgoutline = `replace_svg_outline`;
+  let svgsolid = `replace_svg_solid`;
+  switch (variation) {
+    case "outline":
+      svgpath = svgoutline;
+      break;
+    case "solid":
+      svgpath = svgsolid;
+      break;
+    default:
+      svgpath = svgoutline;
+  }
+</script>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  class={$$props.class}
+  {...$$restProps}
+  aria-label={ariaLabel}
+  viewBox="0 0 24 24"
+  stroke-width="2" 
+>
+  {@html svgpath}
+</svg>

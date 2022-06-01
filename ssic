@@ -12,8 +12,8 @@ SCRIPT_NAME=$(basename "$0")
 
 # Set variables
 
-CURRENTDIR=$(pwd)
-# echo "Your current dir is: ${CURRENTDIR}"
+SCRIPTDIR=$(pwd)
+# echo "Your current dir is: ${SCRIPTDIR}"
 
 
 # Keep readlinkf function
@@ -74,6 +74,8 @@ script_dir=${self%/*}
     . "${script_dir}/lib/remix_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
     . "${script_dir}/lib/tabler_definition.sh"
+    . "${script_dir}/lib/teeny_definition.sh"
+    . "${script_dir}/lib/twemoji_definition.sh"
     . "${script_dir}/lib/utils.sh"
 }
 
@@ -221,6 +223,22 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/tabler.sh"
         fn_tabler "$@"
+        ;;
+    teeny)
+        eval "$(getoptions parser_definition_teeny parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/teeny.sh"
+        fn_teeny "$@"
+        ;;
+    twemoji)
+        eval "$(getoptions parser_definition_twemoji parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/twemoji.sh"
+        fn_twemoji "$@"
         ;;
     # more lines
     --) ;; # no subcommand, arguments only
