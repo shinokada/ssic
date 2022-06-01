@@ -1,0 +1,40 @@
+<script lang="ts">
+  export let size = "24";
+  export let color="currentColor";
+  export let variation: "filled" | "outlined" | "round" | "sharp" | "two-tone" = "outlined";
+  let svgpath: string;
+  let svgfilled = `replace_svg_filled`;
+  let svgoutlined = `replace_svg_outlined`;
+  let svground = `replace_svg_round`;
+  let svgsharp = `replace_svg_sharp`;
+  let svgtwotone = `replace_svg_two_tone`;
+  switch (variation) {
+    case "filled":
+      svgpath = svgfilled;
+      break;
+    case "outlined":
+      svgpath = svgoutlined;
+      break;
+    case "round":
+      svgpath = svground;
+    case "sharp":
+      svgpath = svgsharp;
+    case "two-tone":
+      svgpath = svgtwotone;
+    default:
+      svgpath = svgoutlined;
+  }
+</script>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  fill={color}
+  class={$$props.class}
+  {...$$restProps}
+  aria-label={ariaLabel}
+  viewBox="0 0 24 24"
+>
+  {@html svgpath}
+</svg>
