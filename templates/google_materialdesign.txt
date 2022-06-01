@@ -3,11 +3,11 @@
   export let color="currentColor";
   export let variation: "filled" | "outlined" | "round" | "sharp" | "two-tone" = "outlined";
   let svgpath: string;
-  let svgfilled = `replace_svg_filled`;
-  let svgoutlined = `replace_svg_outlined`;
-  let svground = `replace_svg_round`;
-  let svgsharp = `replace_svg_sharp`;
-  let svgtwotone = `replace_svg_two_tone`;
+  let svgfilled = 'replace_svg_filled';
+  let svgoutlined = 'replace_svg_outlined';
+  let svground = 'replace_svg_round';
+  let svgsharp = 'replace_svg_sharp';
+  let svgtwotone = 'replace_svg_two-tone';
   switch (variation) {
     case "filled":
       svgpath = svgfilled;
@@ -17,10 +17,13 @@
       break;
     case "round":
       svgpath = svground;
+      break;
     case "sharp":
       svgpath = svgsharp;
+      break;
     case "two-tone":
       svgpath = svgtwotone;
+      break;
     default:
       svgpath = svgoutlined;
   }

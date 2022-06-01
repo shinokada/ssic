@@ -11,6 +11,7 @@ parser_definition() {
     cmd awesome -- "Create Awesome icons."
     cmd bootstrap -- "Create Bootstrap files."
     cmd circle-flags -- "Create Circle-flags."
+    cmd crypto -- "Create Crypto icons."
     cmd feather -- "Create Feathericons."
     cmd file -- "Create file-icons."
     cmd flag -- "Create country flag icons."
