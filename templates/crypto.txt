@@ -1,0 +1,37 @@
+<script lang="ts">
+  export let size = "32";
+  export let variation: "black" | "color" | "icon" | "white" = "color";
+  let svgpath: string;
+  let svgblack = 'replace_svg_black';
+  let svgcolor = 'replace_svg_color';
+  let svgicon = 'replace_svg_icon';
+  let svgwhite = 'replace_svg_white';
+  switch (variation) {
+    case "black":
+      svgpath = svgblack;
+      break;
+    case "color":
+      svgpath = svgcolor;
+      break;
+    case "icon":
+      svgpath = svgicon;
+      break;
+    case "white":
+      svgpath = svgwhite;
+      break;
+    default:
+      svgpath = svgcolor;
+  }
+</script>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  class={$$props.class}
+  {...$$restProps}
+  aria-label={ariaLabel}
+  viewBox="0 0 32 32"
+>
+  {@html svgpath}
+</svg>

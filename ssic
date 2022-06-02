@@ -60,6 +60,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/bash_helpers.sh"
     . "${script_dir}/lib/bootstrap_definition.sh"
     . "${script_dir}/lib/circle_flags_definition.sh"
+    . "${script_dir}/lib/crypto_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
     . "${script_dir}/lib/file_definition.sh"
     . "${script_dir}/lib/flag_definition.sh"
@@ -127,6 +128,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/circle_flags.sh"
         fn_circle_flags "$@"
+        ;;
+    crypto)
+        eval "$(getoptions parser_definition_crypto parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/crypto.sh"
+        fn_crypto "$@"
         ;;
     feather)
         eval "$(getoptions parser_definition_feather parse "$0")"
