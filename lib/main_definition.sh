@@ -26,6 +26,7 @@ parser_definition() {
     cmd tabler -- "Create Tabler-icons."
     cmd teeny -- "Create Teeny-icons."
     cmd twemoji -- "Create Twemoji-icons."
+    cmd weather -- "Create Weather-icons."
     # cmd text_example -- "Print different type of texts."
     # cmd create -- "Create this and that."
 
