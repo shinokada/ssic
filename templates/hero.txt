@@ -5,7 +5,7 @@
   let svgpath: string;
   let svgoutline = `replace_svg_outline`;
   let svgsolid = `replace_svg_solid`;
-  switch (variation) {
+  $: switch (variation) {
     case "outline":
       svgpath = svgoutline;
       break;
@@ -26,6 +26,7 @@
   aria-label={ariaLabel}
   viewBox="0 0 24 24"
   stroke-width="2" 
+  on:click
 >
   {@html svgpath}
 </svg>

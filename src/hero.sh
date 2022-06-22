@@ -33,7 +33,7 @@ fn_modify_svg() {
   rm -rf "${CURRENTDIR:?}/${SUBDIR}"
   bannerColor "Removed ${SUBDIR} dir." "green" "*"
 
-  bannerColor "Replacing fill=" #..." and stroke="#..." with fill={color}." "blue" "*"
+  bannerColor 'Replacing fill=" #..." and stroke="#..." with fill={color}.' "blue" "*"
   sed -i 's/fill="[^"]*"/fill="${color}"/g' "${CURRENTDIR:?}"/*.*
   sed -i 's/stroke="[^"]*"/stroke="${color}"/g' "${CURRENTDIR:?}"/*.*
   bannerColor "Replacing completed." "green" "*"
