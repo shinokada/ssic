@@ -21,6 +21,8 @@ parser_definition() {
     cmd lucide -- "Create Lucide-icons."
     cmd material -- "Create Material-design-icons from https://github.com/Templarian/MaterialDesign."
     cmd google-material-design -- "Create Material-design-icons from https://github.com/marella/material-design-icons/tree/main/svg."
+    cmd oct -- "Create Octicons."
+    cmd radix -- "Create Radix-icons."
     cmd remix -- "Create Remixicons."
     cmd simple -- "Create Simple-icons."
     cmd tabler -- "Create Tabler-icons."
