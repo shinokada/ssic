@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Title:         shc: Svelte SVG Icon creater
-# Description:   Create Heroicons and Simple-icons for Svelte
+# Title:         ssic: Svelte SVG Icon creater
+# Description:   Create SVG icons for Svelte
 # Author:        Shinichi Okada <okada.shin@gmail.com>
 # Date:          2022-02-10
-# Update:        2022-05-10
+# Update:        2022-07-22
 
 set -eu
 VERSION="1.9.0"
