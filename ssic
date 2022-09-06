@@ -4,10 +4,10 @@
 # Description:   Create SVG icons for Svelte
 # Author:        Shinichi Okada <okada.shin@gmail.com>
 # Date:          2022-02-10
-# Update:        2022-07-22
+# Update:        2022-08-25
 
 set -eu
-VERSION="1.9.0"
+VERSION="1.10.0"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
@@ -186,6 +186,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/hero.sh"
         fn_hero "$@"
+        ;;
+    hero2)
+        eval "$(getoptions parser_definition_hero parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/hero2.sh"
+        fn_hero2 "$@"
         ;;
     ion)
         eval "$(getoptions parser_definition_ion parse "$0")"

@@ -11,14 +11,14 @@ fn_modify_svg() {
   # there are outline and solid directories
   for SUBSRC in "${DIR}/${SUBDIR}"/*; do
     # echo "${SUBSRC}" /Users/shinichiokada/Svelte/svelte-heros/src/lib/src/outline
-    SUBDIRNAME=$(basename "${SUBSRC}")
+    SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
 
     cd "${SUBSRC}" || exit
     for file in *; do
       # if ${DIR}/${file} doesn't exist, create it
       if [ ! -f "${DIR}/${file}" ]; then
         # copy "${script_dir}/templates/teeny.txt" to ${DIR}/${file}
-        cp "${script_dir}/templates/hero.txt" "${DIR}/${file}"
+        cp "${script_dir}/templates/hero2.txt" "${DIR}/${file}"
       fi
       # echo "${file}"
       SVGPATH=$(sed '1d; $d' "$file")
@@ -30,7 +30,7 @@ fn_modify_svg() {
   done
   # remove src dir
   bannerColor "Removing src dir." "blue" "*"
-  rm -rf "${CURRENTDIR:?}/${SUBDIR}"
+  rm -rf "${CURRENTDIR:?}/src"
   bannerColor "Removed ${SUBDIR} dir." "green" "*"
 
   bannerColor 'Replacing fill=" #..." and stroke="#..." with fill={color}.' "blue" "*"
@@ -52,7 +52,7 @@ fn_modify_filenames() {
   bannerColor "Adding arialabel to all files." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
     FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
+    echo "${FILENAME}"
     sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}" >/dev/null 2>&1
   done
   bannerColor "Added arialabel to all files." "green" "*"
@@ -68,14 +68,15 @@ fn_modify_filenames() {
   bannerColor 'Modification is done in the dir.' "green" "*"
 }
 
-fn_hero() {
+fn_hero2() {
   ################
   # This script creates all icons in src/lib directory.
+  # v2.0.4
   ######################
   GITURL="git@github.com:tailwindlabs/heroicons.git"
   DIRNAME='heroicons'
-  SVGDIR='src'
-  LOCAL_REPO_NAME="$HOME/Svelte/svelte-heros"
+  SVGDIR='src/24'
+  LOCAL_REPO_NAME="$HOME/Svelte/svelte-heros-v2"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

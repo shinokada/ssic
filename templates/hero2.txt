@@ -1,4 +1,6 @@
 <script lang="ts">
+  // https://github.com/shinokada/svelte-heros-v2
+  // heroicons v2.0.4
   export let size = "24";
   export let color="currentColor";
   export let variation: "solid" | "outline" = "outline";
@@ -13,7 +15,7 @@
 			break;
 		case 'solid':
 			svgpath = svgsolid;
-			viewBox = '0 0 20 20';
+			viewBox = '0 0 24 24';
 			break;
 		default:
 			svgpath = svgoutline;
