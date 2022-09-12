@@ -75,7 +75,7 @@ fn_hero() {
   GITURL="git@github.com:tailwindlabs/heroicons.git"
   DIRNAME='heroicons'
   SVGDIR='src'
-  LOCAL_REPO_NAME="$HOME/Svelte/svelte-heros"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-heros"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

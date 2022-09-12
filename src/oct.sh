@@ -56,7 +56,7 @@ fn_oct() {
   GITURL="git@github.com:primer/octicons.git"
   DIRNAME='octicons'
   SVGDIR='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/svelte-oct-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-oct-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

@@ -54,7 +54,7 @@ fn_radix() {
   GITURL="git@github.com:radix-ui/icons.git"
   DIRNAME='icons'
   SVGDIR='packages/radix-icons/icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/svelte-radix-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-radix-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

@@ -6,7 +6,7 @@ fn_ion() {
   DIRNAME='ionicons'
   SUBDIR='src'
   ICONDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/svelte-ionicons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ionicons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   # clone icons from github
