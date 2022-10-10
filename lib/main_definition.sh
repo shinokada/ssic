@@ -8,6 +8,7 @@ parser_definition() {
 
     msg -- '' 'Commands: '
     msg -- 'Use command -h for a command help.'
+    cmd ant -- "Create Ant Design icons."
     cmd awesome -- "Create Awesome icons."
     cmd bootstrap -- "Create Bootstrap files."
     cmd circle-flags -- "Create Circle-flags."

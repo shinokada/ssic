@@ -4,10 +4,10 @@
 # Description:   Create SVG icons for Svelte
 # Author:        Shinichi Okada <okada.shin@gmail.com>
 # Date:          2022-02-10
-# Update:        2022-08-25
+# Update:        2022-10-10
 
 set -eu
-VERSION="1.10.0"
+VERSION="1.2.0"
 SCRIPT_NAME=$(basename "$0")
 
 # Set variables
@@ -55,6 +55,7 @@ script_dir=${self%/*}
 # Import files
 # shellcheck disable=SC1091
 {
+    . "${script_dir}/lib/ant_definition.sh"
     . "${script_dir}/lib/awesome_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
     . "${script_dir}/lib/bootstrap_definition.sh"
@@ -107,6 +108,14 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
+    ant)
+        eval "$(getoptions parser_definition_ant parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/ant.sh"
+        fn_ant "$@"
+        ;;
     awesome)
         eval "$(getoptions parser_definition_awesome parse "$0")"
         parse "$@"
