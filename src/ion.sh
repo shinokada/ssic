@@ -11,11 +11,13 @@ fn_ion() {
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   # clone icons from github
   cd "${CURRENTDIR}" || exit 1
-  # if icons dir remove it
-  if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
-    bannerColor 'Removing the previous dir.' "blue" "*"
-    rm -rf "${CURRENTDIR}/${DIRNAME}"
+  # remove files from src/lib
+  if [ -d "${CURRENTDIR}" ]; then
+    bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
+    rm -rf "${CURRENTDIR:?}/"
   fi
+  mkdir -p "${CURRENTDIR}"
+  cd "${CURRENTDIR}" || exit 1
 
   # clone it
   bannerColor 'Cloning the repo.' "green" "*"
@@ -56,7 +58,7 @@ fn_ion() {
   sed -i 's/<?xml version="1.0" encoding="utf-8"?>//' ./*.*
 
   # Change viewBox="0 0 512 512" to viewBox="0 0 512 512" width={size} height={size} class={$$props.class}
-  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} width={size} height={size} fill="${color}" class={$$props.class} /' ./*.*
+  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} width={size} height={size} fill={color} class={$$props.class} /' ./*.*
 
   # remove  width="512" and height="512"
   sed -i 's/width="512"//' ./*.*
@@ -109,9 +111,15 @@ fn_ion() {
 
   bannerColor 'Added export to index.js file.' "green" "*"
 
-  bannerColor "Cleaning up ${CURRENTDIR}/${DIRNAME}." "blue" "*"
-  # clean up
-  rm -rf "${CURRENTDIR}/${DIRNAME}"
+  # Move all files to lib dir
+  mv ./* "${CURRENTDIR}"
+  # remove svg and ionicons dir
+  rm -rf ./* "${CURRENTDIR}/svg" "${CURRENTDIR}/ionicons" || exit 1
+
+
+  # bannerColor "Cleaning up ${CURRENTDIR}/${DIRNAME}." "blue" "*"
+  # # clean up
+  # rm -rf "${CURRENTDIR}/${DIRNAME}"
 
   bannerColor 'All done.' "green" "*"
 }

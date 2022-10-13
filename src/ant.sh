@@ -32,9 +32,9 @@ fn_ant() {
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ant-design-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-  # if there is the svg dir, remove it
+  # if there is lib dir, remove it
   if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
+    bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
     rm -rf "${CURRENTDIR:?}/"
   fi
   mkdir -p "${CURRENTDIR}"
