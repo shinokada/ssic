@@ -1,5 +1,6 @@
 <script lang="ts">
-  export let size = "15";
+  export let size: string = "15";
+  export let color: string = "black" 
   export let variation: "solid" | "outline" = "outline";
   let svgpath: string;
   let svgoutline = `replace_svg_outline`;

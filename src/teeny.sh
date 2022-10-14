@@ -9,7 +9,6 @@ fn_modify_svg() {
   bannerColor "Modifying all files in ${SUBDIR}." "cyan" "*"
 
   # there are outline and solid directories
-  # remove fill="black"
   for SUBSRC in "${DIR}/${SUBDIR}"/*; do
     # echo "${SUBSRC}" /Users/shinichiokada/Svelte/svelte-teenyicons/src/lib/src/outline
     SUBDIRNAME=$(basename "${SUBSRC}")
@@ -90,6 +89,12 @@ fn_teeny() {
   # Move all files to lib dir
   # mv "${CURRENTDIR}/${SVGDIR}"/* "${CURRENTDIR}"
   fn_modify_filenames "${CURRENTDIR}"
+
+  for filename in "${CURRENTDIR}"/*; do
+    # replace fill="black" and stroke="black"
+    sed -i 's/fill="black"/fill="${color}"/g' "${filename}"
+    sed -i 's/stroke="black"/stroke="${color}"/g' "${filename}"
+  done
 
   #############################
   #    INDEX.JS PART 1 IMPORT #
