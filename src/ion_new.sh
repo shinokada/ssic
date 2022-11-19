@@ -20,6 +20,7 @@ fn_modify_svg() {
     # for file in *-outline.svg; do
     # remove between <title> and </title> from all files
     sed -i 's/<title>.*<\/title>//' "${file}"
+    # remove 
     # sed -i 's/<title>*<\/title>//g' "${file}"
 
     # if file name has -outline

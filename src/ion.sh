@@ -67,8 +67,8 @@ fn_ion() {
   # remove title>ionicons-v5-a</title>
   sed -i 's|<title>ionicons-v5-a</title>||' ./*.*
 
-  # Change stroke="currentColor" to stroke={color}
-  # sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
+  # Change stroke:#000 to stroke:{color}
+  sed -i 's/stroke:#000/stroke:{color}/g' ./*.*
 
   # Insert script tag at the beginning and insert class={className} and viewBox
   sed -i '1s/^/<script>export let size="24"; export let color="currentColor"<\/script>/' ./*.*
