@@ -39,13 +39,19 @@ Using [Awesome package manager](https://github.com/shinokada/awesome).
 awesome install shinokada/ssic
 ```
 
+## Help and version
+
+```sh
+ssic --help
+ssic --version
+```
+
 ## How to create Ant design icons
 
 ```sh
 mkdir ~/Downloads/ant-design && cd $_
 ssic ant
 ```
-
 
 ## How to create Feathericons
 
