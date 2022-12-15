@@ -1,6 +1,6 @@
-# SIC: Svelte SVG Icon Creator
+# SSIC: Svelte SVG Icon Creator
 
-This script creates SVG icons for Svelte/SvelteKit from a wide variety of icon libraries.
+This Bash script creates SVG icons for Svelte/SvelteKit from a wide variety of icon libraries.
 
 - 780+ Ant design icons
 - 2000+ Font Awesome icons
