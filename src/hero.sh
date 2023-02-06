@@ -14,6 +14,7 @@ fn_modify_svg() {
     SUBDIRNAME=$(basename "${SUBSRC}")
 
     cd "${SUBSRC}" || exit
+    bannerColor "cd to ${SUBSRC}" "blue" "*"
     for file in *; do
       # if ${DIR}/${file} doesn't exist, create it
       if [ ! -f "${DIR}/${file}" ]; then
@@ -21,10 +22,9 @@ fn_modify_svg() {
         cp "${script_dir}/templates/hero.txt" "${DIR}/${file}"
       fi
       # echo "${file}"
+      bannerColor "Replace new line with space." "blue" "*"
       SVGPATH=$(sed '1d; $d' "$file")
-      # replace new line with space
       SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
-
       sed -i "s;replace_svg_${SUBDIRNAME};${SVGPATH};" "${DIR}/${file}"
     done
   done
@@ -89,7 +89,7 @@ fn_hero() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx degit "${GITURL}/${SVGDIR}/24" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

@@ -36,6 +36,7 @@ fn_modify_svg() {
   bannerColor 'Replacing fill=" #..." and stroke="#..." with fill={color}.' "blue" "*"
   sed -i 's/fill="[^"]*"/fill="${color}"/g' "${CURRENTDIR:?}"/*.*
   sed -i 's/stroke="[^"]*"/stroke="${color}"/g' "${CURRENTDIR:?}"/*.*
+  sed -i 's/stroke-width="1.5"/stroke-width="${strokeWidth}"/g' "${CURRENTDIR:?}"/*.*
   bannerColor "Replacing completed." "green" "*"
 
   bannerColor "Adding fill=none before viewBox=0 0 24 24." "blue" "*"

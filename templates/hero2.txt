@@ -2,6 +2,7 @@
   // https://github.com/shinokada/svelte-heros-v2
   // heroicons v2.0.10
   export let size = "24";
+  export let strokeWidth = "2"
   export let color="currentColor";
   export let variation: "solid" | "outline" = "outline";
   let viewBox: string;
@@ -31,7 +32,7 @@
   {...$$restProps}
   aria-label={ariaLabel}
   {viewBox}
-  stroke-width="2" 
+  stroke-width={strokeWidth}
   on:click
   on:mouseenter
   on:mouseleave

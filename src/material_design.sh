@@ -5,16 +5,20 @@ fn_material() {
   GITURL="git@github.com:Templarian/MaterialDesign.git"
   DIRNAME='MaterialDesign'
   SVGDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-materialdesign"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-materialdesign-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-  # clone from github
-  cd "${CURRENTDIR}" || exit 1
-  # if there is the svg dir, remove it
-  if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-    rm -rf "${CURRENTDIR}/${DIRNAME}"
+  
+  if [ ! -d ${CURRENTDIR} ]; then
+    mkdir ${CURRENTDIR} || exit 1
+  else
+    bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
+    rm -rf "${CURRENTDIR:?}/"
+    # create a new
+    mkdir -p "${CURRENTDIR}"
   fi
+  
+  cd "${CURRENTDIR}" || exit 1
 
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
@@ -76,35 +80,10 @@ fn_material() {
   cd "${CURRENTDIR}" || exit 1
 
   bannerColor 'Creating index.js file.' "blue" "*"
-  # list file names to each index.txt
-  find . -type f '(' -name '*.svelte' ')' >index1
-
-  # remove ./ from each line
-  sed 's/^.\///' index1 >index2
-
-  # create a names.txt
-  sed 's/.svelte//' index2 >names.txt
-  # Add , after each line in names.txt
-  sed -i 's/$/,/' names.txt
-
-  # Create import section in index2 files.
-  # for solid
-  sed "s:\(.*\)\.svelte:import \1 from './&':" index2 >index3
-  bannerColor 'Created index.js file with import.' "green" "*"
-
-  ##########################
-  # INDEX.JS PART 2 EXPORT #
-  ##########################
-
-  bannerColor 'Adding export to index.js file.' "blue" "*"
-  # Add export{} section
-  # 1 insert export { to index.js,
-  # 2 insert icon-names to index.js after export {
-  # 3. append }
-  echo 'export {' >>index3 && cat index3 names.txt >index.js && echo '}' >>index.js
-
-  # remove unnecessary files
-  rm names.txt index1 index2 index3
+  
+  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
+    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
+  }' >index.js
 
   bannerColor 'Added export to index.js file.' "green" "*"
 

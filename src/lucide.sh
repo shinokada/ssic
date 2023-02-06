@@ -3,37 +3,46 @@ fn_lucide() {
     # This script creates lucide-icons. 
     ###########################################################
     GITURL="git@github.com:lucide-icons/lucide.git"
+    DEGIT='lucide-icons/lucide/icons'
     DIRNAME='lucide'
     ICONDIR='icons'
-    # clone icons from github
-    cd "${CURRENTDIR}" || exit 1
-    # if icons dir remove it
-    if [ -d "${CURRENTDIR}/${DIRNAME}" ]; then
-      bannerColor 'Removing the previous dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${DIRNAME}"
+    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-lucide"
+    SVELTE_LIB_DIR='src/lib'
+    CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+
+    if [ ! -d ${CURRENTDIR} ]; then
+      mkdir ${CURRENTDIR} || exit 1
+    else
+      bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
+      rm -rf "${CURRENTDIR:?}/"
+      # create a new
+      mkdir -p "${CURRENTDIR}"
     fi
 
-    # clone it
-    bannerColor 'Cloning the repo.' "green" "*"
-    git clone "${GITURL}" || {
-        echo "not able to clone"
-        exit 1
+    cd "${CURRENTDIR}" || exit 1
+    # clone the repo
+    bannerColor "Cloning ${DIRNAME}." "green" "*"
+    npx degit "${DEGIT}" >/dev/null 2>&1 || {
+      echo "not able to clone"
+      exit 1
     }
 
-    # move to the dir
-    bannerColor 'Moving icons dir to the root.' "green" "*"
-    if [ -d "${CURRENTDIR}/${ICONDIR}" ]; then
-      bannerColor 'Removing the previous icons dir.' "blue" "*"
-      rm -rf "${CURRENTDIR}/${ICONDIR}"
+    bannerColor 'Remove all json files.' "blue" "*"
+    if ls *.json &> /dev/null; then
+      echo "Directory contains JSON files."
+      bannerColor 'Directory contains JSON files. Removing them ...' "blue" "*"
+      rm *.json
+      bannerColor 'Removed.' "green" "*"
+    else
+      bannerColor 'Directory does not contain any JSON files.' "blue" "*"
     fi
 
-    mv "${CURRENTDIR}/${DIRNAME}/${ICONDIR}" "${CURRENTDIR}"
     
     ######################### 
     #        ICONS      #
     #########################
     bannerColor 'Changing dir to icons dir' "blue" "*"
-    cd "${CURRENTDIR}/${ICONDIR}" || exit
+    cd "${CURRENTDIR}" || exit
 
     bannerColor 'Removing all files starting with a number.' "blue" "*"
     find . -type f -name "[0-9]*"  -exec rm {} \;
@@ -64,41 +73,12 @@ fn_lucide() {
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
     bannerColor 'Creating index.js file.' "blue" "*"
-    # list file names to each index.txt
-    find . -type f '(' -name '*.svelte' ')' > index1
     
-    # removed ./ from each line
-    sed 's/^.\///' index1 > index2
-    rm index1
-
-    # create a names.txt
-    sed 's/.svelte//' index2 > names.txt
-    # Add , after each line in names.txt
-    sed -i 's/$/,/' names.txt
-
-    # Create import section in index2 files.
-    # for outline
-    sed "s:\(.*\)\.svelte:import \1 from './&':" index2 > index3
-    bannerColor 'Created index.js file with import.' "green" "*"
-
-    #################
-    #    INDEX.JS   #
-    #################
-    
-    bannerColor 'Adding export to index.js file.' "blue" "*"
-    # Add export{} section
-    # 1 insert export { to index.js, 
-    # 2 insert icon-names to index.js after export { 
-    # 3. append }
-    echo 'export {' >> index3 && cat index3 names.txt > index.js && echo '}' >> index.js
-
-    rm names.txt index2 index3
+    find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
+    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
+    }' >index.js
 
     bannerColor 'Added export to index.js file.' "green" "*"
-
-    bannerColor "Cleaning up ${CURRENTDIR}/${DIRNAME}." "blue" "*"
-    # clean up
-    rm -rf "${CURRENTDIR}/${DIRNAME}"
     
     bannerColor 'All done.' "green" "*"
 }
