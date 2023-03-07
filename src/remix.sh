@@ -48,7 +48,7 @@ fn_remix() {
   GITURL="https://github.com/Remix-Design/RemixIcon"
   DIRNAME='RemixIcon'
   SVGDIR='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-remix-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-remix"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   DIR_ARR=(
@@ -91,7 +91,7 @@ fn_remix() {
     # call fn_modify_svg to modify svg files and rename them and move file to lib dir
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" "${SUB}"
     # Move all files to lib dir
-    mkdir "${CURRENTDIR}/${SUB}" && mv "${CURRENTDIR}/${SVGDIR}/${SUB}"/* "${CURRENTDIR}/${SUB}"
+    mv "${CURRENTDIR}/${SVGDIR}/${SUB}"/* "${CURRENTDIR}"
   done
 
   #############################
