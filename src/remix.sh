@@ -1,8 +1,8 @@
 fn_modify_svg() {
   DIR=$1
   SUBDIR=$2
-  UPPERSUBDIR=$(echo "$2" | tr [:lower:] [:upper:] | tr '-' '_')
-  echo "${UPPERSUBDIR}"
+  # UPPERSUBDIR=$(echo "$2" | tr [:lower:] [:upper:] | tr '-' '_')
+  # echo "${UPPERSUBDIR}"
 
   bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
   cd "${DIR}/${SUBDIR}" || exit
@@ -15,7 +15,7 @@ fn_modify_svg() {
 
   bannerColor "Inserting script tag to all files." "magenta" "*"
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+  sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.*
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -28,13 +28,12 @@ fn_modify_svg() {
   #  modify file names
   bannerColor "Renaming all files in the ${SUBDIR} dir." "blue" "*"
   # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
   ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
 
-  bannerColor "Adding ${UPPERSUBDIR} to file names." "blue" "*"
-  # add ${UPPERSUBDIR} before .svelte
-  rename -v "s/\.svelte/${UPPERSUBDIR}.svelte/" ./*.svelte >/dev/null 2>&1
+  bannerColor "Adding ${SUBDIR} to file names." "blue" "*"
+  # add ${SUBDIR} before .svelte
+  rename -v "s/\.svelte/${SUBDIR}.svelte/" ./*.svelte >/dev/null 2>&1
 
   bannerColor 'Renaming is done.' "green" "*"
 
@@ -52,6 +51,7 @@ fn_remix() {
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   DIR_ARR=(
+    'Arrows'
     'Buildings'
     'Business'
     'Communication'
@@ -61,13 +61,13 @@ fn_remix() {
     'Document'
     'Editor'
     'Finance'
-    'Health'
+    'Health & Medical'
     'Logos'
     'Map'
     'Media'
     'Others'
     'System'
-    'User'
+    'User & Faces'
     'Weather'
   )
 
@@ -81,12 +81,22 @@ fn_remix() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }
 
+  NEW_DIR_ARR=()
+
   for SUB in "${DIR_ARR[@]}"; do
+    NEW_SUB=$(echo "$SUB" | tr -d '[:space:]&')
+    mv "${CURRENTDIR}/${SVGDIR}/${SUB}" "${CURRENTDIR}/${SVGDIR}/${NEW_SUB}_tmp"
+    mv "${CURRENTDIR}/${SVGDIR}/${NEW_SUB}_tmp" "${CURRENTDIR}/${SVGDIR}/${NEW_SUB}"
+    NEW_DIR_ARR+=("$NEW_SUB")
+  done
+
+
+  for SUB in "${NEW_DIR_ARR[@]}"; do
     # echo $SUB
     # call fn_modify_svg to modify svg files and rename them and move file to lib dir
     fn_modify_svg "${CURRENTDIR}/${SVGDIR}" "${SUB}"

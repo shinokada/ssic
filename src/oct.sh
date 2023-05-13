@@ -10,20 +10,12 @@ fn_modify_svg() {
   bannerColor "Modifying all files in ${SUBDIR}." "cyan" "*"
 
   # removing width="16" height="16"
-  # sed -i 's/width="12"//' ./*.*
-  # sed -i 's/width="16"//' ./*.*
-  # sed -i 's/width="24"//' ./*.*
-  # sed -i 's/width="25"//' ./*.*
-  # sed -i 's/width="45"//' ./*.*
-  # sed -i 's/height="12"//' ./*.*
-  # sed -i 's/height="16"//' ./*.*
-  # sed -i 's/height="24"//' ./*.*
   sed -i 's/width="[^"]*"/width="{size}"/' ./*.* >/dev/null 2>&1
   sed -i 's/height="[^"]*"/height="{size}"/' ./*.* >/dev/null 2>&1
 
   bannerColor "Inserting script tag to all files." "magenta" "*"
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script lang="ts">export let size="16"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+  sed -i '1s/^/<script lang="ts">export let size="16"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.*
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -36,13 +28,8 @@ fn_modify_svg() {
   #  modify file names
   bannerColor "Renaming all files in the ${SUBDIR} dir." "blue" "*"
   # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
   ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
-
-  # bannerColor "Adding ${UPPERSUBDIR} to file names." "blue" "*"
-  # # add ${UPPERSUBDIR} before .svelte
-  # rename -v "s/\.svelte/${UPPERSUBDIR}.svelte/" ./*.svelte >/dev/null 2>&1
 
   bannerColor 'Renaming is done.' "green" "*"
 
@@ -56,7 +43,7 @@ fn_oct() {
   GITURL="git@github.com:primer/octicons.git"
   DIRNAME='octicons'
   SVGDIR='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-oct-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-oct"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
@@ -70,7 +57,7 @@ fn_oct() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

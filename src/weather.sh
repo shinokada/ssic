@@ -16,7 +16,7 @@ fn_modify_svg() {
 
   bannerColor "Inserting script tag to all files." "magenta" "*"
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="30"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} {...$$restProps} aria-label={ariaLabel} fill={color} &/' ./*.* >/dev/null 2>&1
+  sed -i '1s/^/<script>export let size="30"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} {...$$restProps} aria-label={ariaLabel} fill={color} on:click on:change on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave &/' ./*.* >/dev/null 2>&1
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -56,7 +56,7 @@ fn_weather() {
   GITURL="git@github.com:erikflowers/weather-icons.git"
   DIRNAME='weather-icons'
   SVGDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-weather-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-weather"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
@@ -70,7 +70,7 @@ fn_weather() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

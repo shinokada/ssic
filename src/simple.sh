@@ -3,7 +3,7 @@ fn_simple() {
     # This script creates simple-icons. 
     ###########################################################
     GITURL="git@github.com:simple-icons/simple-icons.git"
-    DEGIT='simple-icons/simple-icons/icons'
+    tiged='simple-icons/simple-icons/icons'
     DIRNAME='simple-icons'
     ICONDIR='icons'
     SVELTE_LIB_DIR='src/lib'
@@ -24,7 +24,7 @@ fn_simple() {
     # clone it
     # clone the repo
     bannerColor "Cloning ${DIRNAME}." "green" "*"
-    npx degit "${DEGIT}" >/dev/null 2>&1 || {
+    npx tiged "${tiged}" >/dev/null 2>&1 || {
       echo "not able to clone"
       exit 1
     }
@@ -52,9 +52,8 @@ fn_simple() {
     sed -i '1s/^/<script>export let size="24"; export let color="#1877F2"<\/script>/' ./*.* && sed -i 's/xmlns/width={size} height={size} fill={color} &/' ./*.*
 
     # Insert {...$$restprops} before xmlns="http://www.w3.org/2000/svg"
-    sed -i 's/xmlns=/ class={$$props.class} &/' ./*.*
+    sed -i 's/xmlns=/ class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.*
     
-
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
     bannerColor 'Creating index.js file.' "blue" "*"

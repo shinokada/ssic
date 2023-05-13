@@ -10,7 +10,6 @@ fn_modify_svg() {
 
   # there are outline and solid directories
   for SUBSRC in "${DIR}/${SUBDIR}"/*; do
-    # echo "${SUBSRC}" /Users/shinichiokada/Svelte/svelte-heros/src/lib/src/outline
     SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
 
     cd "${SUBSRC}" || exit
@@ -91,7 +90,7 @@ fn_hero2() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

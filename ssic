@@ -99,6 +99,7 @@ eval "set -- $REST"
 # If you are using Bash, check Bash version
 check_bash 5
 
+check_cmd rename
 # Check if sed is GNU
 is_gnu_sed || echo 'Please install GNU sed'
 

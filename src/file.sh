@@ -18,7 +18,7 @@ fn_file() {
 
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }
@@ -30,7 +30,7 @@ fn_file() {
   # 2. replace height="any number or string" to height="{size}"
   # 3. insert viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} before closeing first >
   bannerColor 'Inserting to all files.' "blue" "*"
-  sed -i 's/width="[^"]*"/width="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/height="[^"]*"/height="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/>/ viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.* >/dev/null 2>&1
+  sed -i 's/width="[^"]*"/width="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/height="[^"]*"/height="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/>/ viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.* >/dev/null 2>&1
 
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
   # replacing from width to > with content
@@ -54,7 +54,6 @@ fn_file() {
   mv draw.io.svg draw_io.svg
 
   # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
     ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
 

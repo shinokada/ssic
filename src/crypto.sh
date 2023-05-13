@@ -27,29 +27,11 @@ fn_modify_svg() {
         bannerColor "Modifying ${file}" "cyan" "*"
         # echo "not icon dir"
         SVGPATH=$(grep -oP '(?<=xmlns="http://www.w3.org/2000/svg">).*(?=</svg>)' "${file}") || SVGPATH=$(grep -oP '(?<=viewBox="0 0 32 32">).*(?=</svg>)' "${file}") || SVGPATH=$(grep -oP '(?<=xmlns:xlink="http://www.w3.org/1999/xlink">).*(?=</svg>)' "${file}")
-        # echo "${SVGPATH}"
-        # echo "Done if statement"
-        # replace new line with space
-        # SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
 
         sed -i "s;replace_svg_${SUBDIRNAME};${SVGPATH};" "${DIR}/${file}"
       done
     fi
   done
-  # remove src dir
-  # bannerColor "Removing src dir." "blue" "*"
-  # rm -rf "${CURRENTDIR:?}/${SUBDIR}"
-  # bannerColor "Removed ${SUBDIR} dir." "green" "*"
-
-  # bannerColor "Replacing fill="#..." and stroke="#..." with fill={color}." "blue" "*"
-  # sed -i 's/fill="[^"]*"/fill="${color}"/g' "${CURRENTDIR:?}"/*.*
-  # sed -i 's/stroke="[^"]*"/stroke="${color}"/g' "${CURRENTDIR:?}"/*.*
-  # bannerColor "Replacing completed." "green" "*"
-
-  # bannerColor "Adding fill=none before viewBox=0 0 24 24." "blue" "*"
-  # since you are adding fill="${color}" previously, you need to insert it before viewBox="0 0 24 24"
-  # sed -i 's/viewBox="0 0 24 24"/fill="none" viewBox="0 0 24 24"/' "${CURRENTDIR:?}"/*.*
-  # bannerColor "Added fill=none before viewBox=0 0 24 24." "green" "*"
 
   # remove svg dir
   bannerColor "Removing svg dir." "blue" "*"
@@ -102,7 +84,7 @@ fn_crypto() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

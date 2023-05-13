@@ -18,28 +18,16 @@ fn_flagicons() {
 
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }
-
-  # copy svgs dir from the cloned dir
-  # bannerColor 'Moving svgs dir to the root.' "green" "*"
-  # if [ -d "${CURRENTDIR}/${SVGDIR}" ]; then
-  #   bannerColor 'Removing the previous svgs dir.' "blue" "*"
-  #   rm -rf "${CURRENTDIR}/${SVGDIR}"
-  # fi
-
-  # mv "${CURRENTDIR}/${DIRNAME}/${SVGDIR}" "${CURRENTDIR}"
-
-  # bannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
-  # cd "${CURRENTDIR}" || exit
 
   # For each svelte file modify contents of all file by
   bannerColor 'Modifying all files.' "blue" "*"
 
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+  sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.*
 
   # get textname from filename
   for filename in "${CURRENTDIR}"/*; do
@@ -52,7 +40,6 @@ fn_flagicons() {
   bannerColor 'Renaming all files in the dir.' "blue" "*"
 
   # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
     ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte"
   }ge' ./*.svg >/dev/null 2>&1
@@ -60,9 +47,6 @@ fn_flagicons() {
   bannerColor 'Renaming is done.' "green" "*"
 
   bannerColor 'Modification is done in the dir.' "green" "*"
-
-  # Move all files to lib dir
-  # mv ./* "${CURRENTDIR}"
 
   #############################
   #    INDEX.JS PART 1 IMPORT #

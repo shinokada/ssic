@@ -58,7 +58,7 @@ fn_ion() {
   sed -i 's/<?xml version="1.0" encoding="utf-8"?>//' ./*.*
 
   # Change viewBox="0 0 512 512" to viewBox="0 0 512 512" width={size} height={size} class={$$props.class}
-  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} width={size} height={size} fill={color} class={$$props.class} /' ./*.*
+  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} width={size} height={size} fill={color} class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus /' ./*.*
 
   # remove  width="512" and height="512"
   sed -i 's/width="512"//' ./*.*
@@ -67,14 +67,14 @@ fn_ion() {
   # remove title>ionicons-v5-a</title>
   sed -i 's|<title>ionicons-v5-a</title>||' ./*.*
 
+  # remove fill="currentColor"
+  sed -i 's/fill="currentColor"//g' ./*.*
+
   # Change stroke:#000 to stroke:{color}
   sed -i 's/stroke:#000/stroke:{color}/g' ./*.*
 
   # Insert script tag at the beginning and insert class={className} and viewBox
   sed -i '1s/^/<script>export let size="24"; export let color="currentColor"<\/script>/' ./*.*
-
-  # Insert {...$$restprops} after stroke-linejoin="round"
-  # sed -i 's/stroke-linejoin="round"/& class={$$props.class}/' ./*.*
 
   bannerColor 'Modification is done in outline dir.' "green" "*"
 
@@ -90,11 +90,6 @@ fn_ion() {
   mv ./* "${CURRENTDIR}"
   # remove svg and ionicons dir
   rm -rf ./* "${CURRENTDIR}/svg" "${CURRENTDIR}/ionicons" || exit 1
-
-
-  # bannerColor "Cleaning up ${CURRENTDIR}/${DIRNAME}." "blue" "*"
-  # # clean up
-  # rm -rf "${CURRENTDIR}/${DIRNAME}"
 
   bannerColor 'All done.' "green" "*"
 }

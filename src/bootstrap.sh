@@ -24,7 +24,7 @@ fn_modify_svg() {
 
   bannerColor "Inserting script tag to all files." "magenta" "*"
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="16"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/fill={color} {...$$restProps} aria-label={ariaLabel} &/' ./*.* >/dev/null 2>&1
+  sed -i '1s/^/<script>export let size="16"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/fill={color} {...$$restProps} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.* >/dev/null 2>&1
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -36,14 +36,8 @@ fn_modify_svg() {
 
   #  modify file names
   bannerColor "Renaming all files in the ${SUBDIR} dir." "blue" "*"
-  # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
   ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
-
-  # bannerColor "Adding ${UPPERSUBDIR} to file names." "blue" "*"
-  # # add ${UPPERSUBDIR} before .svelte
-  # rename -v "s/\.svelte/${UPPERSUBDIR}.svelte/" ./*.svelte > /dev/null 2>&1
 
   bannerColor 'Renaming is done.' "green" "*"
 
@@ -57,7 +51,7 @@ fn_bootstrap() {
   GITURL="https://github.com/twbs/icons"
   DIRNAME='icons'
   SVGDIR='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-bootstrap-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-bootstrap-svg-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
@@ -71,7 +65,7 @@ fn_bootstrap() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged -f "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

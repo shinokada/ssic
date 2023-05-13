@@ -41,7 +41,7 @@ fn_ant() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" svg >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" svg >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

@@ -46,7 +46,7 @@ fn_awesome() {
   sed -i 's/<!--! Font Awesome Free 6.1.1 by @fontawesome - https:\/\/fontawesome.com License - https:\/\/fontawesome.com\/license\/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->/\n/' ./*.*
 
   # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/{...$$restProps} width={size} height={size} fill={color} class={$$props.class} aria-label={ariaLabel} &/' ./*.*
+  sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/{...$$restProps} width={size} height={size} fill={color} class={$$props.class} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.*
 
   # get textname from filename
   for filename in "${CURRENTDIR}/${SVGDIR}"/solid/*; do

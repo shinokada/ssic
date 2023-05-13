@@ -9,7 +9,7 @@ fn_modify_svg() {
   bannerColor "Modifying all files in ${SUBDIR}." "cyan" "*"
 
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="36";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+  sed -i '1s/^/<script>export let size="36";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:change on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave &/' ./*.*
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -60,7 +60,7 @@ fn_twemoji() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

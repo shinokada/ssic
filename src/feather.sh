@@ -18,7 +18,7 @@ fn_feather() {
 
     # clone it
     bannerColor "Cloning ${DIRNAME}." "green" "*"
-    npx degit "${GITURL}/${ICONDIR}" >/dev/null 2>&1 || {
+    npx tiged "${GITURL}/${ICONDIR}" >/dev/null 2>&1 || {
       echo "not able to clone"
       exit 1
     }
@@ -51,7 +51,7 @@ fn_feather() {
     sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
 
     # Insert {...$$restprops} after stroke-linejoin="round" 
-    sed -i 's/stroke-linejoin="round"/& class={$$props.class}/' ./*.*
+    sed -i 's/stroke-linejoin="round"/& class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus /' ./*.*
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 

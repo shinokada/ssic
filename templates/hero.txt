@@ -27,7 +27,13 @@
   aria-label={ariaLabel}
   {viewBox}
   stroke-width="2" 
-  on:click
+  on:click 
+  on:mouseenter 
+  on:mouseleave 
+  on:mouseover 
+  on:mouseout 
+  on:blur 
+  on:focus 
 >
   {@html svgpath}
 </svg>

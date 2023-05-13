@@ -12,13 +12,13 @@ fn_circle_flags() {
   cd "${CURRENTDIR}" || exit 1
   # if there is the svgs, remove it
   if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
+    bannerColor "Removing the previous ${DIRNAME} dir from ${CURRENTDIR}." "blue" "*"
     rm -rf "${CURRENTDIR:?}/"*
   fi
 
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged -f "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }
@@ -35,7 +35,7 @@ fn_circle_flags() {
   bannerColor 'Modifying all files.' "blue" "*"
 
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} aria-label={ariaLabel} &/' ./*.*
+  sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:change on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave &/' ./*.*
 
   # Change from width="512" and height="512" to width={size} and height={size}
   sed -i 's/width="512"/width={size}/' ./*.*
@@ -52,7 +52,6 @@ fn_circle_flags() {
   bannerColor 'Renaming all files in the dir.' "blue" "*"
 
   # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
     ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte"
   }ge' ./*.svg >/dev/null 2>&1
@@ -60,9 +59,6 @@ fn_circle_flags() {
   bannerColor 'Renaming is done.' "green" "*"
 
   bannerColor 'Modification is done in the dir.' "green" "*"
-
-  # Move all files to lib dir
-  # mv ./* "${CURRENTDIR}"
 
   #############################
   #    INDEX.JS PART 1 IMPORT #

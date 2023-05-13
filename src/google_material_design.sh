@@ -34,20 +34,6 @@ fn_modify_svg() {
       done
     fi
   done
-  # remove src dir
-  # bannerColor "Removing src dir." "blue" "*"
-  # rm -rf "${CURRENTDIR:?}/${SUBDIR}"
-  # bannerColor "Removed ${SUBDIR} dir." "green" "*"
-
-  # bannerColor "Replacing fill="#..." and stroke="#..." with fill={color}." "blue" "*"
-  # sed -i 's/fill="[^"]*"/fill="${color}"/g' "${CURRENTDIR:?}"/*.*
-  # sed -i 's/stroke="[^"]*"/stroke="${color}"/g' "${CURRENTDIR:?}"/*.*
-  # bannerColor "Replacing completed." "green" "*"
-
-  # bannerColor "Adding fill=none before viewBox=0 0 24 24." "blue" "*"
-  # since you are adding fill="${color}" previously, you need to insert it before viewBox="0 0 24 24"
-  # sed -i 's/viewBox="0 0 24 24"/fill="none" viewBox="0 0 24 24"/' "${CURRENTDIR:?}"/*.*
-  # bannerColor "Added fill=none before viewBox=0 0 24 24." "green" "*"
 
   # remove svg dir
   bannerColor "Removing svg dir." "blue" "*"
@@ -86,7 +72,7 @@ fn_google_material_design() {
   GITURL="git@github.com:marella/material-design-icons.git"
   DIRNAME='material-design-icons'
   SVGDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-google-materialdesign"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-google-materialdesign-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
@@ -100,7 +86,7 @@ fn_google_material_design() {
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
   bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx degit "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
+  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
     echo "not able to clone"
     exit 1
   }

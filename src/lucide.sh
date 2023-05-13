@@ -3,7 +3,7 @@ fn_lucide() {
     # This script creates lucide-icons. 
     ###########################################################
     GITURL="git@github.com:lucide-icons/lucide.git"
-    DEGIT='lucide-icons/lucide/icons'
+    tiged='lucide-icons/lucide/icons'
     DIRNAME='lucide'
     ICONDIR='icons'
     LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-lucide"
@@ -22,7 +22,7 @@ fn_lucide() {
     cd "${CURRENTDIR}" || exit 1
     # clone the repo
     bannerColor "Cloning ${DIRNAME}." "green" "*"
-    npx degit "${DEGIT}" >/dev/null 2>&1 || {
+    npx tiged "${tiged}" >/dev/null 2>&1 || {
       echo "not able to clone"
       exit 1
     }
@@ -68,7 +68,7 @@ fn_lucide() {
     sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
 
     # Insert {...$$restprops} after stroke-linejoin="round" 
-    sed -i 's/stroke-linejoin="round"/& class={$$props.class}/' ./*.*
+    sed -i 's/stroke-linejoin="round"/& class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus /' ./*.*
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
