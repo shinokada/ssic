@@ -2,19 +2,6 @@
   export let size: string = "15";
   export let color: string = "black" 
   export let variation: "solid" | "outline" = "outline";
-  let svgpath: string;
-  let svgoutline = `replace_svg_outline`;
-  let svgsolid = `replace_svg_solid`;
-  switch (variation) {
-    case "outline":
-      svgpath = svgoutline;
-      break;
-    case "solid":
-      svgpath = svgsolid;
-      break;
-    default:
-      svgpath = svgoutline;
-  }
 </script>
 
 <svg
@@ -34,5 +21,9 @@
   on:blur 
   on:focus 
 >
-  {@html svgpath}
+  {#if variation === 'outline'}
+    replace_svg_outline
+  {:else}
+    replace_svg_solid
+  {/if}
 </svg>

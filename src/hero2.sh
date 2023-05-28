@@ -16,7 +16,7 @@ fn_modify_svg() {
     for file in *; do
       # if ${DIR}/${file} doesn't exist, create it
       if [ ! -f "${DIR}/${file}" ]; then
-        # copy "${script_dir}/templates/teeny.txt" to ${DIR}/${file}
+        # copy "${script_dir}/templates/hero2.txt" to ${DIR}/${file}
         cp "${script_dir}/templates/hero2.txt" "${DIR}/${file}"
       fi
       # echo "${file}"
@@ -33,9 +33,9 @@ fn_modify_svg() {
   bannerColor "Removed ${SUBDIR} dir." "green" "*"
 
   bannerColor 'Replacing fill=" #..." and stroke="#..." with fill={color}.' "blue" "*"
-  sed -i 's/fill="[^"]*"/fill="${color}"/g' "${CURRENTDIR:?}"/*.*
-  sed -i 's/stroke="[^"]*"/stroke="${color}"/g' "${CURRENTDIR:?}"/*.*
-  sed -i 's/stroke-width="1.5"/stroke-width="${strokeWidth}"/g' "${CURRENTDIR:?}"/*.*
+  sed -i 's/fill="[^"]*"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
+  sed -i 's/stroke="[^"]*"/stroke="{color}"/g' "${CURRENTDIR:?}"/*.*
+  sed -i 's/stroke-width="1.5"/stroke-width="{strokeWidth}"/g' "${CURRENTDIR:?}"/*.*
   bannerColor "Replacing completed." "green" "*"
 
   bannerColor "Adding fill=none before viewBox=0 0 24 24." "blue" "*"

@@ -92,8 +92,8 @@ fn_teeny() {
 
   for filename in "${CURRENTDIR}"/*; do
     # replace fill="black" and stroke="black"
-    sed -i 's/fill="black"/fill="${color}"/g' "${filename}"
-    sed -i 's/stroke="black"/stroke="${color}"/g' "${filename}"
+    sed -i 's/fill="black"/fill="{color}"/g' "${filename}"
+    sed -i 's/stroke="black"/stroke="{color}"/g' "${filename}"
   done
 
   #############################

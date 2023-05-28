@@ -5,23 +5,7 @@
   export let strokeWidth = "1.5"
   export let color="currentColor";
   export let variation: "solid" | "outline" = "outline";
-  let viewBox: string;
-  let svgpath: string;
-  let svgoutline = `replace_svg_outline`;
-  let svgsolid = `replace_svg_solid`;
-  $: switch (variation) {
-		case 'outline':
-			svgpath = svgoutline;
-			viewBox = '0 0 24 24';
-			break;
-		case 'solid':
-			svgpath = svgsolid;
-			viewBox = '0 0 24 24';
-			break;
-		default:
-			svgpath = svgoutline;
-			viewBox = '0 0 24 24';
-	}
+  export let viewBox: string = '0 0 24 24';
 </script>
 
 <svg
@@ -41,5 +25,9 @@
   on:blur
   on:focus
 >
-  {@html svgpath}
+{#if variation === 'outline'}
+  replace_svg_outline
+{:else}
+  replace_svg_solid
+{/if}
 </svg>
