@@ -21,7 +21,7 @@ fn_modify_svg() {
 
   bannerColor "Inserting script tag to all files." "magenta" "*"
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="16"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/ {...$$restProps} aria-label={ariaLabel} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.* >/dev/null 2>&1
+  sed -i '1s/^/<script>export let size="16"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/ {...$$restProps} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.* >/dev/null 2>&1
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -78,6 +78,11 @@ fn_tabler() {
   #############################
   cd "${CURRENTDIR}" || exit 1
 
+  # Add component doc
+  for file in ./*.*; do
+    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-tabler.codewithshin.com/)\n## Props\n@prop size = '16';\n@prop color = 'currentColor';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+  done
+  
   bannerColor 'Creating index.js file.' "blue" "*"
 
   find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{

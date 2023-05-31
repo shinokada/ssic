@@ -58,7 +58,7 @@ fn_ion() {
   sed -i 's/<?xml version="1.0" encoding="utf-8"?>//' ./*.*
 
   # Change viewBox="0 0 512 512" to viewBox="0 0 512 512" width={size} height={size} class={$$props.class}
-  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} width={size} height={size} fill={color} class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus /' ./*.*
+  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} width={size} height={size} fill={color} class={$$props.class} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
 
   # remove  width="512" and height="512"
   sed -i 's/width="512"//' ./*.*
@@ -75,6 +75,11 @@ fn_ion() {
 
   # Insert script tag at the beginning and insert class={className} and viewBox
   sed -i '1s/^/<script>export let size="24"; export let color="currentColor"<\/script>/' ./*.*
+
+  # Add component doc
+  for file in ./*.*; do
+    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-flag-icons.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop color = 'currentColor';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+  done
 
   bannerColor 'Modification is done in outline dir.' "green" "*"
 

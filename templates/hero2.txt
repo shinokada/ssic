@@ -18,12 +18,14 @@
   {viewBox}
   stroke-width={strokeWidth}
   on:click
+  on:keydown
+  on:keyup
+  on:focus
+  on:blur
   on:mouseenter
   on:mouseleave
   on:mouseover
   on:mouseout
-  on:blur
-  on:focus
 >
 {#if variation === 'outline'}
   replace_svg_outline
@@ -31,3 +33,27 @@
   replace_svg_solid
 {/if}
 </svg>
+
+
+<!--
+  @component
+  [Go to Document](https://svelte-heros-v2.codewithshin.com/)
+
+  ## Props
+  @prop size = "24";
+  @prop strokeWidth = "1.5"
+  @prop color="currentColor";
+  @prop variation: "solid" | "outline" = "outline";
+  @prop viewBox: string = '0 0 24 24';
+  @prop ariaLabel = 'icon file name';
+  ## Event
+  - on:click
+  - on:keydown
+  - on:keyup
+  - on:focus
+  - on:blur
+  - on:mouseenter
+  - on:mouseleave
+  - on:mouseover
+  - on:mouseout
+-->

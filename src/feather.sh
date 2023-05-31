@@ -51,7 +51,12 @@ fn_feather() {
     sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.* 
 
     # Insert {...$$restprops} after stroke-linejoin="round" 
-    sed -i 's/stroke-linejoin="round"/& class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus /' ./*.*
+    sed -i 's/stroke-linejoin="round"/& class={$$props.class} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
+
+    # Add component doc
+    for file in ./*.*; do
+      echo -e "\n<!--\n@component\n[Go to Document](https://svelte-feathers.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop color = 'currentColor';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+    done
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 

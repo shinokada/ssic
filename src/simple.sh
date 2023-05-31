@@ -52,7 +52,12 @@ fn_simple() {
     sed -i '1s/^/<script>export let size="24"; export let color="#1877F2"<\/script>/' ./*.* && sed -i 's/xmlns/width={size} height={size} fill={color} &/' ./*.*
 
     # Insert {...$$restprops} before xmlns="http://www.w3.org/2000/svg"
-    sed -i 's/xmlns=/ class={$$props.class} on:click on:mouseenter on:mouseleave on:mouseover on:mouseout on:blur on:focus &/' ./*.*
+    sed -i 's/xmlns=/ class={$$props.class} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+
+    # Add component doc
+    for file in ./*.*; do
+      echo -e "\n<!--\n@component\n[Go to Document](https://svelte-simples.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop color = '#1877F2';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+    done
     
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
