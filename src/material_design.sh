@@ -5,7 +5,7 @@ fn_material() {
   GITURL="git@github.com:Templarian/MaterialDesign.git"
   DIRNAME='MaterialDesign'
   SVGDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-materialdesign-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/sveltekit-materialdesign-icons-new-2"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   
