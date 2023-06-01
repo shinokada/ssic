@@ -35,7 +35,7 @@ fn_circle_flags() {
   bannerColor 'Modifying all files.' "blue" "*"
 
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  sed -i '1s/^/<script>export let size="24"; export let role="img";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
 
   # Change from width="512" and height="512" to width={size} and height={size}
   sed -i 's/width="512"/width={size}/' ./*.*
@@ -67,7 +67,7 @@ fn_circle_flags() {
 
   # Add component doc
   for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-circle-flags.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-circle-flags.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
   done
 
 

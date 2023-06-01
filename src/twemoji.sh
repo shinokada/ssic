@@ -8,8 +8,8 @@ fn_modify_svg() {
   # pwd
   bannerColor "Modifying all files in ${SUBDIR}." "cyan" "*"
 
-  # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="36";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  # inserting script tag at the beginning and insert width={size} height={size}
+  sed -i '1s/^/<script>export let size="36"; export let role="img";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -78,7 +78,7 @@ fn_twemoji() {
 
   # Add component doc
   for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-twitter-emoji.codewithshin.com/)\n## Props\n@prop size = '36';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-twitter-emoji.codewithshin.com/)\n## Props\n@prop size = '36';\n@prop role = 'img';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
   done
 
   bannerColor 'Creating index.js file.' "blue" "*"

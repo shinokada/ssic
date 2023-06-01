@@ -21,7 +21,7 @@ fn_modify_svg() {
 
   bannerColor "Inserting script tag to all files." "magenta" "*"
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script lang="ts">export let size="15"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/ class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  sed -i '1s/^/<script lang="ts">export let size="15"; export let role="img"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/ {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
 
   bannerColor "Getting file names in ${SUBDIR}." "blue" "*"
   # get textname from filename
@@ -79,7 +79,7 @@ fn_radix() {
 
   # Add component doc
   for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-radix.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop color = 'currentColor';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-radix.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop color = 'currentColor';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
   done
 
   bannerColor 'Creating index.js file.' "blue" "*"

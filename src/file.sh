@@ -28,13 +28,13 @@ fn_file() {
 
   # 1. replace width="any number or string" to width="{size}"
   # 2. replace height="any number or string" to height="{size}"
-  # 3. insert viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} before closeing first >
+  # 3. insert viewBox="0 0 512 512" fill={color} {...$$restProps} aria-label={ariaLabel} before closeing first >
   bannerColor 'Inserting to all files.' "blue" "*"
-  sed -i 's/width="[^"]*"/width="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/height="[^"]*"/height="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/>/ viewBox="0 0 512 512" fill={color} class={$$props.class} {...$$restProps} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.* >/dev/null 2>&1
+  sed -i 's/width="[^"]*"/width="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/height="[^"]*"/height="{size}"/g' ./*.* >/dev/null 2>&1 && sed -i 's/>/ viewBox="0 0 512 512" fill={color} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.* >/dev/null 2>&1
 
-  # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
+  # inserting script tag at the beginning and insert width={size} height={size} 
   # replacing from width to > with content
-  sed -i '1s/^/<script>export let size="24"; export let color="currentColor";<\/script>/' ./*.*
+  sed -i '1s/^/<script>export let size="24"; export let role = "img"; export let color="currentColor";<\/script>/' ./*.*
 
   # get textname from filename
   for filename in "${CURRENTDIR}"/*; do
@@ -68,7 +68,7 @@ fn_file() {
 
   # Add component doc
   for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-file-icons.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop ariaLabel = 'icon file name';\n@prop color = 'currentColor';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-file-icons.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop ariaLabel = 'icon file name';\n@prop color = 'currentColor';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
   done
 
   bannerColor 'Creating index.js file.' "blue" "*"
