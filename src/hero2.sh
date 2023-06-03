@@ -1,3 +1,21 @@
+fn_modify_mini(){
+  DIR=$1 #${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR} means lib dir
+  SUBDIR=$2 #src/20/solid
+
+  bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
+  cd "${DIR}/${SUBDIR}" || exit
+  # For each svelte file modify contents of all file
+  bannerColor "Modifying all files in ${SUBDIR}/solid." "cyan" "*"
+  for file in *; do
+      # delete the first and last lines to get <path ..../> part
+      SVGPATH=$(sed '1d; $d' "${file}")
+      # replace new line with space
+      SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
+
+      sed -i "s;replace_svg_mini;${SVGPATH};" "${DIR}/${file}"
+    done
+}
+
 fn_modify_svg() {
   DIR=$1
   SUBDIR=$2
@@ -27,6 +45,9 @@ fn_modify_svg() {
       sed -i "s;replace_svg_${SUBDIRNAME};${SVGPATH};" "${DIR}/${file}"
     done
   done
+
+  fn_modify_mini "${CURRENTDIR}" "${MINISVG}/solid"
+
   # remove src dir
   bannerColor "Removing src dir." "blue" "*"
   rm -rf "${CURRENTDIR:?}/src"
@@ -44,6 +65,7 @@ fn_modify_svg() {
   bannerColor "Added fill=none before viewBox=0 0 24 24." "green" "*"
 
 }
+
 
 fn_modify_filenames() {
   CURRENTDIR=$1
@@ -68,6 +90,9 @@ fn_modify_filenames() {
   bannerColor 'Modification is done in the dir.' "green" "*"
 }
 
+
+
+
 fn_hero2() {
   ################
   # This script creates all icons in src/lib directory.
@@ -76,6 +101,7 @@ fn_hero2() {
   GITURL="git@github.com:tailwindlabs/heroicons.git"
   DIRNAME='heroicons'
   SVGDIR='src/24'
+  MINISVG='src/20'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-heros-v2"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
@@ -95,12 +121,22 @@ fn_hero2() {
     exit 1
   }
 
+  # clone mini
+  bannerColor "Cloning mini." "green" "*"
+  npx tiged "${GITURL}/${MINISVG}" "${MINISVG}" >/dev/null 2>&1 || {
+    echo "not able to clone"
+    exit 1
+  }
+  
   # call fn_modify_svg to modify svg files and rename them and move file to lib dir
   fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
+
   # Move all files to lib dir
   # mv "${CURRENTDIR}/${SVGDIR}"/* "${CURRENTDIR}"
   fn_modify_filenames "${CURRENTDIR}"
 
+  # modify mini
+  # fn_modify_mini "${CURRENTDIR}" "${MINISVG}/solid"
   #############################
   #    INDEX.JS PART 1 IMPORT #
   #############################
@@ -115,8 +151,8 @@ fn_hero2() {
   bannerColor 'Added export to index.js file.' "green" "*"
 
   # clean up
-  rm -rf "${CURRENTDIR}/${DIRNAME}"
-  rm -rf "${CURRENTDIR}/${SVGDIR}"
+  # rm -rf "${CURRENTDIR}/${DIRNAME}"
+  # rm -rf "${CURRENTDIR}/${SVGDIR}"
 
   bannerColor 'All done.' "green" "*"
 

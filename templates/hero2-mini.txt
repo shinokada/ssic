@@ -1,29 +1,21 @@
 <script lang="ts">
   // https://github.com/shinokada/svelte-heros-v2
-  // heroicons v2.0.18
-  export let size = "24";
-  export let viewBox: string = '0 0 24 24';
+  // heroicons v2.0.10
+  export let size = "20";
   export let role = "img";
-  export let strokeWidth = "1.5"
-  export let color="currentColor";
-  export let variation: "solid" | "outline" | "mini"= "outline";
-
-  if(variation === "mini"){
-    size = "20"
-    viewBox = '0 0 20 20'
-  }
-  
+  export let color="#0F172A";
+  export let viewBox: string = '0 0 20 20';
 </script>
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
   width={size}
   height={size}
+  fill="none"
   {...$$restProps}
   {role}
   aria-label={ariaLabel}
   {viewBox}
-  stroke-width={strokeWidth}
   on:click
   on:keydown
   on:keyup
@@ -34,13 +26,7 @@
   on:mouseover
   on:mouseout
 >
-{#if variation === 'outline'}
-  replace_svg_outline
-{:else if variation === 'mini'}
   replace_svg_mini
-{:else}
-  replace_svg_solid
-{/if}
 </svg>
 
 
@@ -49,12 +35,10 @@
   [Go to Document](https://svelte-heros-v2.codewithshin.com/)
 
   ## Props
-  @prop size = "24";
-  @prop viewBox: string = '0 0 24 24';
+  @prop size = "20";
   @prop role = "img";
-  @prop strokeWidth = "1.5"
-  @prop color="currentColor";
-  @prop variation: "solid" | "outline" | "mini"= "outline";
+  @prop color="#0F172A";
+  @prop viewBox: string = '0 0 20 20';
   @prop ariaLabel = 'icon file name';
   ## Event
   - on:click
