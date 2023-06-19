@@ -59,6 +59,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/awesome_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
     . "${script_dir}/lib/bootstrap_definition.sh"
+    . "${script_dir}/lib/boxicons_definition.sh"
     . "${script_dir}/lib/circle_flags_definition.sh"
     . "${script_dir}/lib/crypto_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
@@ -132,6 +133,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/bootstrap.sh"
         fn_bootstrap "$@"
+        ;;
+    box)
+        eval "$(getoptions parser_definition_boxicons parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/boxicons.sh"
+        fn_boxicons "$@"
         ;;
     circle-flags)
         eval "$(getoptions parser_definition_circle_flags parse "$0")"

@@ -11,6 +11,7 @@ parser_definition() {
     cmd ant -- "Create Ant Design icons."
     cmd awesome -- "Create Awesome icons."
     cmd bootstrap -- "Create Bootstrap files."
+    cmd box -- "Create Boxicons icons."
     cmd circle-flags -- "Create Circle-flags."
     cmd crypto -- "Create Crypto icons."
     cmd feather -- "Create Feathericons."
