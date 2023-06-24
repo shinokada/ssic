@@ -66,6 +66,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/file_definition.sh"
     . "${script_dir}/lib/flag_definition.sh"
     . "${script_dir}/lib/flagicons_definition.sh"
+    . "${script_dir}/lib/flowbite_definition.sh"
     . "${script_dir}/lib/getoptions.sh"
     . "${script_dir}/lib/google_material_design_definition.sh"
     . "${script_dir}/lib/hero_definition.sh"
@@ -189,6 +190,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/flag-icons.sh"
         fn_flagicons "$@"
+        ;;
+    flowbite)
+        eval "$(getoptions parser_definition_flowbite parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flowbite.sh"
+        fn_flowbite "$@"
         ;;
     google-material-design)
         eval "$(getoptions parser_definition_google_material_design parse "$0")"

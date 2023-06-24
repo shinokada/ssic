@@ -18,6 +18,7 @@ parser_definition() {
     cmd file -- "Create file-icons."
     cmd flag -- "Create country flag icons."
     cmd flag-icons -- "Create country flag icons from https://github.com/lipis/flag-icons/tree/main/flags/4x3."
+    cmd flowbite -- "Create Flowbite-icons"
     cmd hero -- "Create Heroicons v-1."
     cmd hero2 -- "Create Heroicons v-2."
     cmd ion -- "Create Ionicons."
