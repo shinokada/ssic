@@ -85,10 +85,9 @@ fn_modify_filenames() {
         sed -i '/<\/script>/i export let strokeWidth= "2";' "${filename}"
       fi
 
-      # if grep -q 'stroke="currentColor"' "${filename}"; then
-      #   # replace stroke-width="2" with stroke-width="{strokeWidth}"
-      #   sed -i 's/stroke="currentColor"/stroke="\{color\}"/g' "${filename}"
-      # fi
+      # replace fill="#xxxxxx", or any other css hex with fill="currentColor"
+      # sed -i 's/fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
+      sed -i 's/\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/\1="currentColor"/g' "${filename}"
 
     done
   }
