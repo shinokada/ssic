@@ -78,6 +78,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/radix_definition.sh"
     . "${script_dir}/lib/remix_definition.sh"
     . "${script_dir}/lib/simple_definition.sh"
+    . "${script_dir}/lib/supertiny_definition.sh"
     . "${script_dir}/lib/tabler_definition.sh"
     . "${script_dir}/lib/teeny_definition.sh"
     . "${script_dir}/lib/twemoji_definition.sh"
@@ -278,6 +279,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/simple.sh"
         fn_simple "$@"
+        ;;
+    supertiny)
+        eval "$(getoptions parser_definition_supertiny parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/supertiny.sh"
+        fn_supertiny "$@"
         ;;
     tabler)
         eval "$(getoptions parser_definition_tabler parse "$0")"

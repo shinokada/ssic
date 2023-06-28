@@ -29,6 +29,7 @@ parser_definition() {
     cmd radix -- "Create Radix-icons."
     cmd remix -- "Create Remixicons."
     cmd simple -- "Create Simple-icons."
+    cmd supertiny -- "Create SuperTinyIcons."
     cmd tabler -- "Create Tabler-icons."
     cmd teeny -- "Create Teeny-icons."
     cmd twemoji -- "Create Twemoji-icons."
