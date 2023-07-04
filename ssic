@@ -60,8 +60,11 @@ script_dir=${self%/*}
     . "${script_dir}/lib/bash_helpers.sh"
     . "${script_dir}/lib/bootstrap_definition.sh"
     . "${script_dir}/lib/boxicons_definition.sh"
+    . "${script_dir}/lib/css_definition.sh"
+    . "${script_dir}/lib/coreui_definition.sh"
     . "${script_dir}/lib/circle_flags_definition.sh"
     . "${script_dir}/lib/crypto_definition.sh"
+    . "${script_dir}/lib/evil_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
     . "${script_dir}/lib/file_definition.sh"
     . "${script_dir}/lib/flag_definition.sh"
@@ -144,6 +147,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/boxicons.sh"
         fn_boxicons "$@"
         ;;
+    css)
+        eval "$(getoptions parser_definition_css parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/css.sh"
+        fn_css "$@"
+        ;;
     circle-flags)
         eval "$(getoptions parser_definition_circle_flags parse "$0")"
         parse "$@"
@@ -152,6 +163,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/circle_flags.sh"
         fn_circle_flags "$@"
         ;;
+    coreui)
+        eval "$(getoptions parser_definition_coreui parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/coreui.sh"
+        fn_coreui "$@"
+        ;;
     crypto)
         eval "$(getoptions parser_definition_crypto parse "$0")"
         parse "$@"
@@ -159,6 +178,14 @@ if [ $# -gt 0 ]; then
         # shellcheck disable=SC1091
         . "${script_dir}/src/crypto.sh"
         fn_crypto "$@"
+        ;;
+    evil)
+        eval "$(getoptions parser_definition_evil parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/evil.sh"
+        fn_evil "$@"
         ;;
     feather)
         eval "$(getoptions parser_definition_feather parse "$0")"
