@@ -89,7 +89,8 @@ fn_modify_filenames() {
       # sed -i 's/fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
       # sed -i 's/\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/\1="currentColor"/g' "${filename}"
       # 
-      sed -i 's/fill="#000"\|\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
+      sed -i 's/fill="#000"\|fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
+      sed -i 's/stroke="#[0-9A-Fa-f]\{6\}"/stroke="currentColor"/g' "${filename}"
 
 
     done
