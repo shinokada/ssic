@@ -1,7 +1,7 @@
 <script lang="ts">
   export let size: string = "15";
   export let role: string = "img";
-  export let color: string = "black" 
+  export let color: string = "currentColor" 
   export let variation: "solid" | "outline" = "outline";
 </script>
 
