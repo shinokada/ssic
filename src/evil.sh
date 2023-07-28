@@ -66,7 +66,8 @@ fn_evil(){
 
   # copy 
   cp "${script_dir}/templates/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
-
+  target_value="\"50\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
   # create a index.js
   # Content to write in the index.js file
   content="export { default as Icon } from './Icon.svelte';

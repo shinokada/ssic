@@ -18,11 +18,23 @@ clone_repo(){
 }
 
 # Function to extract icon name from SVG file name
+# extract_icon_name() {
+#     local file_name=$(basename "$1")
+#     local icon_name="${file_name%.svg}"  # Remove the .svg extension
+
+#     if [ -n "$2" ]; then
+#         local prefix_to_remove="$2"
+#         echo "${icon_name#$prefix_to_remove}"  # Remove the specified prefix
+#     else
+#         echo "$icon_name"  # Return the original icon name if no prefix is provided
+#     fi
+# }
+
 extract_icon_name() {
     local file_name=$(basename "$1")
     local icon_name="${file_name%.svg}"  # Remove the .svg extension
 
-    local prefix_to_remove="$2"
+    local prefix_to_remove="${2:-}"
     echo "${icon_name#$prefix_to_remove}"  # Remove the specified prefix
 }
 

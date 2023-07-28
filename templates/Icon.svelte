@@ -2,8 +2,8 @@
   import icons from './icons.js'
 
   export let name;
-  export let width = "50";
-  export let height = "50";
+  export let width = replace_size;
+  export let height = replace_size;
   export let strokeWidth = '2';
   export let color = 'currentColor';
   export let role = 'img';
