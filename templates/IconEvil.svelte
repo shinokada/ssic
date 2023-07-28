@@ -7,7 +7,7 @@
   export let color = 'currentColor';
   export let role = 'img';
   export let ariaLabel = name;
-  
+
   $: displayIcon = icons[name]
 </script>
 <svg

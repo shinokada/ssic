@@ -65,9 +65,12 @@ fn_evil(){
   # end of modifying icons.js
 
   # copy 
-  cp "${script_dir}/templates/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/templates/IconEvil.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 50
   target_value="\"50\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name with svelte-evil-icons
+  sed -i "s/replace_name/svelte-evil-icons/g" Icon.svelte
   # create a index.js
   # Content to write in the index.js file
   content="export { default as Icon } from './Icon.svelte';

@@ -33,11 +33,11 @@ viewBox="0 0 {displayIcon.box} {displayIcon.box}"
 
 <!--
 @component
-[Go to Document](https://shinokada.github.io/svelte-evil-icons/)
+[Go to Document](https://shinokada.github.io/replace-name/)
 ## Props
 @prop name;
-@prop width = '50';
-@prop height = '50';
+@prop width = replace_size;
+@prop height = replace_size;
 @prop role = 'img';
 @prop ariaLabel='icon name'
 ## Event
