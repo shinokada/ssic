@@ -1,10 +1,44 @@
+# clone repo
+clone_repo(){
+  # $1 CURRENTDIR   
+  # $2 DIRNAME
+  # $3 GITURL
+  if [ -d "${CURRENTDIR}" ]; then
+    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
+    rm -rf "${CURRENTDIR:?}/"
+  fi
+  mkdir -p "${CURRENTDIR}"
+  cd "${CURRENTDIR}" || exit 1
+  # clone the repo
+  bannerColor "Cloning ${DIRNAME}." "green" "*"
+  npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
+    echo "not able to clone"
+    exit 1
+  }
+}
+
+# Function to extract icon name from SVG file name
+extract_icon_name() {
+    local file_name=$(basename "$1")
+    local icon_name="${file_name%.svg}"  # Remove the .svg extension
+
+    local prefix_to_remove="$2"
+    echo "${icon_name#$prefix_to_remove}"  # Remove the specified prefix
+}
+
+# Function to extract path data from SVG file
+extract_svg_path() {
+  SVGPATH=$(tr '\n' ' ' < "$1" | sed 's/<svg[^>]*>//g; s/<\/svg>//g')
+  echo "$SVGPATH"
+}
+
 check_cmd() {
-    if [ ! "$(command -v "$1")" ]; then
-        app=$1
-        redprint "It seems like you don't have ${app}."
-        redprint "Please install ${app}."
-        exit 1
-    fi
+  if [ ! "$(command -v "$1")" ]; then
+      app=$1
+      redprint "It seems like you don't have ${app}."
+      redprint "Please install ${app}."
+      exit 1
+  fi
 }
 
 # bash version check

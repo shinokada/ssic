@@ -20,7 +20,7 @@ fn_modify_svg() {
         cp "${script_dir}/templates/boxicon.txt" "${CURRENTDIR}/${file}"
       fi
       # remove the \n with a space first then remove both the opening and closing SVG tags
-      SVGPATH=$(tr '\n' ' ' < "$file" | sed 's/<svg[^>]*>//g; s/<\/svg>//g')
+       
       sed -i "s;replace_svg;${SVGPATH};" "${CURRENTDIR}/${file}"
     done
   done
