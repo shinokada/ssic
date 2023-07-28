@@ -12,7 +12,7 @@ fn_supertiny(){
   
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-# Loop through all SVG files in the current directory
+  # Loop through all SVG files in the current directory
   for svg_file in *.svg; do
     # Extract the icon name and remove the 'ei-' prefix
     icon_name=$(extract_icon_name "$svg_file")
