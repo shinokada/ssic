@@ -1,40 +1,3 @@
-fn_modify_svg() {
-
-  bannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
-  cd "${CURRENTDIR}" || exit
-
-  # rename files with number at the beginning with A
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-  ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
-
-  for filename in "${CURRENTDIR}"/*; do
-    # replace role="img" with {role}
-    sed -i 's/role="img"/\{role\}/' "$filename"
-    # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>export let size="24";export let role="img";<\/script>/' "$filename"
-    sed -i 's/viewBox=/ width="{size}" height="{size}" {...$$restProps} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' "$filename"
-  
-    # Add component doc
-    echo -e "\n<!--\n@component\n[Go to Document](https://shinokada.github.io/svelte-supertiny/)\n## Props\n@prop size = '24';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$filename"
-
-    FILENAMEONE=$(basename "${filename}" .svelte | tr '[:upper:]' '[:lower:]') 
-    # replace id="a" with fill id="file-name"
-    sed -i "s/id=\"a\"/id=\"${FILENAMEONE}\"/" "${filename}"
-    # replace fill="url(#a)" with fill="url(#file-name)"
-    sed -i "s/fill=\"url(#a)\"/fill=\"url(#${FILENAMEONE})\"/" "${filename}"
-
-    FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
-    # Capitalize the first letter
-    new_name=$(echo "${FILENAMEONE^}")
-    # Capitalize the letter after -
-    new_name=$(echo "$new_name" | sed 's/-./\U&/g')
-    # Remove all -
-    new_name=$(echo "$new_name" | sed 's/-//g')
-  done
-  
-  bannerColor 'Modification is done in the dir.' "green" "*"
-}
-
 fn_supertiny(){
   ################
   # This script creates all icons in src/lib directory.
@@ -45,36 +8,83 @@ fn_supertiny(){
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-supertiny"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+  file_name="icons.js"
+  
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  # clone from github
-  # if there is the svg files, remove it
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"
-  fi
-  mkdir -p "${CURRENTDIR}"
-  cd "${CURRENTDIR}" || exit 1
-  # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+# Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # Extract the icon name and remove the 'ei-' prefix
+    icon_name=$(extract_icon_name "$svg_file")
 
-  # call fn_modify_svg to modify svg files and rename them and move file to lib dir
-  fn_modify_svg 
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
 
-  #############################
-  #    INDEX.JS PART 1 IMPORT #
-  #############################
-  cd "${CURRENTDIR}" || exit 1
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { box: 512, svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 512, svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
 
-  bannerColor 'Creating index.js file.' "blue" "*"
+    # replace fill="currentColor" with fill={color}"
+    sed -i "s|currentColor|\{color\}|g" "$file_name"
 
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-    }' >index.js
+  done
 
-  bannerColor 'Added export to index.js file.' "green" "*"
-  bannerColor 'All icons are created in the src/lib directory.' 'magenta' '='
+   # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
+
+  # Contents to be added at the end
+  end_content="export default icons;"
+
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
+
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
+
+  # copy 
+  cp "${script_dir}/templates/IconSuper.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 512
+  target_value="\"512\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
+
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
+  
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
+
+  bannerColor 'Done.' "green" "*"
 }

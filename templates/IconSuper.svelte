@@ -4,8 +4,6 @@
   export let name;
   export let width = replace_size;
   export let height = replace_size;
-  export let strokeWidth = '2';
-  export let color = 'currentColor';
   export let role = 'img';
   export let ariaLabel = name;
 
@@ -16,12 +14,8 @@ xmlns="http://www.w3.org/2000/svg"
 class={$$props.class}
 {width}
 {height}
-fill={color}
 {role}
 aria-label={ariaLabel}
-stroke-linecap="round"
-stroke-linejoin="round"
-stroke-width={strokeWidth}
 {...$$restProps}
 on:click
 on:keydown
@@ -44,9 +38,7 @@ viewBox="0 0 {displayIcon.box} {displayIcon.box}"
 @prop name;
 @prop width = '50';
 @prop height = '50';
-@prop strokeWidth = '2';
 @prop role = 'img';
-@prop color = 'currentColor'
 @prop ariaLabel='icon name'
 ## Event
 - on:click

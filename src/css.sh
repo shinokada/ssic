@@ -9,20 +9,7 @@ fn_css(){
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   file_name="icons.js"
-  # clone from github
-  # if there is the svg files, remove it
-  # if [ -d "${CURRENTDIR}" ]; then
-  #   bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-  #   rm -rf "${CURRENTDIR:?}/"
-  # fi
-  # mkdir -p "${CURRENTDIR}"
-  # cd "${CURRENTDIR}" || exit 1
-  # # clone the repo
-  # bannerColor "Cloning ${DIRNAME}." "green" "*"
-  # npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
-  #   echo "not able to clone"
-  #   exit 1
-  # }
+
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
   # Loop through all SVG files in the current directory
