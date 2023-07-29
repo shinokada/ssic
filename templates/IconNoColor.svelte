@@ -4,17 +4,15 @@
   export let name;
   export let width = replace_size;
   export let height = replace_size;
-  export let color = 'currentColor';
   export let role = 'img';
   export let ariaLabel = name;
-
+  
   $: displayIcon = icons[name]
 </script>
 <svg
 xmlns="http://www.w3.org/2000/svg"
 {width}
 {height}
-fill={color}
 {role}
 aria-label={ariaLabel}
 {...$$restProps}
@@ -41,7 +39,6 @@ viewBox="0 0 {displayIcon.box} {displayIcon.box}"
 @prop width = replace_size;
 @prop height = replace_size;
 @prop role = 'img';
-@prop color = 'currentColor'
 @prop ariaLabel='icon name'
 ## Event
 - on:click

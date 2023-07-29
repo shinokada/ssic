@@ -3,25 +3,14 @@ fn_circle_flags() {
   # This script creates all icons in src/lib directory.
   ######################
   GITURL="https://github.com/HatScripts/circle-flags"
-  DIRNAME='circle-flags'
+  DIRNAME='flags'
   SVGDIR='flags'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-circle-flags"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-  # clone from github
-  cd "${CURRENTDIR}" || exit 1
-  # if there is the svgs, remove it
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir from ${CURRENTDIR}." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"*
-  fi
+  file_name="icons.js"
 
-  # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged -f "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
   # remove all directories
   bannerColor "Deleting language and fictional dir" "red" "*"
@@ -31,59 +20,81 @@ fn_circle_flags() {
   bannerColor "Deleting all symlinks" "red" "*"
   find "${CURRENTDIR}" -type l -exec rm {} \;
 
-  # For each svg file modify contents by
-  bannerColor 'Modifying all files.' "blue" "*"
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # Extract the icon name and remove the 'ei-' prefix
+    icon_name=$(extract_icon_name "$svg_file")
 
-  # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24"; export let role="img";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
 
-  # Change from width="512" and height="512" to width={size} and height={size}
-  sed -i 's/width="512"/width={size}/' ./*.*
-  sed -i 's/height="512"/height={size}/' ./*.*
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { box: 512, svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 512, svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
 
-  # get textname from filename
-  for filename in "${CURRENTDIR}"/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"flag of ${FILENAME}\" &;" "${filename}"
+    # replace fill="currentColor" with fill={color}"
+    # sed -i "s|currentColor|\{color\}|g" "$file_name"
+
   done
 
-  #  modify file names
-  bannerColor 'Renaming all files in the dir.' "blue" "*"
+  # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
 
-  # rename files with number at the beginning with A
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-    ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte"
-  }ge' ./*.svg >/dev/null 2>&1
+  # Contents to be added at the end
+  end_content="export default icons;"
 
-  bannerColor 'Renaming is done.' "green" "*"
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
 
-  bannerColor 'Modification is done in the dir.' "green" "*"
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
 
-  #############################
-  #    INDEX.JS PART 1 IMPORT #
-  #############################
-  cd "${CURRENTDIR}" || exit 1
+  # copy 
+  cp "${script_dir}/templates/IconNoColor.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 512
+  target_value="\"512\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name with svelte-cssgg-icons
+  sed -i "s/replace_name/svelte-cssgg-icons/g" Icon.svelte
 
-  # Add component doc
-  for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-circle-flags.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop ariaLabel = 'icon file name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
-  done
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
 
-
-  bannerColor 'Creating index.js file.' "blue" "*"
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
   
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-  print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-  }' >index.js
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
 
-  bannerColor 'Added export to index.js file.' "green" "*"
-
-  # clean up
-  rm -rf "${CURRENTDIR}/${DIRNAME}"
-  rm -rf "${CURRENTDIR}/${SVGDIR}"
-
-  bannerColor 'All done.' "green" "*"
-
-  bannerColor 'All icons are created in the src/lib directory.' 'magenta' '='
+  bannerColor 'Done.' "green" "*"
 }
