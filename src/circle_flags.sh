@@ -80,8 +80,8 @@ fn_circle_flags() {
   # replace replace_size with 512
   target_value="\"512\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-cssgg-icons
-  sed -i "s/replace_name/svelte-cssgg-icons/g" Icon.svelte
+  # replace replace_name with svelte-circle-flags
+  sed -i "s/replace_name/svelte-circle-flags/g" Icon.svelte
 
   # create a index.js
   # Content to write in the index.js file

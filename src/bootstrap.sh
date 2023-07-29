@@ -12,10 +12,6 @@ fn_bootstrap() {
   
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  # call fn_modify_svg to modify svg files and rename them and move file to lib dir
-  # fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
-  # Move all files to lib dir
-  # mv "${CURRENTDIR}/${SVGDIR}"/* "${CURRENTDIR}"
   # Loop through all SVG files in the current directory
   for svg_file in *.svg; do
     # Extract the icon name and remove the 'ei-' prefix
@@ -50,7 +46,7 @@ fn_bootstrap() {
 
   done
 
-   # modify icons.js
+  # modify icons.js
   # Contents to be added at the beginning
   start_content="const icons ="
 
@@ -77,7 +73,7 @@ fn_bootstrap() {
   target_value="\"16\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
   # replace replace_name with svelte-bootstrap-svg-icons
-  sed -i "s/replace-name/svelte-bootstrap-svg-icons/g" Icon.svelte
+  sed -i "s/replace_name/svelte-bootstrap-svg-icons/g" Icon.svelte
 
   # create a index.js
   # Content to write in the index.js file

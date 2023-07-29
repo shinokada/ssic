@@ -72,8 +72,8 @@ fn_supertiny(){
   # replace replace_size with 512
   target_value="\"512\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-cssgg-icons
-  sed -i "s/replace-name/svelte-supertiny/g" Icon.svelte
+  # replace replace_name with svelte-supertiny
+  sed -i "s/replace_name/svelte-supertiny/g" Icon.svelte
 
   # create a index.js
   # Content to write in the index.js file
