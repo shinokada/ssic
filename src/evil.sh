@@ -4,7 +4,6 @@ fn_evil(){
   ######################
   GITURL="https://github.com/evil-icons/evil-icons"
   DIRNAME='assets/icons'
-  SVGDIR='svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-evil-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"

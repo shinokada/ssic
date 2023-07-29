@@ -4,7 +4,6 @@ fn_supertiny(){
   ######################
   GITURL="https://github.com/edent/SuperTinyIcons"
   DIRNAME='images/svg'
-  SVGDIR='svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-supertiny"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"

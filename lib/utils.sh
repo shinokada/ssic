@@ -44,6 +44,21 @@ extract_svg_path() {
   echo "$SVGPATH"
 }
 
+# Function to extract width and height values from SVG code
+extract_width_height() {
+    # Get the first line of the SVG file
+    first_line=$(head -n 1 "$1")
+
+    # Use regular expressions to extract width and height values
+    if [[ $first_line =~ width=\"([0-9]+)px\" ]]; then
+        width="${BASH_REMATCH[1]}"
+    fi
+
+    if [[ $first_line =~ height=\"([0-9]+)px\" ]]; then
+        height="${BASH_REMATCH[1]}"
+    fi
+}
+
 check_cmd() {
   if [ ! "$(command -v "$1")" ]; then
       app=$1
