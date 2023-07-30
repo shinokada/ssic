@@ -1,100 +1,93 @@
 fn_ion() {
-  ###########################################################
-  # This script creates ionicons.
-  ###########################################################
   GITURL="git@github.com:ionic-team/ionicons.git"
-  DIRNAME='ionicons'
-  SUBDIR='src'
-  ICONDIR='svg'
+  DIRNAME='src/svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ionicons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-  # clone icons from github
-  cd "${CURRENTDIR}" || exit 1
-  # remove files from src/lib
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"
-  fi
-  mkdir -p "${CURRENTDIR}"
-  cd "${CURRENTDIR}" || exit 1
+  file_name="icons.js"
 
-  # clone it
-  bannerColor 'Cloning the repo.' "green" "*"
-  git clone "${GITURL}" || {
-    echo "not able to clone"
-    exit 1
-  }
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  # move to the icon dir to the root dir
-  bannerColor 'Moving icons dir to the root.' "green" "*"
-  if [ -d "${CURRENTDIR}/${ICONDIR}" ]; then
-    bannerColor 'Removing the previous icons dir.' "blue" "*"
-    rm -rf "${CURRENTDIR}/${ICONDIR}"
-  fi
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # Extract the icon name and remove the 'ei-' prefix
+    icon_name=$(extract_icon_name "$svg_file")
 
-  mv "${CURRENTDIR}/${DIRNAME}/${SUBDIR}/${ICONDIR}" "${CURRENTDIR}"
+    # replace fill="none" with fill="{color}"
+    # sed -i "s|fill=\"none\"|fill=\"\{color\}\"|g" "$svg_file"
+    # Change stroke:#000 to currentColor:
+    sed -i 's/stroke:#000/stroke:currentColor/g' "$svg_file"
+    # change stroke="#000" to stroke="current"
+    sed -i 's/stroke="#000"/stroke="currentColor"/g' "$svg_file"
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
 
-  #########################
-  #        ICONS      #
-  #########################
-  bannerColor 'Changing dir to icons dir' "blue" "*"
-  cd "${CURRENTDIR}/${ICONDIR}" || exit
 
-  bannerColor 'Removing all files starting with a number.' "blue" "*"
-  find . -type f -name "[0-9]*" -exec rm {} \;
-  bannerColor 'Done.' "green" "*"
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        # new_entry=", '$icon_name': { box: 512, svg: '$path_data' }"
+        new_entry=", '$icon_name': { box: 512, svg: '$path_data' }"
 
-  #  modify file names
-  bannerColor 'Renaming all files in outline dir.' "blue" "*"
-  # in heroicons/outline rename file names
-  rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/.svelte/' -- *.svg >/dev/null 2>&1
-  bannerColor 'Renaming is done.' "green" "*"
-
-  # For each svelte file modify contents of all file
-  bannerColor 'Modifying all files.' "blue" "*"
-
-  # remove <?xml version="1.0" encoding="utf-8"?>
-  sed -i 's/<?xml version="1.0" encoding="utf-8"?>//' ./*.*
-
-  # Change viewBox="0 0 512 512" to viewBox="0 0 512 512" width={size} height={size} class={$$props.class}
-  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} {role} width={size} height={size} fill={color} class={$$props.class} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
-
-  # remove  width="512" and height="512"
-  sed -i 's/width="512"//' ./*.*
-  sed -i 's/height="512"//' ./*.*
-
-  # remove title>ionicons-v5-a</title>
-  sed -i 's|<title>ionicons-v5-a</title>||' ./*.*
-
-  # remove fill="currentColor"
-  sed -i 's/fill="currentColor"//g' ./*.*
-
-  # Change stroke:#000 to stroke:{color}
-  sed -i 's/stroke:#000/stroke:{color}/g' ./*.*
-
-  # Insert script tag at the beginning and insert class={className} and viewBox
-  sed -i '1s/^/<script>export let size="24"; export let role="img"; export let color="currentColor"<\/script>/' ./*.*
-
-  # Add component doc
-  for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-flag-icons.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop color = 'currentColor';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"    
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 512, svg: '$path_data' }, }" > "$file_name"
+        # echo "{ '$icon_name': { box: 512, svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
   done
 
-  bannerColor 'Modification is done in outline dir.' "green" "*"
+   # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
 
-  bannerColor 'Creating index.js file.' "blue" "*"
+  # Contents to be added at the end
+  end_content="export default icons;"
+
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
+
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
+
+  # copy 
+  cp "${script_dir}/templates/IconEvil.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 24
+  target_value="\"24\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name with svelte-ionicons
+  sed -i "s/replace_name/svelte-ionicons/g" Icon.svelte
+
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
+
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
   
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-  }' >index.js
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
 
-  bannerColor 'Added export to index.js file.' "green" "*"
-
-  # Move all files to lib dir
-  mv ./* "${CURRENTDIR}"
-  # remove svg and ionicons dir
-  rm -rf ./* "${CURRENTDIR}/svg" "${CURRENTDIR}/ionicons" || exit 1
-
-  bannerColor 'All done.' "green" "*"
+  bannerColor 'Done.' "green" "*"
 }

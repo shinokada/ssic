@@ -1,90 +1,89 @@
 fn_lucide() {
-    ###########################################################
-    # This script creates lucide-icons. 
-    ###########################################################
     GITURL="git@github.com:lucide-icons/lucide.git"
     tiged='lucide-icons/lucide/icons'
-    DIRNAME='lucide'
-    ICONDIR='icons'
+    DIRNAME='icons'
     LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-lucide"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+    file_name="icons.js"
+  
+    clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-    if [ ! -d ${CURRENTDIR} ]; then
-      mkdir ${CURRENTDIR} || exit 1
+    # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # Extract the icon name and remove the 'ei-' prefix
+    icon_name=$(extract_icon_name "$svg_file")
+
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
+
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { box: 24, svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 24, svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
     else
-      bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
-      rm -rf "${CURRENTDIR:?}/"
-      # create a new
-      mkdir -p "${CURRENTDIR}"
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
     fi
 
-    cd "${CURRENTDIR}" || exit 1
-    # clone the repo
-    bannerColor "Cloning ${DIRNAME}." "green" "*"
-    npx tiged "${tiged}" >/dev/null 2>&1 || {
-      echo "not able to clone"
-      exit 1
-    }
+    # replace fill="currentColor" with fill={color}"
+    sed -i "s|currentColor|\{color\}|g" "$file_name"
 
-    bannerColor 'Remove all json files.' "blue" "*"
-    if ls *.json &> /dev/null; then
-      echo "Directory contains JSON files."
-      bannerColor 'Directory contains JSON files. Removing them ...' "blue" "*"
-      rm *.json
-      bannerColor 'Removed.' "green" "*"
-    else
-      bannerColor 'Directory does not contain any JSON files.' "blue" "*"
-    fi
+  done
 
-    
-    ######################### 
-    #        ICONS      #
-    #########################
-    bannerColor 'Changing dir to icons dir' "blue" "*"
-    cd "${CURRENTDIR}" || exit
+  # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
 
-    bannerColor 'Removing all files starting with a number.' "blue" "*"
-    find . -type f -name "[0-9]*"  -exec rm {} \;
-    bannerColor 'Done.' "green" "*"
-    
-    #  modify file names
-    bannerColor 'Renaming all files in outline dir.' "blue" "*"
-    # in heroicons/outline rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/.svelte/' -- *.svg  > /dev/null 2>&1
-    bannerColor 'Renaming is done.' "green" "*"
+  # Contents to be added at the end
+  end_content="export default icons;"
 
-    # For each svelte file modify contents of all file
-    bannerColor 'Modifying all files.' "blue" "*"
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
 
-    # Change from width="24" and height="24" to width={size} and height={size}
-    sed -i 's/width="24"/width={size}/' ./*.*
-    sed -i 's/height="24"/height={size}/' ./*.*
-    # stroke-width="2" to stroke-width={strokeWidth}
-    sed -i 's/stroke-width="2"/stroke-width=\{strokeWidth\}/' ./*.*
-    # Change stroke="currentColor" to stroke={color}
-    sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
 
-    # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let size="24"; export let role ="img"; export let color="currentColor"; export let strokeWidth="2"<\/script>/' ./*.* 
+  # copy 
+  cp "${script_dir}/templates/IconStroke.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 24
+  target_value="\"24\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name with svelte-file-icons
+  sed -i "s/replace_name/svelte-file-icons/g" Icon.svelte
 
-    # Insert {...$$restprops} after stroke-linejoin="round" 
-    sed -i 's/stroke-linejoin="round"/& {...$$restProps} {role} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
 
-    # Add component doc
-    for file in ./*.*; do
-      echo -e "\n<!--\n@component\n[Go to Document](https://svelte-lucide.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop color = 'currentColor';\n@prop strokeWidth = '2';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
-    done
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
+  
+  # cleanup
+  # remove all svg and json files
+  find . -type f \( -name "*.svg" -o -name "*.json" \) -exec rm {} \;
 
-    bannerColor 'Modification is done in outline dir.' "green" "*"
-
-    bannerColor 'Creating index.js file.' "blue" "*"
-    
-    find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-    }' >index.js
-
-    bannerColor 'Added export to index.js file.' "green" "*"
-    
-    bannerColor 'All done.' "green" "*"
+  bannerColor 'Done.' "green" "*"
 }
