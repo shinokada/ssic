@@ -1,78 +1,95 @@
 fn_simple() {
-    ###########################################################
-    # This script creates simple-icons. 
-    ###########################################################
     GITURL="git@github.com:simple-icons/simple-icons.git"
-    tiged='simple-icons/simple-icons/icons'
-    DIRNAME='simple-icons'
-    ICONDIR='icons'
-    SVELTE_LIB_DIR='src/lib'
+    DIRNAME='icons'
     LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-simples"
+    SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+    file_name="icons.js"
+    file_name_a_m="icons1.js"
+    file_name_n_z="icons2.js"
     
-    if [ ! -d ${CURRENTDIR} ]; then
-      mkdir ${CURRENTDIR} || exit 1
+    clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
+
+    # Loop through all SVG files in the current directory
+    for svg_file in *.svg; do
+    # remove fill="currentColor"
+    # sed -i "s|fill=\"currentColor\"||g" "$svg_file"
+    # replace fill="none" with fill={color}"
+    # sed -i "s|fill=\"none\"|fill=\{color\}|g" "$svg_file"
+    # remove title
+    sed -i 's/<title>.*<\/title>//g' "$svg_file"
+    # Extract the icon name and remove the prefix/suffix
+    icon_name=$(extract_icon_name "$svg_file")
+
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
+
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # check if the first character is a-m
+      # if so use file_name_a_m else file_name_n_z
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { box: 24, svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 24, svg: '$path_data' }, }" > "$file_name"
+
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
     else
-      bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
-      rm -rf "${CURRENTDIR:?}/"
-      # create a new
-      mkdir -p "${CURRENTDIR}"
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
     fi
-    
-    cd "${CURRENTDIR}" || exit 1
 
-    # clone it
-    # clone the repo
-    bannerColor "Cloning ${DIRNAME}." "green" "*"
-    npx tiged "${tiged}" >/dev/null 2>&1 || {
-      echo "not able to clone"
-      exit 1
-    }
+  done
 
-    ######################### 
-    #        ICONS      #
-    #########################
-    bannerColor 'Changing dir to icons dir' "blue" "*"
-    cd "${CURRENTDIR}" || exit
+  # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
 
-    bannerColor 'Removing all files starting with a number.' "blue" "*"
-    find . -type f -name "[0-9]*"  -exec rm {} \;
-    bannerColor 'Done.' "green" "*"
-    
-    #  modify file names
-    bannerColor 'Renaming all files in the dir.' "blue" "*"
-    # rename file names 
-    rename -v 's/./\U$&/;s/-(.)/\U$1/g;s/\.svg$/.svelte/' -- *.svg  > /dev/null 2>&1
-    bannerColor 'Renaming is done.' "green" "*"
+  # Contents to be added at the end
+  end_content="export default icons;"
 
-    # removing width="24" height="24"
-    sed -i 's/role="img"//' ./*.*
-    
-    # For each svelte file modify contents of all file
-    bannerColor 'Modifying all files.' "blue" "*"
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
 
-    # Insert script tag at the beginning and insert width={size} height={size} 
-    sed -i '1s/^/<script>export let size="24"; export let role="img"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/xmlns/width={size} height={size} fill={color} &/' ./*.*
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
 
-    # Insert {...$$restprops} before xmlns="http://www.w3.org/2000/svg"
-    sed -i 's/xmlns=/ {...$$restProps} {role} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  # copy 
+  cp "${script_dir}/templates/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 24
+  target_value="\"24\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name with svelte-radix
+  sed -i "s/replace_name/svelte-simples/g" Icon.svelte
 
-    # Add component doc
-    for file in ./*.*; do
-      echo -e "\n<!--\n@component\n[Go to Document](https://svelte-simples.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop color = '#1877F2';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
-    done
-    
-    bannerColor 'Modification is done in outline dir.' "green" "*"
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
 
-    bannerColor 'Creating index.js file.' "blue" "*"
-    
-    find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-      print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-    }' >index.js
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
+  
+  # cleanup
+  # remove all svg and json files
+  find . -type f \( -name "*.svg" -o -name "*.json" \) -exec rm {} \;
 
-    bannerColor 'Added export to index.js file.' "green" "*"
-
-    bannerColor "Cleaning up ${CURRENTDIR}/${DIRNAME}." "blue" "*"
-    
-    bannerColor 'All done.' "green" "*"
+  bannerColor 'Done.' "green" "*"
 }
