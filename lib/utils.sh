@@ -31,11 +31,35 @@ clone_repo(){
 # }
 
 extract_icon_name() {
-    local file_name=$(basename "$1")
-    local icon_name="${file_name%.svg}"  # Remove the .svg extension
+  # Usage
+  # Example 1: Remove only the prefix
+  # result1=$(extract_icon_name "/path/to/icon_prefix_suffix.svg" "icon_")
+  # echo "$result1"  # Output: "prefix_suffix"
 
-    local prefix_to_remove="${2:-}"
-    echo "${icon_name#$prefix_to_remove}"  # Remove the specified prefix
+  # Example 2: Remove only the suffix
+  # result2=$(extract_icon_name "/path/to/icon_prefix_suffix.svg" "" "_suffix")
+  # echo "$result2"  # Output: "icon_prefix"
+
+  # Example 3: Remove both prefix and suffix
+  # result3=$(extract_icon_name "/path/to/icon_prefix_suffix.svg" "icon_" "_suffix")
+  # echo "$result3"  # Output: "prefix"
+
+  local file_name=$(basename "$1")
+  local icon_name="${file_name%.svg}"  # Remove the .svg extension
+
+  local prefix_to_remove="${2:-}"
+  local suffix_to_remove="${3:-}"
+  # Remove the specified prefix
+  if [ -n "$prefix_to_remove" ]; then
+      icon_name="${icon_name#$prefix_to_remove}"
+  fi
+
+  # Remove the specified suffix
+  if [ -n "$suffix_to_remove" ]; then
+      icon_name="${icon_name%$suffix_to_remove}"
+  fi
+
+  echo "$icon_name"
 }
 
 # Function to extract path data from SVG file
