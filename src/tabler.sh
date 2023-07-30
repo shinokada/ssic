@@ -4,12 +4,12 @@ fn_tabler() {
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-tabler"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-file_name="icons.js"
+  file_name="icons.js"
     
-    clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-    # Loop through all SVG files in the current directory
-    for svg_file in *.svg; do
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
     # remove fill="currentColor"
     # sed -i "s|fill=\"currentColor\"||g" "$svg_file"
     # replace fill="none" with fill={color}"
@@ -41,7 +41,6 @@ file_name="icons.js"
     else
       echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
     fi
-
   done
 
   # modify icons.js
@@ -70,8 +69,8 @@ file_name="icons.js"
   # replace replace_size with 24
   target_value="\"24\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-radix
-  sed -i "s/replace_name/svelte-simples/g" Icon.svelte
+  # replace replace_name with svelte-tabler
+  sed -i "s/replace_name/svelte-tabler/g" Icon.svelte
 
   # create a index.js
   # Content to write in the index.js file

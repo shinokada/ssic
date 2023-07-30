@@ -32,14 +32,14 @@ fn_simple() {
       if [ -f "$file_name" ]; then
         echo "Adding $icon_name ..."
         # Create the new entry to be added
-        new_entry=", '$icon_name': { box: 24, svg: '$path_data' }"
+        new_entry=", '$icon_name': { svg: '$path_data' }"
       
         # sed -i ", /};/i ${new_entry}," "$file_name"
         sed -i "s|, \}|${new_entry} \n&|" "$file_name"
       else
         echo "Adding first time $icon_name ..."
         # If icons.js does not exist, create a new one with the provided data
-        echo "{ '$icon_name': { box: 24, svg: '$path_data' }, }" > "$file_name"
+        echo "{ '$icon_name': { svg: '$path_data' }, }" > "$file_name"
 
       fi
       echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
@@ -77,6 +77,9 @@ fn_simple() {
   sed -i "s/replace_size/$target_value/g" Icon.svelte
   # replace replace_name with svelte-radix
   sed -i "s/replace_name/svelte-simples/g" Icon.svelte
+  # replace {displayIcon.box} with 24
+  sed -i 's/viewBox="0 0 {displayIcon.box} {displayIcon.box}"/viewBox="0 0 24 24"/g' Icon.svelte
+
 
   # create a index.js
   # Content to write in the index.js file
