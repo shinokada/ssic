@@ -13,6 +13,8 @@ fn_css(){
 
   # Loop through all SVG files in the current directory
   for svg_file in *.svg; do
+    # remove fill="currentColor"
+    sed -i 's|fill="currentColor"||g' "$svg_file"
     # Extract the icon name and remove the 'ei-' prefix
     icon_name=$(extract_icon_name "$svg_file")
 
@@ -41,7 +43,8 @@ fn_css(){
     fi
 
     # replace fill="currentColor" with fill={color}"
-    sed -i "s|currentColor|\{color\}|g" "$file_name"
+    # sed -i "s|currentColor|\{color\}|g" "$file_name"
+ 
 
   done
 

@@ -1,218 +1,128 @@
-fn_remove(){
-  # remove <?xml version="1.0" standalone="no"?>
-  bannerColor 'Removing <?xml version="1.0" standalone="no"?> from all files.' "blue" "*"
-  sed -i 's/<?xml version="1.0" standalone="no"?>/\n/' ./*.*
-  # remove <?xml version="1.0" encoding="utf-8"?>
-  bannerColor 'Removing <?xml version="1.0" encoding="utf-8"?> from all files.' "blue" "*"
-  sed -i 's/<?xml version="1.0" encoding="utf-8"?>/\n/' ./*.*
-  # remove <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-  bannerColor 'Removing DOCTYPE all files.' "blue" "*"
-  sed -i 's;<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">;\n;' ./*.*
-  # remove class="icon"
-  sed -i 's/class="icon"/\n/' ./*.*
-  # remove width="200" height="200"
-  sed -i 's/width="200" height="200"/\n/' ./*.*
-  # remove <?xml version="1.0" encoding="UTF-8"?>
-  sed -i 's/<?xml version="1.0" encoding="UTF-8"?>/\n/' ./*.*
-}
-
-fn_scripttag(){
-  # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24"; export let role="img"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/{...$$restProps} {role} width={size} height={size} fill={color} class={$$props.class} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
-}
-
 fn_ant() {
-  ################
-  # This script creates a single directory main
-  # Move it's contents to Repo lib dir.
-  ######################
   GITURL="https://github.com/ant-design/ant-design-icons"
-  DIRNAME='ant-design-icons'
-  SVGDIR='packages/icons-svg/svg'
+  DIRNAME='packages/icons-svg/svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ant-design-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-  # if there is lib dir, remove it
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"
-  fi
-  mkdir -p "${CURRENTDIR}"
-  cd "${CURRENTDIR}" || exit 1
-  # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged "${GITURL}/${SVGDIR}" svg >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+  file_name="icons.js"
 
-  #########################
-  #         Filled        #
-  #########################
-  bannerColor 'Changing dir to svg/filled' "blue" "*"
-  cd "${CURRENTDIR}/svg/filled" || exit
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  # For each svelte file modify contents of all file by adding
-  bannerColor 'Modifying all files.' "blue" "*"
-
-  fn_remove
-
-  fn_scripttag
-
-  # get textname from filename
-  for filename in "${CURRENTDIR}"/svg/filled/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
+  # Move and rename svg files from the "filled" directory
+  for file in filled/*.svg; do
+      new_name="${file/filled\//}"
+      new_name="${new_name/.svg/-filled.svg}"
+      mv "$file" "$new_name"
   done
 
-  #  modify file names
-  bannerColor 'Renaming all files in filled dir.' "blue" "*"
+  # Move and rename svg files from the "outlined" directory
+  for file in outlined/*.svg; do
+      new_name="${file/outlined\//}"
+      new_name="${new_name/.svg/-outlined.svg}"
+      mv "$file" "$new_name"
+  done
 
-  # rename files with number at the beginning with A
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-    ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . "Filled.svelte"
-  }ge' ./*.svg >/dev/null 2>&1
+  # Move and rename svg files from the "twotone" directory
+  for file in twotone/*.svg; do
+      new_name="${file/twotone\//}"
+      new_name="${new_name/.svg/-twotone.svg}"
+      mv "$file" "$new_name"
+  done
 
-  # rename file names
-  bannerColor 'Renaming is done.' "green" "*"
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # remove <?xml version="1.0" standalone="no"?>
+    sed -i 's/<?xml version="1.0" standalone="no"?>/\n/' "$svg_file"
+    # remove <?xml version="1.0" encoding="utf-8"?>
+    sed -i 's/<?xml version="1.0" encoding="utf-8"?>/\n/' "$svg_file"
+    # remove <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><defs><style type="text/css"></style></defs>
+    sed -i 's|<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><defs><style type="text/css"></style></defs>|\n|' "$svg_file"
 
-  bannerColor 'Modification is done in outline dir.' "green" "*"
+    sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "$svg_file"
+    sed -i 's/fill="#D9D9D9"/fill={insideColor}/' "$svg_file"
+    sed -i 's/fill="#333"/fill={strokeColor}/' "$svg_file"
 
-  # Move all files to main dir
-  mv ./* "${CURRENTDIR}"
+    # Extract the icon name
+    icon_name=$(extract_icon_name "$svg_file")
+
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
+
+    # clean_ant_twotone "$svg_file"
+
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { box: 1024, svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 1024, svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
+
+    # replace fill="currentColor" with fill={color}"
+    sed -i "s|currentColor|\{color\}|g" "$file_name"
+
+  done
+
+  # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
+
+  # Contents to be added at the end
+  end_content="export default icons;"
+
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
+
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
+
+  # copy 
+  cp "${script_dir}/templates/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/templates/IconTwotone.svelte" "${CURRENTDIR}/IconTwotone.svelte"
+  # replace replace_size with 24
+  target_value="\"24\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  sed -i "s/replace_size/$target_value/g" IconTwotone.svelte
+  # replace replace_name with svelte-ant-design-icons
+  sed -i "s/replace_name/svelte-ant-design-icons/g" Icon.svelte
+
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as IconTwotone } from './IconTwotone.svelte';
+export { default as icons } from './icons.js';"
+
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
   
-  #########################
-  #        Outlined       #
-  #########################
-  bannerColor 'Changing dir to svg/outlined' "blue" "*"
-  cd "${CURRENTDIR}/svg/outlined" || exit
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
+  rm -rf filled
+  rm -rf outlined
+  rm -rf twotone
 
-  # For each svelte file modify contents of all file by adding
-  bannerColor 'Modifying all files.' "blue" "*"
-
-  fn_remove
-
-  fn_scripttag
-
-  # get textname from filename
-  for filename in "${CURRENTDIR}"/svg/outlined/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
-  done
-
-  #  modify file names
-  bannerColor 'Renaming all files in filled dir.' "blue" "*"
-
-  # rename files with number at the beginning with A
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-    ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . "Outlined.svelte"
-  }ge' ./*.svg >/dev/null 2>&1
-
-  # rename file names
-  bannerColor 'Renaming is done.' "green" "*"
-
-  bannerColor 'Modification is done in outline dir.' "green" "*"
-
-  # Move all files to main dir
-  mv ./* "${CURRENTDIR}"
-
-  #########################
-  #         Twotone       #
-  #########################
-  bannerColor 'Changing dir to svg/twotone' "blue" "*"
-  cd "${CURRENTDIR}/svg/twotone" || exit
-
-  # For each svelte file modify contents of all file by adding
-  bannerColor 'Modifying all files.' "blue" "*"
-
-  fn_remove
-
-  fn_scripttag
-
-  # change fill
-  for filename in "${CURRENTDIR}"/svg/twotone/*; do
-    if grep -q 'fill="#333"' "${filename}"; then
-      # remove fill={color}
-      sed -i 's/fill={color}/\n/' "${filename}"
-      # change export let color="currentColor"; to export let strokeColor="currentColor"
-      sed -i 's/export let color="currentColor";/export let strokeColor="#333";/' "${filename}"
-      # change fill="#333" to fill={strokeColor}
-      sed -i 's/fill="#333"/fill={strokeColor}/' "${filename}"
-    fi
-    if grep -q 'fill="#E6E6E6"' "${filename}"; then
-      # insert export let insideColor="#E6E6E6" to script tag
-      # use ; instead of /
-      sed -i 's;</script>;export let insideColor="#E6E6E6"\; &;' "${filename}"
-      # change fill="#E6E6E6" to fill={insideColor}
-      sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "${filename}"
-    fi
-    # Files with #D9D9D9 fill inside
-    if grep -q 'fill="#D9D9D9"' "${filename}"; then
-      # change export let color="currentColor"; to export let strokeColor="currentColor"
-      sed -i 's/export let color="currentColor";/export let strokeColor="currentColor";/' "${filename}"
-      # insert export let insideColor="#D9D9D9" to script tag
-      # use ; instead of /
-      sed -i 's;</script>;export let insideColor="#D9D9D9"\; &;' "${filename}"
-      # change fill={color} to fill={strokeColor}
-      sed -i 's/fill={color}/fill={strokeColor}/' "${filename}"
-      # change fill="#D9D9D9" to fill={fillInside}
-      sed -i 's/fill="#D9D9D9"/fill={insideColor}/' "${filename}"
-    fi
-  done
-
-  # get textname from filename
-  for filename in "${CURRENTDIR}"/svg/twotone/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
-  done
-
-  #  modify file names
-  bannerColor 'Renaming all files in twotone dir.' "blue" "*"
-
-  # rename files with number at the beginning with A
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-    ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . "Twotone.svelte"
-  }ge' ./*.svg >/dev/null 2>&1
-
-  # rename file names
-  bannerColor 'Renaming is done.' "green" "*"
-
-  bannerColor 'Modification is done in outline dir.' "green" "*"
-
-  # Move all files to main dir
-  mv ./* "${CURRENTDIR}"
-  
-  #############################
-  #    INDEX.JS PART 1 IMPORT #
-  #############################
-  cd "${CURRENTDIR}" || exit 1
-
-  # append component docs 
-  for file in ./*.*; do
-    echo -e "\n<!--\n@component\n[Go to Document](https://svelte-ant-design-icons.codewithshin.com/)\n## Props\n@prop size = '24';\n@prop role = 'img';\n@prop color = 'currentColor';\n@prop ariaLabel = 'icon name';\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$file"
-  done
-
-
-
-
-  bannerColor 'Creating index.js file.' "blue" "*"
-
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-  print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-  }' >index.js
-
-  bannerColor 'Added export to index.js file.' "green" "*"
-
-  # clean up
-  rm -rf "${CURRENTDIR}/svg"
-    # move this to the end
-  if [ -d "${CURRENTDIR}/packages" ]; then
-    bannerColor "Removing the previous package dir." "blue" "*"
-    rm -rf "${CURRENTDIR}/packages"
-  fi
-
-  bannerColor 'All done.' "green" "*"
+  bannerColor 'Done.' "green" "*"
 }

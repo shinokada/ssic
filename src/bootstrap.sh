@@ -71,7 +71,7 @@ fn_bootstrap() {
   # replace replace_size with 16
   target_value="\"16\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-bootstrap-svg-icons
+  # replace replace_name
   sed -i "s/replace_name/svelte-bootstrap-svg-icons/g" Icon.svelte
 
   # create a index.js

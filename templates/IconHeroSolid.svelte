@@ -14,9 +14,9 @@
 xmlns="http://www.w3.org/2000/svg"
 {width}
 {height}
-fill={color}
 {role}
 aria-label={ariaLabel}
+fill={color}
 {...$$restProps}
 class={$$props.class}
 on:click

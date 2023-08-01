@@ -23,7 +23,7 @@ fn_hero2() {
       mv "$file" "$new_name"
   done
 
-  # Move and rename svg files from the "20/solid" directory
+  # For mini Move and rename svg files from the "20/solid" directory
   for file in 20/solid/*.svg; do
       new_name="${file/20\/solid\//}"
       new_name="${new_name/.svg/-mini.svg}"
@@ -38,9 +38,10 @@ fn_hero2() {
       # replace fill="none" with fill={color}"
       # sed -i "s|fill=\"none\"|fill=\{color\}|g" "$svg_file"
       # Replacing fill=" #..." and stroke="#..." with fill={color}
-      sed -i 's/fill="[^"]*"/fill="{color}"/g' "$svg_file"
-      sed -i 's/stroke="[^"]*"/stroke="{color}"/g' "$svg_file"
-      
+      # sed -i 's/fill="[^"]*"/fill="{color}"/g' "$svg_file"
+      # sed -i 's/stroke="[^"]*"/stroke="{color}"/g' "$svg_file"
+      sed -i 's/fill="[^"]*"//g' "$svg_file"
+      sed -i 's/stroke="[^"]*"//g' "$svg_file"
       # stroke="#0F172A" stroke-width="1.5"
 
       # Extract the icon name and remove the prefix/suffix
@@ -100,18 +101,27 @@ fn_hero2() {
   # end of modifying icons.js
 
   # copy 
-  cp "${script_dir}/templates/IconStroke.svelte" "${CURRENTDIR}/Icon.svelte"
-  # replace replace_size with 24
+  cp "${script_dir}/templates/IconHeroSolid.svelte" "${CURRENTDIR}/IconSolid.svelte"
+  cp "${script_dir}/templates/IconHeroSolid.svelte" "${CURRENTDIR}/IconMini.svelte"
+  cp "${script_dir}/templates/IconHeroOutline.svelte" "${CURRENTDIR}/IconOutline.svelte"
+  # replace replace_size with 24 and 20 for mini
   target_value="\"24\""
-  sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-radix
-  sed -i "s/replace_name/svelte-radix/g" Icon.svelte
+  sed -i "s/replace_size/$target_value/g" IconSolid.svelte
+  sed -i "s/replace_size/$target_value/g" IconOutline.svelte
+  mini_target_value="\"20\""
+  sed -i "s/replace_size/$mini_target_value/g" IconMini.svelte
+  # replace replace_name 
+  sed -i "s/replace_name/svelte-heros-v2/g" IconSolid.svelte
+  sed -i "s/replace_name/svelte-heros-v2/g" IconOutline.svelte
+  sed -i "s/replace_name/svelte-heros-v2/g" IconMini.svelte
   # replace strokeWidth = "2"; to 1.5
-  sed -i 's/strokeWidth = "2";/strokeWidth = "1.5";/g'  Icon.svelte
+  # sed -i 's/strokeWidth = "2";/strokeWidth = "1.5";/g'  Icon.svelte
   
   # create a index.js
   # Content to write in the index.js file
-  content="export { default as Icon } from './Icon.svelte';
+  content="export { default as IconSolid } from './IconSolid.svelte';
+export { default as IconOutline } from './IconOutline.svelte';
+export { default as IconMini } from './IconMini.svelte';
 export { default as icons } from './icons.js';"
 
   # Write the content to index.js

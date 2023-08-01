@@ -4,7 +4,8 @@
   export let name;
   export let width = replace_size;
   export let height = replace_size;
-  export let color = 'currentColor';
+  export let strokeColor = 'currentColor';
+  export let insideColor = '#D9D9D9';
   export let role = 'img';
   export let ariaLabel = name;
   
@@ -14,7 +15,7 @@
 xmlns="http://www.w3.org/2000/svg"
 {width}
 {height}
-fill={color}
+fill={strokeColor}
 {role}
 aria-label={ariaLabel}
 {...$$restProps}
@@ -40,8 +41,9 @@ viewBox="0 0 {displayIcon.box} {displayIcon.box}"
 @prop name;
 @prop width = replace_size;
 @prop height = replace_size;
+@prop strokeColor = 'currentColor';
+@prop insideColor = '#D9D9D9';
 @prop role = 'img';
-@prop color = 'currentColor'
 @prop ariaLabel='icon name'
 ## Event
 - on:click

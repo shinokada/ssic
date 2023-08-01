@@ -1,157 +1,103 @@
-fn_svg_path(){
-
-  for SUBSRC in "${CURRENTDIR}"/*; do
-    SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
-    # echo ${SUBDIRNAME} # outline
-    # echo ${SUBSRC} 
-    cd "${SUBSRC}" || exit
-
-    for CATEGORY in "${SUBSRC}"/*; do
-      cd "${CATEGORY}" || exit
-      for file in *; do
-        FILENAME=$(basename "${file%.*}")
-        SVETLENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
-        if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-          cp "${script_dir}/templates/flowbite-${SUBDIRNAME}.txt" "${SVETLENAME}"
-        fi
-
-        # delete the first and last lines to get <path ..../> part
-        SVGPATH=$(sed '1d; $d' "${file}")
-        # replace new line with space
-        SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
-
-        sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
-        # get viewBox value
-        VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
-        sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
-      done
-    done
-  done
-}
-
-fn_modify_filenames() {
-  cd "${CURRENTDIR}" || exit 1
-
-  bannerColor "Adding arialabel to all files." "blue" "*"
-  for filename in "${CURRENTDIR}"/*; do
-    FILENAMEONE=$(basename "${filename}" .svelte)
-    FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
-    
-    # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}" >/dev/null 2>&1
-
-    #  modify file names
-    new_name=$(echo "${FILENAMEONE^}")
-    # Capitalize the letter after -
-    new_name=$(echo "$new_name" | sed 's/-./\U&/g')
-    # Remove all -
-    new_name=$(echo "$new_name" | sed 's/-//g')
-    # Remove all spaces
-    new_name=$(echo "$new_name" | sed 's/ //g')
-    # echo "${new_name}"
-    # echo "${CURRENTDIR}/${FILENAMEONE}.svelte" 
-    mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/${new_name}.svelte"
-  done
-  
-  bannerColor 'Modification and renaming is done.' "green" "*"
-
-}
-
-  fn_modify_file(){
-    cd "${CURRENTDIR}" || exit 1
-    bannerColor "Modifying stroke, stroke-linecap etc." "blue" "*"
-    for filename in "${CURRENTDIR}"/*; do
-      # replace #2F2F38 with currentColor
-      sed -i "s;#2F2F38;currentColor;" "${filename}"
-      # replace <path fill="currentColor"  with <path 
-      # sed -i 's/<path fill="currentColor"/<path fill="\{color\}"/' "${filename}"
-
-      if grep -q 'stroke-linecap="round"' "${filename}"; then
-        # replace stroke-linecap="round" with stroke-linecap="{strokeLinecap}"
-        sed -i 's/stroke-linecap="round"/stroke-linecap="\{strokeLinecap\}"/' "${filename}"
-        # insert export let strokeLinecap:  "round" | "inherit" | "butt" | "square" | null | undefined = "round"; before </script>
-        sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | null | undefined = "round";' "${filename}"
-      fi
-
-      if grep -q 'stroke-linejoin="round"' "${filename}"; then
-        # replace stroke-linejoin="round" with stroke-linejoin="{strokeLinejoin}"
-        sed -i 's/stroke-linejoin="round"/stroke-linejoin="\{strokeLinejoin\}"/' "${filename}"
-        sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | null | undefined = "round";' "${filename}"
-      fi
-
-      if grep -q 'stroke-width="2"' "${filename}"; then
-        # replace stroke-width="2" with stroke-width="{strokeWidth}"
-        sed -i 's/stroke-width="2"/stroke-width="\{strokeWidth\}"/g' "${filename}"
-        sed -i '/<\/script>/i export let strokeWidth= "2";' "${filename}"
-      fi
-
-      # replace fill="#xxxxxx", or any other css hex with fill="currentColor"
-      # sed -i 's/fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
-      # sed -i 's/\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/\1="currentColor"/g' "${filename}"
-      # 
-      sed -i 's/fill="#000"\|fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
-      sed -i 's/stroke="#[0-9A-Fa-f]\{6\}"/stroke="currentColor"/g' "${filename}"
-
-
-    done
-  }
-
-
 fn_flowbite() {
-  ################
-  # This script creates a single directory main
-  # Move it's contents to Repo lib dir.
-  ######################
   GITURL="https://github.com/themesberg/flowbite-icons"
   DIRNAME='src'
-  SVGDIR='src'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flowbite-svelte-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-  # if there is lib dir, remove it
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"
-  fi
-  mkdir -p "${CURRENTDIR}"
-  cd "${CURRENTDIR}" || exit 1
-  # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+  file_name="icons.js"
 
-  # For each svelte file modify contents of all file by adding
-  bannerColor 'Modifying all files.' "blue" "*"
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
+
+  # Set your source and destination directories
+  # src_dir="$CURRENTDIR"
+  dest_dir="$CURRENTDIR"
+
+  # Move and rename the SVG files in the "outline" directory with the "-outline" suffix
+  move_and_rename_svg "outline" "-outline" "$dest_dir"
+
+  # Move and rename the SVG files in the "solid" directory with the "-solid" suffix
+  move_and_rename_svg "solid" "-solid" "$dest_dir"
+
+  rm -rf "outline"
+  rm -rf "solid"
+
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # modify_flowbite "$svg_file"
+    sed -i "s;#2F2F38;currentColor;" "${svg_file}"
+
+    # Extract the icon name
+    icon_name=$(extract_icon_name "$svg_file")
+
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
+
+    # extract box dimensions
+    extract_box_dimensions "$svg_file"
+
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { width: '$box_width', height: '$box_height', svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { width: '$box_width', height: '$box_height', svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
+
+  done
+
+  # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
+
+  # Contents to be added at the end
+  end_content="export default icons;"
+
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
+
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
+
+  # copy 
+  cp "${script_dir}/templates/IconFlowbite.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 50
+  target_value="\"50\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name 
+  sed -i "s/replace_name/flowbite-svelte-icons/g" Icon.svelte
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
+
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
   
-  fn_svg_path 
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
 
-  # Remove 
-  rm -rf "${CURRENTDIR}/outline" "${CURRENTDIR}/solid"
-
-  #  modify file names
-  bannerColor 'Renaming all files.' "blue" "*"
-  
-  fn_modify_filenames
- 
-  # rename file names
-  bannerColor 'Renaming is done.' "green" "*"
-
-  fn_modify_file
-
-  #############################
-  #    INDEX.JS PART 1 IMPORT #
-  #############################
-  cd "${CURRENTDIR}" || exit 1
-
-  bannerColor 'Creating index.js file.' "blue" "*"
-
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-  print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-  }' >index.js
-
-  bannerColor 'Added export to index.js file.' "green" "*"
-
-  bannerColor 'All done.' "green" "*"
+  bannerColor 'Done.' "green" "*"
 }

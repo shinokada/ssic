@@ -7,6 +7,7 @@
   export let color = 'currentColor';
   export let role = 'img';
   export let ariaLabel = name;
+  export let strokeWidth = "1.5";
   
   $: displayIcon = icons[name]
 </script>
@@ -14,9 +15,11 @@
 xmlns="http://www.w3.org/2000/svg"
 {width}
 {height}
-fill={color}
 {role}
 aria-label={ariaLabel}
+fill="none"
+stroke={color}
+stroke-width={strokeWidth}
 {...$$restProps}
 class={$$props.class}
 on:click
@@ -43,6 +46,7 @@ viewBox="0 0 {displayIcon.box} {displayIcon.box}"
 @prop role = 'img';
 @prop color = 'currentColor'
 @prop ariaLabel='icon name'
+@prop strokeWidth = "1.5";
 ## Event
 - on:click
 - on:keydown

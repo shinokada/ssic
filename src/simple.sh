@@ -75,7 +75,7 @@ fn_simple() {
   # replace replace_size with 24
   target_value="\"24\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-radix
+  # replace replace_name
   sed -i "s/replace_name/svelte-simples/g" Icon.svelte
   # replace {displayIcon.box} with 24
   sed -i 's/viewBox="0 0 {displayIcon.box} {displayIcon.box}"/viewBox="0 0 24 24"/g' Icon.svelte

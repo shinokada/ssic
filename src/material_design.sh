@@ -69,7 +69,7 @@ fn_material() {
   # replace replace_size with 24
   target_value="\"24\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-file-icons
+  # replace replace_name
   sed -i "s/replace_name/svelte-materialdesign-icons/g" Icon.svelte
 
   # create a index.js

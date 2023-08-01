@@ -33,7 +33,7 @@ viewBox="0 0 {displayIcon.box} {displayIcon.box}"
 
 <!--
 @component
-[Go to Document](https://shinokada.github.io/replace_name/)
+[Go to Document](https://replace_name.vercel.app/)
 ## Props
 @prop name;
 @prop width = replace_size;

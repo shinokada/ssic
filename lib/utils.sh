@@ -1,3 +1,62 @@
+modify_flowbite(){
+  filename="$1"
+
+  sed -i "s;#2F2F38;currentColor;" "${filename}"
+  # replace <path fill="currentColor"  with <path 
+  # sed -i 's/<path fill="currentColor"/<path fill="\{color\}"/' "${filename}"
+
+  if grep -q 'stroke-linecap="round"' "${filename}"; then
+    # replace stroke-linecap="round" with stroke-linecap="{strokeLinecap}"
+    sed -i 's/stroke-linecap="round"/stroke-linecap="\{strokeLinecap\}"/' "${filename}"
+    # insert export let strokeLinecap:  "round" | "inherit" | "butt" | "square" | null | undefined = "round"; before </script>
+    sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | null | undefined = "round";' "${filename}"
+  fi
+
+  if grep -q 'stroke-linejoin="round"' "${filename}"; then
+    # replace stroke-linejoin="round" with stroke-linejoin="{strokeLinejoin}"
+    sed -i 's/stroke-linejoin="round"/stroke-linejoin="\{strokeLinejoin\}"/' "${filename}"
+    sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | null | undefined = "round";' "${filename}"
+  fi
+
+  if grep -q 'stroke-width="2"' "${filename}"; then
+    # replace stroke-width="2" with stroke-width="{strokeWidth}"
+    sed -i 's/stroke-width="2"/stroke-width="\{strokeWidth\}"/g' "${filename}"
+    sed -i '/<\/script>/i export let strokeWidth= "2";' "${filename}"
+  fi
+
+  # replace fill="#xxxxxx", or any other css hex with fill="currentColor"
+  # sed -i 's/fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
+  # sed -i 's/\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/\1="currentColor"/g' "${filename}"
+  # 
+  sed -i 's/fill="#000"\|fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
+  sed -i 's/stroke="#[0-9A-Fa-f]\{6\}"/stroke="currentColor"/g' "${filename}"
+}
+
+# Function to extract box width and height from an SVG file
+extract_box_dimensions() {
+  local file="$1"
+  local viewBox=$(grep -oP '(?<=viewBox=")[^"]+' "$file")
+  local IFS=" "
+  local viewBox_arr=($viewBox)
+  box_width=${viewBox_arr[2]}
+  box_height=${viewBox_arr[3]}
+}
+
+# Function to move and rename the SVG files
+move_and_rename_svg() {
+  local src_dir=$1
+  local suffix=$2
+  local dest_dir=$3
+
+  find "$src_dir" -type f -name "*.svg" -print0 | while IFS= read -r -d $'\0' file; do
+    # Get the filename without the extension
+    file_base=$(basename "${file%.*}")
+
+    # Move and rename the file to the destination directory with the specified suffix
+    mv "$file" "$dest_dir/${file_base}${suffix}.svg"
+  done
+}
+
 # clone repo
 clone_repo(){
   # $1 CURRENTDIR   
