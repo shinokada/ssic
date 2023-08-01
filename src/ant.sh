@@ -38,9 +38,9 @@ fn_ant() {
     # remove <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><defs><style type="text/css"></style></defs>
     sed -i 's|<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><defs><style type="text/css"></style></defs>|\n|' "$svg_file"
 
-    sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "$svg_file"
-    sed -i 's/fill="#D9D9D9"/fill={insideColor}/' "$svg_file"
-    sed -i 's/fill="#333"/fill={strokeColor}/' "$svg_file"
+    # sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "$svg_file"
+    # sed -i 's/fill="#D9D9D9"/fill={insideColor}/' "$svg_file"
+    # sed -i 's/fill="#333"/fill={strokeColor}/' "$svg_file"
 
     # Extract the icon name
     icon_name=$(extract_icon_name "$svg_file")
