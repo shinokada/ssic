@@ -106,6 +106,7 @@ fn_ant() {
   sed -i "s/replace_size/$target_value/g" IconTwotone.svelte
   # replace replace_name with svelte-ant-design-icons
   sed -i "s/replace_name/svelte-ant-design-icons/g" Icon.svelte
+  sed -i "s/replace_name/svelte-ant-design-icons/g" IconTwotone.svelte
 
   # create a index.js
   # Content to write in the index.js file

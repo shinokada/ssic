@@ -5,7 +5,6 @@
   export let width = replace_size;
   export let height = replace_size;
   export let strokeColor = 'currentColor';
-  export let insideColor = '#D9D9D9';
   export let role = 'img';
   export let ariaLabel = name;
   
