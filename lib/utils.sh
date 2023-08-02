@@ -1,37 +1,3 @@
-modify_flowbite(){
-  filename="$1"
-
-  sed -i "s;#2F2F38;currentColor;" "${filename}"
-  # replace <path fill="currentColor"  with <path 
-  # sed -i 's/<path fill="currentColor"/<path fill="\{color\}"/' "${filename}"
-
-  if grep -q 'stroke-linecap="round"' "${filename}"; then
-    # replace stroke-linecap="round" with stroke-linecap="{strokeLinecap}"
-    sed -i 's/stroke-linecap="round"/stroke-linecap="\{strokeLinecap\}"/' "${filename}"
-    # insert export let strokeLinecap:  "round" | "inherit" | "butt" | "square" | null | undefined = "round"; before </script>
-    sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | null | undefined = "round";' "${filename}"
-  fi
-
-  if grep -q 'stroke-linejoin="round"' "${filename}"; then
-    # replace stroke-linejoin="round" with stroke-linejoin="{strokeLinejoin}"
-    sed -i 's/stroke-linejoin="round"/stroke-linejoin="\{strokeLinejoin\}"/' "${filename}"
-    sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | null | undefined = "round";' "${filename}"
-  fi
-
-  if grep -q 'stroke-width="2"' "${filename}"; then
-    # replace stroke-width="2" with stroke-width="{strokeWidth}"
-    sed -i 's/stroke-width="2"/stroke-width="\{strokeWidth\}"/g' "${filename}"
-    sed -i '/<\/script>/i export let strokeWidth= "2";' "${filename}"
-  fi
-
-  # replace fill="#xxxxxx", or any other css hex with fill="currentColor"
-  # sed -i 's/fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
-  # sed -i 's/\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/\1="currentColor"/g' "${filename}"
-  # 
-  sed -i 's/fill="#000"\|fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
-  sed -i 's/stroke="#[0-9A-Fa-f]\{6\}"/stroke="currentColor"/g' "${filename}"
-}
-
 # Function to extract box width and height from an SVG file
 extract_box_dimensions() {
   local file="$1"
@@ -75,19 +41,6 @@ clone_repo(){
     exit 1
   }
 }
-
-# Function to extract icon name from SVG file name
-# extract_icon_name() {
-#     local file_name=$(basename "$1")
-#     local icon_name="${file_name%.svg}"  # Remove the .svg extension
-
-#     if [ -n "$2" ]; then
-#         local prefix_to_remove="$2"
-#         echo "${icon_name#$prefix_to_remove}"  # Remove the specified prefix
-#     else
-#         echo "$icon_name"  # Return the original icon name if no prefix is provided
-#     fi
-# }
 
 extract_icon_name() {
   # Usage

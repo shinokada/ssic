@@ -23,7 +23,7 @@ fn_flowbite() {
 
   # Loop through all SVG files in the current directory
   for svg_file in *.svg; do
-    # modify_flowbite "$svg_file"
+    
     sed -i "s;#2F2F38;currentColor;" "${svg_file}"
 
     # Extract the icon name

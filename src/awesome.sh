@@ -1,7 +1,6 @@
 fn_awesome() {
   GITURL="git@github.com:FortAwesome/Font-Awesome.git"
   DIRNAME='svgs'
-  SVGDIR='svgs'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-awesome-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
@@ -9,22 +8,38 @@ fn_awesome() {
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  # Move and rename svg files from the "filled" directory
-  for file in filled/*.svg; do
-      new_name="${file/filled\//}"
-      new_name="${new_name/.svg/-filled.svg}"
+  # Move files from brands directory
+  for file in brands/*.svg; do
+    mv "$file" "$CURRENTDIR"
+  done
+
+  # Move and rename svg files from the "regular" directory
+  for file in regular/*.svg; do
+      new_name="${file/regular\//}"
+      new_name="${new_name/.svg/-regular.svg}"
       mv "$file" "$new_name"
   done
 
+  for file in solid/*.svg; do
+    new_name="${file/solid\//}"
+    new_name="${new_name/.svg/-solid.svg}"
+    mv "$file" "$new_name"
+  done
+
+  rm -rf brands
+  rm -rf regular
+  rm -rf solid
+
   # Loop through all SVG files in the current directory
   for svg_file in *.svg; do
-    # do the following if file has xxx-24.svg
-    if [[ $svg_file == *"-24.svg"* ]]; then
       # Extract the icon name and remove the prefix/suffix
-      icon_name=$(extract_icon_name "$svg_file" " " "-24")
+      icon_name=$(extract_icon_name "$svg_file" )
 
       # Extract the path data from the SVG file
       path_data=$(extract_svg_path "$svg_file")
+
+      # extract box dimensions
+      extract_box_dimensions "$svg_file"
 
       if [ -n "$path_data" ]; then
         # Update icons.js with the new data
@@ -32,7 +47,7 @@ fn_awesome() {
         if [ -f "$file_name" ]; then
           echo "Adding $icon_name ..."
           # Create the new entry to be added
-          new_entry=", '$icon_name': { box: 24, svg: '$path_data' }"
+          new_entry=", '$icon_name': { width: '$box_width', height: '$box_height', svg: '$path_data' }"
         
           # sed -i ", /};/i ${new_entry}," "$file_name"
           sed -i "s|, \}|${new_entry} \n&|" "$file_name"
@@ -40,7 +55,7 @@ fn_awesome() {
         else
           echo "Adding first time $icon_name ..."
           # If icons.js does not exist, create a new one with the provided data
-          echo "{ '$icon_name': { box: 24, svg: '$path_data' }, }" > "$file_name"
+          echo "{ '$icon_name': { width: '$box_width', height: '$box_height', svg: '$path_data' }, }" > "$file_name"
         fi
         echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
       else
@@ -49,7 +64,7 @@ fn_awesome() {
 
       # replace fill="currentColor" with fill={color}"
       # sed -i "s|currentColor|\{color\}|g" "$file_name"
-    fi
+    
   done
 
   # modify icons.js
@@ -80,6 +95,8 @@ fn_awesome() {
   sed -i "s/replace_size/$target_value/g" Icon.svelte
   # replace replace_name
   sed -i "s/replace_name/svelte-oct/g" Icon.svelte
+  # replace dispaly.box
+  sed -i 's/viewBox="0 0 {displayIcon.box} {displayIcon.box}"/viewBox="0 0 {displayIcon.width} {displayIcon.height}"/' Icon.svelte
 
   # create a index.js
   # Content to write in the index.js file
@@ -93,6 +110,7 @@ export { default as icons } from './icons.js';"
   # cleanup
   # remove all svg files
   find . -type f -name "*.svg" -exec rm {} \;
+
 
   bannerColor 'Done.' "green" "*"
 }
