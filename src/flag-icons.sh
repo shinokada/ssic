@@ -9,9 +9,10 @@ fn_flagicons() {
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-# Loop through all SVG files in the current directory
+  # Loop through all SVG files in the current directory
   for svg_file in *.svg; do
-
+    # remove style="-inkscape-font-specification:&quot;Ubuntu Bold&quot;"
+    sed -i 's/style="-inkscape-font-specification:&quot;Ubuntu Bold&quot;"//g' $svg_file
     # Extract the icon name
     icon_name=$(extract_icon_name "$svg_file")
 
