@@ -7,6 +7,7 @@ fn_simple() {
     file_name="icons.js"
     file_name_a_m="icons1.js"
     file_name_n_z="icons2.js"
+    repo_name="svelte-simples"
     
     clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
@@ -75,8 +76,8 @@ fn_simple() {
   # replace replace_size with 24
   target_value="\"24\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name
-  sed -i "s/replace_name/svelte-simples/g" Icon.svelte
+  # replace replace_name with repo_name
+  sed -i "s/replace_name/$repo_name/g" Icon.svelte
   # replace {displayIcon.box} with 24
   sed -i 's/viewBox="0 0 {displayIcon.box} {displayIcon.box}"/viewBox="0 0 24 24"/g' Icon.svelte
 

@@ -5,6 +5,7 @@ fn_ion() {
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   file_name="icons.js"
+  repo_name="svelte-iconicons"
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
@@ -73,8 +74,8 @@ fn_ion() {
   # replace replace_size with 24
   target_value="\"24\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name with svelte-ionicons
-  sed -i "s/replace_name/svelte-ionicons/g" Icon.svelte
+  # replace replace_name with repo_name
+  sed -i "s/replace_name/$repo_name/g" Icon.svelte
 
   # create a index.js
   # Content to write in the index.js file

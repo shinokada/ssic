@@ -4,8 +4,8 @@ fn_hero2() {
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-heros-v2"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
-
   file_name="icons.js"
+  repo_name="svelte-heros-v2"
   
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
    
@@ -110,10 +110,10 @@ fn_hero2() {
   sed -i "s/replace_size/$target_value/g" IconOutline.svelte
   mini_target_value="\"20\""
   sed -i "s/replace_size/$mini_target_value/g" IconMini.svelte
-  # replace replace_name 
-  sed -i "s/replace_name/svelte-heros-v2/g" IconSolid.svelte
-  sed -i "s/replace_name/svelte-heros-v2/g" IconOutline.svelte
-  sed -i "s/replace_name/svelte-heros-v2/g" IconMini.svelte
+  # replace replace_name with repo_name
+  sed -i "s/replace_name/$repo_name/g" IconSolid.svelte
+  sed -i "s/replace_name/$repo_name/g" IconOutline.svelte
+  sed -i "s/replace_name/$repo_name/g" IconMini.svelte
   # replace strokeWidth = "2"; to 1.5
   # sed -i 's/strokeWidth = "2";/strokeWidth = "1.5";/g'  Icon.svelte
   

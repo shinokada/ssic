@@ -5,6 +5,7 @@ fn_flowbite() {
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   file_name="icons.js"
+  repo_name="flowbite-svelte-icons"
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
@@ -84,8 +85,8 @@ fn_flowbite() {
   # replace replace_size with 50
   target_value="\"50\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
-  # replace replace_name 
-  sed -i "s/replace_name/flowbite-svelte-icons/g" Icon.svelte
+  # replace replace_name with repo_name
+  sed -i "s/replace_name/$repo_name/g" Icon.svelte
   # create a index.js
   # Content to write in the index.js file
   content="export { default as Icon } from './Icon.svelte';

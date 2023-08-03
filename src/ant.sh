@@ -5,6 +5,7 @@ fn_ant() {
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   file_name="icons.js"
+  repo_name="svelte-ant-design-icons"
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
@@ -38,17 +39,11 @@ fn_ant() {
     # remove <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><defs><style type="text/css"></style></defs>
     sed -i 's|<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><defs><style type="text/css"></style></defs>|\n|' "$svg_file"
 
-    # sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "$svg_file"
-    # sed -i 's/fill="#D9D9D9"/fill={insideColor}/' "$svg_file"
-    # sed -i 's/fill="#333"/fill={strokeColor}/' "$svg_file"
-
     # Extract the icon name
     icon_name=$(extract_icon_name "$svg_file")
 
     # Extract the path data from the SVG file
     path_data=$(extract_svg_path "$svg_file")
-
-    # clean_ant_twotone "$svg_file"
 
     if [ -n "$path_data" ]; then
       # Update icons.js with the new data
@@ -104,9 +99,9 @@ fn_ant() {
   target_value="\"24\""
   sed -i "s/replace_size/$target_value/g" Icon.svelte
   sed -i "s/replace_size/$target_value/g" IconTwotone.svelte
-  # replace replace_name with svelte-ant-design-icons
-  sed -i "s/replace_name/svelte-ant-design-icons/g" Icon.svelte
-  sed -i "s/replace_name/svelte-ant-design-icons/g" IconTwotone.svelte
+  # replace replace_name with $repo_name
+  sed -i "s/replace_name/$repo_name/g" Icon.svelte
+  sed -i "s/replace_name/$repo_name/g" IconTwotone.svelte
 
   # create a index.js
   # Content to write in the index.js file

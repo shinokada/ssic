@@ -1,125 +1,117 @@
-fn_modify_svg() {
-
-  bannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
-  cd "${CURRENTDIR}" || exit
-
-  # there are brand, flag, and free directories
-  for SUBSRC in "${CURRENTDIR}"/*; do
-    SUBDIRNAME=$(basename "${SUBSRC}")
-    cd "${SUBSRC}" || exit
-
-    for filename in *; do
-
-      sed -i '1s/^/<script>\nexport let color = "currentColor"\nexport let role="img";\n<\/script>\n/' "$filename"
-
-      if [ "$SUBDIRNAME" = "brand" ]; then
-        # if SUBDIRNAME is brand
-        # width="32" height="32" viewBox="0 0 32 32"
-        # replace to width="{size}" height="{size}" and add export let size = "32"; to script
-        sed -i 's/width="32"/width="{size}"/' "$filename"
-        sed -i 's/height="32"/height="{size}"/' "$filename"
-        sed -i 's|</script>|export let size = "32"; &|' "${filename}"
-
-        # Add component doc
-        echo -e "\n<!--\n@component\n[Go to Document](https://shinokada.github.io/svelte-coreui-icons/)\n## Props\n@prop role = 'img';\n@prop size = '32';\n@prop color = 'currentColor'\n@prop ariaLabel='file name'\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$filename"
-      fi
-
-      if [ "$SUBDIRNAME" = "flag" ]; then
-        # if SUBDIRNAME is flag
-        # width="300" height="210" viewBox="0 0 300 210"
-        # to {width} or {height} and add export let width; export let height;
-        sed -i 's/\(width=\)"[0-9]*"/\1"{width}"/' "${filename}"
-        sed -i 's/\(height=\)"[0-9]*"/\1"{height}"/' "${filename}"
-        sed -i "s/<\/script>/export let width; export let height; &/" "${filename}"
-        # Add component doc
-        echo -e "\n<!--\n@component\n[Go to Document](https://shinokada.github.io/svelte-coreui-icons/)\n## Props\n@prop role = 'img';\n@prop width || height;\n@prop ariaLabel='file name'\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$filename"
-      fi
-
-      if [ "$SUBDIRNAME" = "free" ]; then
-        # if SUBDIRNAME is free
-        # viewBox="0 0 512 512"
-        # add width="{size}" height="{size}" and export let size = "32"; to script
-        sed -i 's/viewBox=/width="{size}"\nheight="{size}" &/' "$filename"
-        sed -i 's/<\/script>/export let size = "32"; &/' "${filename}"
-        # replace fill="var(--ci-primary-color, currentColor)" with fill="var(--ci-primary-color, {color})"
-        sed -i 's/fill="var(--ci-primary-color, currentColor)"/fill="var(--ci-primary-color, {color})"/g' "$filename"
-        # remove class="ci-primary"
-        sed -i 's/class="ci-primary"//g' "$filename"
-        # Add component doc
-        echo -e "\n<!--\n@component\n[Go to Document](https://shinokada.github.io/svelte-coreui-icons/)\n## Props\n@prop role = 'img';\n@prop size = '32';\n@prop color = 'currentColor'\n@prop ariaLabel='file name'\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$filename"
-      fi
-      
-      # aria-label
-      FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-      # echo "${FILENAME}"
-      # sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
-      
-      sed -i 's/viewBox=/{role}\n{...$$restProps}\naria-label="{ariaLabel}"\nfill="{color}"\non:click\non:keydown\non:keyup\non:focus\non:blur\non:mouseenter\non:mouseleave\non:mouseover\non:mouseout\n &/' "$filename"
-      
-      FILENAMEONE=$(basename "${filename}" .svg)
-      FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-      sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" \n&;" "${filename}" >/dev/null 2>&1
-
-      # Capitalize the first letter
-      new_name=$(echo "${FILENAMEONE^}")
-      # Capitalize the letter after -
-      new_name=$(echo "$new_name" | sed 's/-./\U&/g')
-      # Remove all -
-      new_name=$(echo "$new_name" | sed 's/-//g')
-      # Change the extension from svg to svelte
-      # new_name=$(echo "$new_name" | sed 's/svg$/svelte/g')
-      mv "${SUBSRC}/${FILENAMEONE}.svg" "${CURRENTDIR}/${new_name}.svelte"
-    done
-  done
-  
-  bannerColor 'Modification is done in the dir.' "green" "*"
-}
-
-# fn_scripttag(){
-#   # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-#   sed -i '1s/^/<script>\nexport let size="24";\nexport let role="img";\nexport let color="currentColor";\n<\/script>/' ./*.* && sed -i 's/viewBox=/{...$$restProps} {role} fill={color} class={$$props.class} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
-# }
-
 fn_coreui(){
-  ################
-  # This script creates all icons in src/lib directory.
-  ######################
   GITURL="https://github.com/coreui/coreui-icons"
   DIRNAME='svg'
-  SVGDIR='svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-coreui-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+  file_name="icons.js"
+  repo_name="svelte-coreui-icons"
 
-  # clone from github
-  # if there is the svg files, remove it
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"
-  fi
-  mkdir -p "${CURRENTDIR}"
-  cd "${CURRENTDIR}" || exit 1
-  # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  # fn_scripttag
-  fn_modify_svg 
+  # Move and rename svg files from the "brand" directory
+  for file in brand/*.svg; do
+      mv "$file" "$CURRENTDIR"
+  done
 
-  #############################
-  #    INDEX.JS PART 1 IMPORT #
-  #############################
-  cd "${CURRENTDIR}" || exit 1
+  # Move and rename svg files from the "flag" directory
+  for file in flag/*.svg; do
+      mv "$file" "$CURRENTDIR"
+  done
 
-  bannerColor 'Creating index.js file.' "blue" "*"
+  # Move and rename svg files from the "free" directory
+  for file in free/*.svg; do
+      mv "$file" "$CURRENTDIR"
+  done
 
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-    }' >index.js
-  rm -rf "${CURRENTDIR}/brand" "${CURRENTDIR}/flag" "${CURRENTDIR}/free"
-  bannerColor 'Added export to index.js file.' "green" "*"
-  bannerColor 'All icons are created in the src/lib directory.' 'magenta' '='
+  rm -rf brand
+  rm -rf flag
+  rm -rf free
+
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # remove fill="var(--ci-primary-color, currentColor)" 
+    sed -i 's/fill="var(--ci-primary-color, currentColor)"//g' "$svg_file"
+    # remove class="ci-primary"
+    sed -i 's/class="ci-primary"//g' "$svg_file"
+    # Extract the icon name
+    icon_name=$(extract_icon_name "$svg_file")
+
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
+
+    # extract box dimensions
+    extract_box_dimensions "$svg_file"
+
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { width: '$box_width', height: '$box_height', svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { width: '$box_width', height: '$box_height', svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
+    # replace fill="currentColor" with fill={color}"
+    # sed -i "s|currentColor|\{color\}|g" "$file_name"
+  done
+
+  # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
+
+  # Contents to be added at the end
+  end_content="export default icons;"
+
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
+
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
+
+  # copy 
+  cp "${script_dir}/templates/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+
+  # replace replace_size with 24
+  target_value="\"24\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+
+  # replace replace_name with repo_name
+  sed -i "s/replace_name/$repo_name/g" Icon.svelte
+  # replace dispaly.box
+  sed -i 's/viewBox="0 0 {displayIcon.box} {displayIcon.box}"/viewBox="0 0 {displayIcon.width} {displayIcon.height}"/' Icon.svelte
+
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
+
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
+  
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
+
+  bannerColor 'Done.' "green" "*"
 }
