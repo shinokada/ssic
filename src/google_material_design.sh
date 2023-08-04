@@ -1,119 +1,141 @@
-fn_modify_svg() {
-  DIR=$1
-  SUBDIR=$2
-
-  bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
-  cd "${DIR}/${SUBDIR}" || exit
-  # For each svelte file modify contents of all file by
-  # pwd
-  bannerColor "Modifying all files in ${SUBDIR}." "cyan" "*"
-
-  # there are outline and solid directories
-  # remove fill="black"
-  for SUBSRC in "${DIR}/${SUBDIR}"/*; do
-    # if SUBSRC is a directory, go inside
-    if [ -d "$SUBSRC" ]; then
-      SUBDIRNAME=$(basename "${SUBSRC}")
-
-      cd "${SUBSRC}" || exit
-      for file in *; do
-        # if ${DIR}/${file} doesn't exist, create it
-        if [ ! -f "${DIR}/${file}" ]; then
-          # copy "${script_dir}/templates/teeny.txt" to ${DIR}/${file}
-          cp "${script_dir}/templates/google_materialdesign.txt" "${DIR}/${file}"
-        fi
-        # echo "${file}"
-        # SVGPATH=$(sed '1d; $d' "$file")
-        # return d="M272 28 .... "
-        SVGPATH=$(grep -oP '(?<=viewBox="0 0 24 24">).*(?=</svg>)' "${file}")
-        # echo "${SVGPATH}"
-        # replace new line with space
-        # SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
-
-        sed -i "s;replace_svg_${SUBDIRNAME};${SVGPATH};" "${DIR}/${file}"
-      done
-    fi
-  done
-
-  # remove svg dir
-  bannerColor "Removing svg dir." "blue" "*"
-  rm -rf "${CURRENTDIR:?}/svg"
-  bannerColor "Removed svg dir." "green" "*"
-}
-
-fn_modify_filenames() {
-  CURRENTDIR=$1
-  cd "${CURRENTDIR}" || exit 1
-
-  bannerColor "Adding arialabel to all files." "blue" "*"
-  for filename in "${CURRENTDIR}"/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '_' ' ')
-    # echo "${FILENAME}"
-    sed -i "s:</script>:export let ariaLabel=\"${FILENAME}\";\n &:" "${filename}"
-  done
-
-  bannerColor "Added arialabel to all files." "green" "*"
-
-  #  modify file names
-  bannerColor "Renaming all files." "blue" "*"
-  # rename files with number at the beginning with A
-  rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-  ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
-
-  bannerColor 'Renaming is done.' "green" "*"
-  bannerColor 'Modification is done in the dir.' "green" "*"
-}
-
 fn_google_material_design() {
-  ################
-  # This script creates all icons in src/lib directory.
-  ######################
   GITURL="git@github.com:marella/material-design-icons.git"
-  DIRNAME='material-design-icons'
-  SVGDIR='svg'
+  DIRNAME='svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-google-materialdesign-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+  file_name="icons.js"
+  repo_name="svelte-google-materialdesign-icons"
 
-  # clone from github
-  # if there is the svg files, remove it
-  if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
-    rm -rf "${CURRENTDIR:?}/"
-  fi
-  mkdir -p "${CURRENTDIR}"
-  cd "${CURRENTDIR}" || exit 1
-  # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged "${GITURL}/${SVGDIR}" "${SVGDIR}" >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+  clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
-  fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
-  # Move all files to lib dir
-  # mv "${CURRENTDIR}/${SVGDIR}"/* "${CURRENTDIR}"
-  fn_modify_filenames "${CURRENTDIR}"
+  # Move and rename svg files from the "filled" directory
+  for file in filled/*.svg; do
+    new_name="${file/filled\//}"
+    new_name="${new_name/.svg/-filled.svg}"
+    mv "$file" "$new_name"
+  done
 
-  #############################
-  #    INDEX.JS PART 1 IMPORT #
-  #############################
-  cd "${CURRENTDIR}" || exit 1
+  # Move and rename svg files from the "outlined" directory
+  for file in outlined/*.svg; do
+    new_name="${file/outlined\//}"
+    new_name="${new_name/.svg/-outlined.svg}"
+    mv "$file" "$new_name"
+  done
 
-  bannerColor 'Creating index.js file.' "blue" "*"
+  # Move and rename svg files from the "round" directory
+  for file in round/*.svg; do
+    new_name="${file/round\//}"
+    new_name="${new_name/.svg/-round.svg}"
+    mv "$file" "$new_name"
+  done
 
-  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
-    print "export { default as " $(NF-1) " } from \047" $0 "\047;"
-    }' >index.js
+  # Move and rename svg files from the "sharp" directory
+  for file in sharp/*.svg; do
+    new_name="${file/sharp\//}"
+    new_name="${new_name/.svg/-sharp.svg}"
+    mv "$file" "$new_name"
+  done
 
-  bannerColor 'Added export to index.js file.' "green" "*"
+  # Move and rename svg files from the "two-tone" directory
+  for file in two-tone/*.svg; do
+    new_name="${file/two-tone\//}"
+    new_name="${new_name/.svg/-twotone.svg}"
+    mv "$file" "$new_name"
+  done
 
-  # clean up
-  rm -rf "${CURRENTDIR}/${DIRNAME}"
-  rm -rf "${CURRENTDIR}/${SVGDIR}"
+  # Loop through all SVG files in the current directory
+  for svg_file in *.svg; do
+    # remove fill="currentColor"
+    # sed -i 's|fill="currentColor"||g' "$svg_file"
+    # Extract the icon name and remove the 'ei-' prefix
+    icon_name=$(extract_icon_name "$svg_file")
 
-  bannerColor 'All done.' "green" "*"
+    # Extract the path data from the SVG file
+    path_data=$(extract_svg_path "$svg_file")
 
-  bannerColor 'All icons are created in the src/lib directory.' 'magenta' '='
+    if [ -n "$path_data" ]; then
+      # Update icons.js with the new data
+      # Check if icons.js file exists
+      if [ -f "$file_name" ]; then
+        echo "Adding $icon_name ..."
+        # Create the new entry to be added
+        new_entry=", '$icon_name': { box: 24, svg: '$path_data' }"
+      
+        # sed -i ", /};/i ${new_entry}," "$file_name"
+        sed -i "s|, \}|${new_entry} \n&|" "$file_name"
+      
+      else
+        echo "Adding first time $icon_name ..."
+        # If icons.js does not exist, create a new one with the provided data
+        echo "{ '$icon_name': { box: 24, svg: '$path_data' }, }" > "$file_name"
+      fi
+      echo "Successfully updated $file_name with the path data for \"$icon_name\" icon."
+    else
+      echo "SVG content in \"$svg_file\" is invalid or does not contain any path data."
+    fi
+  done
+
+   # modify icons.js
+  # Contents to be added at the beginning
+  start_content="const icons ="
+
+  # Contents to be added at the end
+  end_content="export default icons;"
+
+  # Temp file to store modified contents
+  touch temp_file.js
+  temp_file="temp_file.js"
+  # Add the start_content at the beginning of the file
+  echo "$start_content" > "$temp_file"
+  cat "$file_name" >> "$temp_file"
+
+  # Add an empty line and the end_content at the end of the file
+  echo "" >> "$temp_file"
+  echo "$end_content" >> "$temp_file"
+  # Overwrite the original file with the modified contents
+  mv "$temp_file" "$file_name"
+  # end of modifying icons.js
+
+  # copy 
+  cp "${script_dir}/templates/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  # replace replace_size with 24
+  target_value="\"24\""
+  sed -i "s/replace_size/$target_value/g" Icon.svelte
+  # replace replace_name with repo_name
+  sed -i "s/replace_name/$repo_name/g" Icon.svelte
+
+  # create a index.js
+  # Content to write in the index.js file
+  content="export { default as Icon } from './Icon.svelte';
+export { default as icons } from './icons.js';"
+
+  # Write the content to index.js
+  echo "$content" > index.js
+  # endo fo creating the index.js
+  
+  # cleanup
+  # remove all svg files
+  find . -type f -name "*.svg" -exec rm {} \;
+
+  bannerColor 'Done.' "green" "*"
+  rm -rf filled
+  rm -rf outlined
+  rm -rf round
+  rm -rf sharp
+  rm -rf two-tone
+  # List of files to keep
+  keep_files=("index.js" "Icon.svelte" "icons.js")
+
+  # Loop through each file in the directory
+  for file in ./*; do
+      filename=$(basename "$file")
+      # Check if the file is not a directory and not in the list of files to keep
+      if [ ! -d "$file" ] && [[ ! " ${keep_files[@]} " =~ " ${filename} " ]]; then
+          # Remove the file
+          rm "$file"
+          echo "Removed: $file"
+      fi
+  done
+  
 }
