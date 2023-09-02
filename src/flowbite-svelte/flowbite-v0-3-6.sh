@@ -26,7 +26,13 @@ fn_flowbite() {
   for svg_file in *.svg; do
     
     sed -i "s;#2F2F38;currentColor;" "${svg_file}"
-
+    # #111928
+    sed -i "s;#111928;currentColor;" "${svg_file}"
+    # #2F3039
+    sed -i "s;#2F3039;currentColor;" "${svg_file}"
+    # #1F2A37
+    sed -i "s;#1F2A37;currentColor;" "${svg_file}"
+    
     # Extract the icon name
     icon_name=$(extract_icon_name "$svg_file")
 

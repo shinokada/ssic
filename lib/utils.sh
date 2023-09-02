@@ -28,6 +28,10 @@ clone_repo(){
   # $1 CURRENTDIR   
   # $2 DIRNAME
   # $3 GITURL
+  local CURRENTDIR="$1"
+  local DIRNAME="$2"
+  local GITURL="$3"
+
   if [ -d "${CURRENTDIR}" ]; then
     bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
     rm -rf "${CURRENTDIR:?}/"
@@ -35,11 +39,21 @@ clone_repo(){
   mkdir -p "${CURRENTDIR}"
   cd "${CURRENTDIR}" || exit 1
   # clone the repo
-  bannerColor "Cloning ${DIRNAME}." "green" "*"
-  npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
-    echo "not able to clone"
-    exit 1
-  }
+  # If DIRNAME is provided, clone the repo using it
+  if [ -n "${DIRNAME}" ]; then
+    bannerColor "Cloning ${DIRNAME}." "green" "*"
+    npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
+      echo "Not able to clone."
+      exit 1
+    }
+  else
+    # Clone the repo without using DIRNAME
+    bannerColor "Cloning without DIRNAME." "green" "*"
+    npx tiged "${GITURL}" "${CURRENTDIR}" >/dev/null 2>&1 || {
+      echo "Not able to clone."
+      exit 1
+    }
+  fi
 }
 
 extract_icon_name() {

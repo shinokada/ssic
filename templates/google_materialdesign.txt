@@ -52,25 +52,3 @@
   {@html svgpath}
 </svg>
 
-
-<!--
-  @component
-  [Go to Document](https://svelte-google-materialdesign-icons.codewithshin.com/)
-
-  ## Props
-  @prop size = "24";
-  @prop role = "img";
-  @prop color="currentColor";
-  @prop variation: "filled" | "outlined" | "round" | "sharp" | "two-tone" = "outlined";
-  @prop ariaLabel="icon name"
-  ## Event
-  - on:click
-  - on:keydown
-  - on:keyup
-  - on:focus
-  - on:blur
-  - on:mouseenter
-  - on:mouseleave
-  - on:mouseover
-  - on:mouseout
--->

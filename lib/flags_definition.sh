@@ -1,4 +1,4 @@
-parser_definition_flag() {
+parser_definition_flags() {
     setup REST plus:true help:usage abbr:true -- \
         "Usage: ${2##*/} [options...] [arguments...]" ''
     msg -- 'getoptions basic example' ''

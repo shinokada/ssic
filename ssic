@@ -67,7 +67,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/evil_definition.sh"
     . "${script_dir}/lib/feather_definition.sh"
     . "${script_dir}/lib/file_definition.sh"
-    . "${script_dir}/lib/flag_definition.sh"
+    . "${script_dir}/lib/flags_definition.sh"
     . "${script_dir}/lib/flagicons_definition.sh"
     . "${script_dir}/lib/flowbite_definition.sh"
     . "${script_dir}/lib/getoptions.sh"
@@ -120,7 +120,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ant.sh"
+        . "${script_dir}/src/ant-v0-5.sh"
         fn_ant "$@"
         ;;
     awesome)
@@ -128,7 +128,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/awesome.sh"
+        . "${script_dir}/src/awesome-v0-6.sh"
         fn_awesome "$@"
         ;;
     bootstrap)
@@ -136,7 +136,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/bootstrap.sh"
+        . "${script_dir}/src/bootstrap-v0-6.sh"
         fn_bootstrap "$@"
         ;;
     box)
@@ -144,7 +144,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/boxicons.sh"
+        . "${script_dir}/src/boxicons-v0-3.sh"
         fn_boxicons "$@"
         ;;
     css)
@@ -152,7 +152,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/css.sh"
+        . "${script_dir}/src/css-v0-3.sh"
         fn_css "$@"
         ;;
     circle-flags)
@@ -160,7 +160,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/circle_flags.sh"
+        . "${script_dir}/src/circle_flags-v0-7.sh"
         fn_circle_flags "$@"
         ;;
     coreui)
@@ -168,7 +168,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/coreui.sh"
+        . "${script_dir}/src/coreui-v0-3.sh"
         fn_coreui "$@"
         ;;
     crypto)
@@ -176,7 +176,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/crypto.sh"
+        . "${script_dir}/src/crypto-v0-7.sh"
         fn_crypto "$@"
         ;;
     evil)
@@ -184,7 +184,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/evil.sh"
+        . "${script_dir}/src/evil-v0-3.sh"
         fn_evil "$@"
         ;;
     feather)
@@ -192,7 +192,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/feather.sh"
+        . "${script_dir}/src/feather-v0-8.sh"
         fn_feather "$@"
         ;;
     file)
@@ -200,15 +200,15 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/file.sh"
+        . "${script_dir}/src/file-v0-8.sh"
         fn_file "$@"
         ;;
-    flag)
-        eval "$(getoptions parser_definition_flag parse "$0")"
+    flags)
+        eval "$(getoptions parser_definition_flags parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flag.sh"
+        . "${script_dir}/src/flags-v0-6.sh"
         fn_flag "$@"
         ;;
     flag-icons)
@@ -216,7 +216,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flag-icons.sh"
+        . "${script_dir}/src/flag-icons-v0-7.sh"
         fn_flagicons "$@"
         ;;
     flowbite)
@@ -224,7 +224,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flowbite.sh"
+        . "${script_dir}/src/flowbite-v0-4.sh"
         fn_flowbite "$@"
         ;;
     google-material-design)
@@ -232,23 +232,23 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/google_material_design.sh"
+        . "${script_dir}/src/google-material-v0-8.sh"
         fn_google_material_design "$@"
         ;;
-    hero)
+    heros)
         eval "$(getoptions parser_definition_hero parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/hero.sh"
+        . "${script_dir}/src/heros-v5.sh"
         fn_hero "$@"
         ;;
-    hero2)
+    heros2)
         eval "$(getoptions parser_definition_hero parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/hero2.sh"
+        . "${script_dir}/src/heros2-v0-10.sh"
         fn_hero2 "$@"
         ;;
     ion)
@@ -256,7 +256,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ion.sh"
+        . "${script_dir}/src/ion-v0-7.sh"
         fn_ion "$@"
         ;;
     lucide)
@@ -264,7 +264,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/lucide.sh"
+        . "${script_dir}/src/lucide-v0-8.sh"
         fn_lucide "$@"
         ;;
     material)
@@ -272,7 +272,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/material_design.sh"
+        . "${script_dir}/src/material-design-v0-8.sh"
         fn_material "$@"
         ;;
     oct)
@@ -280,7 +280,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/oct.sh"
+        . "${script_dir}/src/oct-v0-6.sh"
         fn_oct "$@"
         ;;
     radix)
@@ -288,7 +288,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/radix.sh"
+        . "${script_dir}/src/radix-v0-6.sh"
         fn_radix "$@"
         ;;
     remix)
@@ -296,7 +296,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/remix.sh"
+        . "${script_dir}/src/remix-v0-6.sh"
         fn_remix "$@"
         ;;
     simple)
@@ -304,7 +304,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/simple.sh"
+        . "${script_dir}/src/simple-v0-9.sh"
         fn_simple "$@"
         ;;
     supertiny)
@@ -312,7 +312,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/supertiny.sh"
+        . "${script_dir}/src/supertiny-v0-3.sh"
         fn_supertiny "$@"
         ;;
     tabler)
@@ -320,7 +320,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/tabler.sh"
+        . "${script_dir}/src/tabler-v0-6.sh"
         fn_tabler "$@"
         ;;
     teeny)
@@ -328,7 +328,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/teeny.sh"
+        . "${script_dir}/src/teeny-v0-9.sh"
         fn_teeny "$@"
         ;;
     twemoji)
@@ -336,7 +336,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/twemoji.sh"
+        . "${script_dir}/src/twemoji-v0-6.sh"
         fn_twemoji "$@"
         ;;
     weather)
@@ -344,7 +344,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/weather.sh"
+        . "${script_dir}/src/weather-v0-5.sh"
         fn_weather "$@"
         ;;
     # more lines

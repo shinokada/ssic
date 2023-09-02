@@ -2,7 +2,7 @@
   export let size = "24";
   export let viewBox: string = '0 0 24 24';
   export let role = "img";
-  export let strokeWidth = "1.5"
+  export let strokeWidth = "1.5";
   export let color="currentColor";
 </script>
 

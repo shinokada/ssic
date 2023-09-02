@@ -3,7 +3,7 @@
   // heroicons v2.0.10
   export let size = "20";
   export let role = "img";
-  export let color="#0F172A";
+  export let color = "#0F172A";
   export let viewBox: string = '0 0 20 20';
 </script>
 
@@ -29,25 +29,3 @@
   replace_svg_mini
 </svg>
 
-
-<!--
-  @component
-  [Go to Document](https://svelte-heros-v2.codewithshin.com/)
-
-  ## Props
-  @prop size = "20";
-  @prop role = "img";
-  @prop color="#0F172A";
-  @prop viewBox: string = '0 0 20 20';
-  @prop ariaLabel = 'icon file name';
-  ## Event
-  - on:click
-  - on:keydown
-  - on:keyup
-  - on:focus
-  - on:blur
-  - on:mouseenter
-  - on:mouseleave
-  - on:mouseover
-  - on:mouseout
--->

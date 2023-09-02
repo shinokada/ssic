@@ -46,23 +46,3 @@
 >
   {@html svgpath}
 </svg>
-
-
-<!--
-  @component
-  [Go to Document](https://svelte-cryptocurrency-icons.codewithshin.com/)
-  ## Props
-  @prop size = "32";
-  @prop role = 'img';
-  @prop variation: "black" | "color" | "icon" | "white" = "color";
-  ## Event
-  - on:click
-  - on:keydown
-  - on:keyup
-  - on:focus
-  - on:blur
-  - on:mouseenter
-  - on:mouseleave
-  - on:mouseover
-  - on:mouseout
--->

@@ -1,3 +1,5 @@
+# svelte-heros-v2 v0.7.x
+
 fn_hero2() {
   GITURL="git@github.com:tailwindlabs/heroicons.git"
   DIRNAME='src'
@@ -11,7 +13,9 @@ fn_hero2() {
    
   # Move and rename svg files from the "outline" directory
   for file in 24/outline/*.svg; do
+      # Remove the '24/outline/' prefix from the file path
       new_name="${file/24\/outline\//}"
+      # Replace the '.svg' extension with '-outline.svg'
       new_name="${new_name/.svg/-outline.svg}"
       mv "$file" "$new_name"
   done
