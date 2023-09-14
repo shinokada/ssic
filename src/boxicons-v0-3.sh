@@ -17,7 +17,7 @@ fn_modify_svg() {
       # if ${CURRENTDIR}/${file} doesn't exist, create it
       if [ ! -f "${CURRENTDIR}/${file}" ]; then
         # copy "${script_dir}/templates/boxicon.txt" to ${CURRENTDIR}/${file}
-        cp "${script_dir}/templates/boxicon/boxicon-v0-3.txt" "${CURRENTDIR}/${file}"
+        cp "${script_dir}/templates/boxicon/boxicon-v0-3-context.txt" "${CURRENTDIR}/${file}"
       fi
       # remove the \n with a space first then remove both the opening and closing SVG tags
       SVGPATH=$(extract_svg_path "$file")
