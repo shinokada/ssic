@@ -19,7 +19,7 @@ fn_remove(){
 
 fn_scripttag(){
   # Insert script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24"; export let role="img"; export let color="currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/{...$$restProps} {role} width={size} height={size} fill={color} class={$$props.class} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' ./*.* && sed -i 's/viewBox=/{...$$restProps} {role} width={size} height={size} fill={color} class={$$props.class} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
 }
 
 fn_ant() {
@@ -128,24 +128,29 @@ fn_ant() {
       # remove fill={color}
       sed -i 's/fill={color}/\n/' "${filename}"
       # change export let color="currentColor"; to export let strokeColor="currentColor"
-      sed -i 's/export let color="currentColor";/export let strokeColor="#333";/' "${filename}"
+      # export let strokeColor = ctx.color || "#333";
+      sed -i 's/export let color = ctx.color || "currentColor";/export let strokeColor = ctx.strokeColor || "#333";/' "${filename}"
       # change fill="#333" to fill={strokeColor}
       sed -i 's/fill="#333"/fill={strokeColor}/' "${filename}"
     fi
     if grep -q 'fill="#E6E6E6"' "${filename}"; then
       # insert export let insideColor="#E6E6E6" to script tag
+      # export let insideColor = ctx.insideColor || "#E6E6E6";
       # use ; instead of /
-      sed -i 's;</script>;export let insideColor="#E6E6E6"\; &;' "${filename}"
+      sed -i 's;</script>;export let insideColor = ctx.insideColor || "#E6E6E6"\; &;' "${filename}"
       # change fill="#E6E6E6" to fill={insideColor}
       sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "${filename}"
     fi
     # Files with #D9D9D9 fill inside
     if grep -q 'fill="#D9D9D9"' "${filename}"; then
       # change export let color="currentColor"; to export let strokeColor="currentColor"
-      sed -i 's/export let color="currentColor";/export let strokeColor="currentColor";/' "${filename}"
+      # export let color = ctx.color || "currentColor"; to
+      # export let strokeColor = ctx.strokeColor || "currentColor";
+      sed -i 's/export let color = ctx.color || "currentColor";/export let strokeColor = ctx.strokeColor || "currentColor";/' "${filename}"
       # insert export let insideColor="#D9D9D9" to script tag
+      # export let insideColor = ctx.insideColor || "#D9D9D9" 
       # use ; instead of /
-      sed -i 's;</script>;export let insideColor="#D9D9D9"\; &;' "${filename}"
+      sed -i 's;</script>;export let insideColor = ctx.insideColor || "#D9D9D9"\; &;' "${filename}"
       # change fill={color} to fill={strokeColor}
       sed -i 's/fill={color}/fill={strokeColor}/' "${filename}"
       # change fill="#D9D9D9" to fill={fillInside}
