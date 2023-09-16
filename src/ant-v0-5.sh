@@ -15,6 +15,8 @@ fn_remove(){
   # remove <?xml version="1.0" encoding="UTF-8"?>
   sed -i 's/<?xml version="1.0" encoding="UTF-8"?>/\n/' ./*.*
   sed -i 's/fill="currentColor"//g' ./*.*
+  # remove p-id="xxxxx"
+  sed -i 's/p-id="[0-9]*"//g' ./*.*
 }
 
 fn_scripttag(){

@@ -14,10 +14,11 @@ fn_svg_path(){
         fi
 
         # delete the first and last lines to get <path ..../> part
-        SVGPATH=$(sed '1d; $d' "${file}")
+        # SVGPATH=$(sed '1d; $d' "${file}")
+        SVGPATH=$(extract_svg_path "$file")
         # replace new line with space
-        SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
-
+        # SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
+        # sed -i "s;replace_svg;${SVGPATH};" "${CURRENTDIR}/${file}"
         sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
         # get viewBox value
         VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
@@ -65,25 +66,26 @@ fn_modify_file(){
       # replace stroke-linecap="round" with stroke-linecap="{strokeLinecap}"
       sed -i 's/stroke-linecap="round"/stroke-linecap="\{strokeLinecap\}"/' "${filename}"
       # insert export let strokeLinecap:  "round" | "inherit" | "butt" | "square" | null | undefined = "round"; before </script>
-      sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | null | undefined = "round";' "${filename}"
+      sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | null | undefined = ctx.strokeLinecap || "round";' "${filename}"
     fi
 
     if grep -q 'stroke-linejoin="round"' "${filename}"; then
       # replace stroke-linejoin="round" with stroke-linejoin="{strokeLinejoin}"
       sed -i 's/stroke-linejoin="round"/stroke-linejoin="\{strokeLinejoin\}"/' "${filename}"
-      sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | null | undefined = "round";' "${filename}"
+      sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | null | undefined = ctx.strokeLinejoin || "round";' "${filename}"
     fi
 
     if grep -q 'stroke-width="2"' "${filename}"; then
       # replace stroke-width="2" with stroke-width="{strokeWidth}"
       sed -i 's/stroke-width="2"/stroke-width="\{strokeWidth\}"/g' "${filename}"
-      sed -i '/<\/script>/i export let strokeWidth= "2";' "${filename}"
+      sed -i '/<\/script>/i export let strokeWidth= ctx.strokeWidth || "2";' "${filename}"
     fi
 
-    # replace fill="#xxxxxx", or any other css hex with fill="currentColor"
-    # sed -i 's/fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
-    # sed -i 's/\(fill\|stroke\)="#[0-9A-Fa-f]\{6\}"/\1="currentColor"/g' "${filename}"
-    # 
+    # if grep -q 'stroke="currentColor"' "${filename}"; then
+    #   # replace stroke="currentColor" with stroke={color}
+    #   sed -i 's/stroke="currentColor"/stroke=\{color\}/g' "${filename}"
+    # fi
+
     sed -i 's/fill="#000"\|fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
     sed -i 's/stroke="#[0-9A-Fa-f]\{6\}"/stroke="currentColor"/g' "${filename}"
   done
@@ -99,20 +101,6 @@ fn_flowbite() {
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
   clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"
-
-  # if there is lib dir, remove it
-  # if [ -d "${CURRENTDIR}" ]; then
-  #   bannerColor "Removing the previous ${CURRENTDIR} dir." "blue" "*"
-  #   rm -rf "${CURRENTDIR:?}/"
-  # fi
-  # mkdir -p "${CURRENTDIR}"
-  # cd "${CURRENTDIR}" || exit 1
-  # # clone the repo
-  # bannerColor "Cloning ${DIRNAME}." "green" "*"
-  # npx tiged "${GITURL}/${SVGDIR}" >/dev/null 2>&1 || {
-  #   echo "not able to clone"
-  #   exit 1
-  # }
 
   # For each svelte file modify contents of all file by adding
   bannerColor 'Modifying all files.' "blue" "*"
