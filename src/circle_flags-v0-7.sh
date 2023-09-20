@@ -18,18 +18,18 @@ fn_circle_flags() {
 
   # Loop through files matching the pattern "it-*.svg"
   for file in it-[0-9]*.svg; do
-      # Check if the file name is not exactly "it.svg"
-      if [ "$file" != "it.svg" ]; then
-          # Delete the file
-          rm "$file"
-          echo "Deleted: $file"
-      fi
+    # Check if the file name is not exactly "it.svg"
+    if [ "$file" != "it.svg" ]; then
+        # Delete the file
+        rm "$file"
+        echo "Deleted: $file"
+    fi
   done
   # For each svg file modify contents by
   bannerColor 'Modifying all files.' "blue" "*"
 
   # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>export let size="24"; export let role="img";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img";<\/script>/' ./*.* && sed -i 's/viewBox=/class={$$props.class} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
 
   # Change from width="512" and height="512" to width={size} and height={size}
   sed -i 's/width="512"/width={size}/' ./*.*

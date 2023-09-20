@@ -10,41 +10,35 @@ fn_modify_svg() {
 
     for filename in *; do
 
-      sed -i '1s/^/<script>\nexport let color = "currentColor"\nexport let role="img";\n<\/script>\n/' "$filename"
-
       if [ "$SUBDIRNAME" = "brand" ]; then
-        # if SUBDIRNAME is brand
-        # width="32" height="32" viewBox="0 0 32 32"
-        # replace to width="{size}" height="{size}" and add export let size = "32"; to script
+        sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "32"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' "$filename"
         sed -i 's/width="32"/width="{size}"/' "$filename"
         sed -i 's/height="32"/height="{size}"/' "$filename"
-        sed -i 's|</script>|export let size = "32"; &|' "${filename}"
+        sed -i 's/viewBox=/{role}\n{...$$restProps}\naria-label="{ariaLabel}"\nfill="{color}"\non:click\non:keydown\non:keyup\non:focus\non:blur\non:mouseenter\non:mouseleave\non:mouseover\non:mouseout\n &/' "$filename"
       fi
 
       if [ "$SUBDIRNAME" = "flag" ]; then
-        # if SUBDIRNAME is flag
-        # width="300" height="210" viewBox="0 0 300 210"
-        # to {width} or {height} and add export let width; export let height;
+        # this returns box_width and box_height
+        extract_box_dimensions "$filename"
+        sed -i "1s/^/<script>import { getContext } from 'svelte'; const ctx = getContext('iconCtx') ?? {}; export let width = ctx.width || $box_width; export let height = ctx.height || $box_height; export let role = ctx.role || 'img';<\/script>/" "$filename"
         sed -i 's/\(width=\)"[0-9]*"/\1"{width}"/' "${filename}"
         sed -i 's/\(height=\)"[0-9]*"/\1"{height}"/' "${filename}"
-        sed -i "s/<\/script>/export let width; export let height; &/" "${filename}"
+        sed -i 's/viewBox=/{role}\n{...$$restProps}\naria-label="{ariaLabel}"\non:click\non:keydown\non:keyup\non:focus\non:blur\non:mouseenter\non:mouseleave\non:mouseover\non:mouseout\n &/' "$filename"
       fi
 
       if [ "$SUBDIRNAME" = "free" ]; then
-        # if SUBDIRNAME is free
-        # viewBox="0 0 512 512"
-        # add width="{size}" height="{size}" and export let size = "32"; to script
+        sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "32"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' "$filename"
         sed -i 's/viewBox=/width="{size}"\nheight="{size}" &/' "$filename"
-        sed -i 's/<\/script>/export let size = "32"; &/' "${filename}"
         # replace fill="var(--ci-primary-color, currentColor)" with fill="var(--ci-primary-color, {color})"
         sed -i 's/fill="var(--ci-primary-color, currentColor)"/fill="var(--ci-primary-color, {color})"/g' "$filename"
         # remove class="ci-primary"
         sed -i 's/class="ci-primary"//g' "$filename"
+        sed -i 's/viewBox=/{role}\n{...$$restProps}\naria-label="{ariaLabel}"\nfill="{color}"\non:click\non:keydown\non:keyup\non:focus\non:blur\non:mouseenter\non:mouseleave\non:mouseover\non:mouseout\n &/' "$filename"
       fi
       
       FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
       
-      sed -i 's/viewBox=/{role}\n{...$$restProps}\naria-label="{ariaLabel}"\nfill="{color}"\non:click\non:keydown\non:keyup\non:focus\non:blur\non:mouseenter\non:mouseleave\non:mouseover\non:mouseout\n &/' "$filename"
+      
       
       FILENAMEONE=$(basename "${filename}" .svg)
       FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
@@ -57,7 +51,6 @@ fn_modify_svg() {
       # Remove all -
       new_name=$(echo "$new_name" | sed 's/-//g')
       # Change the extension from svg to svelte
-      # new_name=$(echo "$new_name" | sed 's/svg$/svelte/g')
       mv "${SUBSRC}/${FILENAMEONE}.svg" "${CURRENTDIR}/${new_name}.svelte"
     done
   done
