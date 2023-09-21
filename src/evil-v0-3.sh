@@ -13,7 +13,7 @@ fn_modify_svg() {
     # remove height="50" 
     sed -i 's/height="50"//' "$filename"
     # inserting script tag at the beginning
-    sed -i '1s/^/<script>\nexport let strokeWidth = "2";\nexport let color = "currentColor";\nexport let size="50";\nexport let role="img";\n<\/script>\n/' "$filename"
+    sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let strokeWidth = ctx.strokeWidth || "2"; export let size = ctx.size || "50"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' "$filename"
     sed -i 's/viewBox=/\nwidth="{size}"\nheight="{size}"\nfill="{color}"\n{role}\nstroke-linecap="round"\nstroke-linejoin="round"\nstroke-width="{strokeWidth}"\n{...$$restProps}\n aria-label="{ariaLabel}"\n on:click\n on:keydown\n on:keyup\n on:focus\n on:blur\n on:mouseenter\n on:mouseleave\n on:mouseover\n on:mouseout\n &/' "$filename"
 
     # add arialabel

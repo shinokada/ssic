@@ -37,7 +37,7 @@ fn_file() {
 
   # inserting script tag at the beginning and insert width={size} height={size} 
   # replacing from width to > with content
-  sed -i '1s/^/<script>export let size="24"; export let role = "img"; export let color="currentColor";<\/script>/' ./*.svg
+  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' ./*.svg
 
   # get textname from filename
   for filename in "${CURRENTDIR}"/*; do

@@ -19,7 +19,7 @@ fn_feather() {
   sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
 
   # Insert script tag at the beginning and insert class={className} and viewBox
-  sed -i '1s/^/<script>export let size="24"; export let role = "img"; export let color="currentColor";<\/script>/' ./*.* 
+  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' ./*.* 
 
   # Insert {...$$restprops} after stroke-linejoin="round" 
   sed -i 's/stroke-linejoin="round"/& class={$$props.class} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*

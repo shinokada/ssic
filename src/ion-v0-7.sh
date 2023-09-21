@@ -26,7 +26,7 @@ fn_ion() {
   sed -i 's/<?xml version="1.0" encoding="utf-8"?>//' ./*.*
 
   # Change viewBox="0 0 512 512" to viewBox="0 0 512 512" width={size} height={size} class={$$props.class}
-  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} {role} width={size} height={size} fill={color} class={$$props.class} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
+  sed -i 's/viewBox="0 0 512 512"/viewBox="0 0 512 512" {...$$restProps} {role} width={size} height={size} fill={color} aria-label={ariaLabel} class={$$props.class} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
 
   # remove  width="512" and height="512"
   sed -i 's/width="512"//' ./*.*
@@ -43,9 +43,16 @@ fn_ion() {
   sed -i 's/stroke:#000/stroke:{color}/g' ./*.*
 
   # Insert script tag at the beginning and insert class={className} and viewBox
-  sed -i '1s/^/<script>export let size="24"; export let role="img"; export let color="currentColor"<\/script>/' ./*.*
+  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' ./*.*
+
+  for filename in "${CURRENTDIR}"/*; do
+    FILENAMEONE=$(basename "${filename}" .svelte)
+    FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
+    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\"\; \n&;" "${filename}" >/dev/null 2>&1
+  done
 
   bannerColor 'Modification is done in outline dir.' "green" "*"
+
 
   cp "${script_dir}/templates/ion/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 

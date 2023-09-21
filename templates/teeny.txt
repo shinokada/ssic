@@ -1,7 +1,16 @@
 <script lang="ts">
-  export let size: string = "15";
-  export let role: string = "img";
-  export let color: string = "currentColor" 
+  interface CtxType {
+    size?: string;
+    role?: string;
+    color?: string;
+    variation?: "solid" | "outline";
+  }
+
+  import { getContext } from 'svelte';
+  const ctx: CtxType = getContext('iconCtx') ?? {};
+  export let size: string = ctx.size || '15';
+  export let role: string = ctx.role || 'img';
+  export let color: string = ctx.color || 'currentColor';
   export let variation: "solid" | "outline" = "outline";
 </script>
 

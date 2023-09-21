@@ -1,6 +1,6 @@
 fn_modify_svg() {
   # inserting script tag at the beginning and insert width={size} height={size}
-  sed -i '1s/^/<script>export let size="36"; export let role="img";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
+  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img";<\/script>/' ./*.* && sed -i 's/viewBox=/width={size} height={size} {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
 
   bannerColor "Getting file names." "blue" "*"
   # get textname from filename

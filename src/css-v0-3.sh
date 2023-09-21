@@ -15,14 +15,9 @@ fn_modify_svg() {
     # Change stroke="currentColor" to stroke={color}
     sed -i 's/stroke="currentColor"/stroke={color}/' "$filename"
     # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    sed -i '1s/^/<script>\n export let color = "currentColor"\n export let size="24";\n export let role="img";\n<\/script>\n/' "$filename"
+    sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor";<\/script>/' "$filename"
     sed -i 's/viewBox=/{role}\n {...$$restProps}\n aria-label="{ariaLabel}"\n on:click\n on:keydown\n on:keyup\n on:focus\n on:blur\n on:mouseenter\n on:mouseleave\n on:mouseover\n on:mouseout\n &/' "$filename"
-  
-    # Add component doc
-    echo -e "\n<!--\n@component\n[Go to Document](https://shinokada.github.io/svelte-cssgg-icons/)\n## Props\n@prop role = 'img';\n@prop size = '24';\n@prop color = 'currentColor'\n@prop ariaLabel='file name'\n## Event\n- on:click\n- on:keydown\n- on:keyup\n- on:focus\n- on:blur\n- on:mouseenter\n- on:mouseleave\n- on:mouseover\n- on:mouseout\n-->" >> "$filename"
 
-    # FILENAMEONE=$(basename "${filename}" .svelte | tr '[:upper:]' '[:lower:]') 
-    # FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     FILENAMEONE=$(basename "${filename}" .svg)
     FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
     sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" \n&;" "${filename}" >/dev/null 2>&1

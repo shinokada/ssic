@@ -35,10 +35,16 @@ fn_lucide() {
     sed -i 's/stroke="currentColor"/stroke={color}/' ./*.*
 
     # Insert script tag at the beginning and insert class={className} and viewBox
-    sed -i '1s/^/<script>export let size="24"; export let role ="img"; export let color="currentColor"; export let strokeWidth="2"<\/script>/' ./*.* 
+    sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor"; export let strokeWidth = ctx.strokeWidth || "2";<\/script>/' ./*.* 
 
     # Insert {...$$restprops} after stroke-linejoin="round" 
-    sed -i 's/stroke-linejoin="round"/& {...$$restProps} {role} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
+    sed -i 's/stroke-linejoin="round"/& {...$$restProps} {role} aria-label="{ariaLabel}" on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout /' ./*.*
+
+    for filename in "${CURRENTDIR}"/*; do
+      FILENAMEONE=$(basename "${filename}" .svelte)
+      FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
+      sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\"\; \n&;" "${filename}" >/dev/null 2>&1
+    done
 
     bannerColor 'Modification is done in outline dir.' "green" "*"
 
