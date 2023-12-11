@@ -7,7 +7,16 @@
   export let ariaLabel: string = 'Icon';
 </script>
 
-<svelte:component 
+<svelte:component
+  on:click
+  on:keydown
+  on:keyup
+  on:focus
+  on:blur
+  on:mouseenter
+  on:mouseleave
+  on:mouseover
+  on:mouseout
   {...$$restProps} 
   {role}
   this={icon} 
