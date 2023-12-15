@@ -1,0 +1,40 @@
+<script lang="ts">
+  interface CtxType {
+    size?: string;
+    role?: string;
+    color?: string;
+    variation?: "solid" | "outline";
+    viewBox?: string;
+  }
+
+  interface Props {
+    size?: string;
+    role?: string;
+    color?: string;
+    ariaLabel?: string;
+    variation?: 'solid' | 'outline';
+    viewBox?: string;
+  }
+
+    import { getContext } from 'svelte';
+  const ctx: CtxType = getContext('iconCtx') ?? {};
+  let {size = ctx.size || "24", role = ctx.role || 'img', ariaLabel = 'replaceAriaLabel', viewBox = ctx.viewBox || '0 0 24 24', color = ctx.color || 'currentColor', variation = ctx.variation || 'outline', ...attributes}: Props  = $props();
+</script>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  {...attributes}
+  {role}
+  aria-label={ariaLabel}
+  {viewBox}
+  stroke-width="2" 
+  {onclick}
+>
+  {#if variation === 'outline'}
+    replace_svg_outline
+  {:else}
+    replace_svg_solid
+  {/if}
+</svg>

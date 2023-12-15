@@ -240,7 +240,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros-v5.sh"
+        . "${script_dir}/src/heros-v6.sh"
         fn_hero "$@"
         ;;
     heros2)
