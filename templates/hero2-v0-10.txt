@@ -3,7 +3,7 @@
     size?: string;
     role?: string;
     color?: string;
-    variation?: "solid" | "outline" | "mini";
+    variation?: "solid" | "outline" | "mini" | "micro";
     viewBox?: string;
     strokeWidth?: string;
   }
@@ -13,7 +13,7 @@
   export let size: string = ctx.size || '24';
   export let role: string = ctx.role || 'img';
   export let color: string = ctx.color || 'currentColor';
-  export let variation: "solid" | "outline" | "mini" = ctx.variation || "outline";
+  export let variation: "solid" | "outline" | "mini" | "micro" = ctx.variation || "outline";
   export let viewBox: string = ctx.viewBox || '0 0 24 24';
   export let strokeWidth: string = ctx.strokeWidth || '1.5';
   
@@ -22,6 +22,9 @@
   if (variation === 'mini') {
     size = size || "20";
     viewBox = viewBox || '0 0 20 20';
+  } else if (variation === 'micro'){
+    size = size || "16";
+    viewBox = viewBox || '0 0 16 16';
   } else {
     size = size || "24";
     viewBox = viewBox || '0 0 24 24';
@@ -53,6 +56,8 @@
   replace_svg_outline
 {:else if variation === 'mini'}
   replace_svg_mini
+{:else if variation === 'micro'}
+  replace_svg_micro
 {:else}
   replace_svg_solid
 {/if}
