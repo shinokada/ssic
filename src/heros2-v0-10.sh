@@ -1,58 +1,58 @@
 # Since v0.9 add icons.js the built files are too big.
 # This version goes back to v0.7.x
 
-# fn_modify_mini(){
-#   DIR=$1 #${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR} means lib dir
-#   SUBDIR=$2 #src/20/solid
+fn_modify_mini(){
+  DIR=$1 #${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR} means lib dir
+  SUBDIR=$2 #src/20/solid
 
-#   bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
-#   cd "${DIR}/${SUBDIR}" || exit
-#   # For each svelte file modify contents of all file
-#   bannerColor "Modifying all files in ${SUBDIR}/solid." "cyan" "*"
-#   for file in *; do
-#       # delete the first and last lines to get <path ..../> part
-#       SVGPATH=$(sed '1d; $d' "${file}")
-#       # replace new line with space
-#       SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
+  bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
+  cd "${DIR}/${SUBDIR}" || exit
+  # For each svelte file modify contents of all file
+  bannerColor "Modifying all files in ${SUBDIR}/solid." "cyan" "*"
+  for file in *; do
+      # delete the first and last lines to get <path ..../> part
+      SVGPATH=$(sed '1d; $d' "${file}")
+      # replace new line with space
+      SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
 
-#       sed -i "s;replace_svg_mini;${SVGPATH};" "${DIR}/${file}"
-#     done
-# }
+      sed -i "s;replace_svg_mini;${SVGPATH};" "${DIR}/${file}"
+    done
+}
 
-# fn_modify_micro(){
-#   DIR=$1 #${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR} means lib dir
-#   SUBDIR=$2 #src/20/solid
+fn_modify_micro(){
+  DIR=$1 #${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR} means lib dir
+  SUBDIR=$2 #src/20/solid
 
-#   bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
-#   cd "${DIR}/${SUBDIR}" || exit
-#   # For each svelte file modify contents of all file
-#   bannerColor "Modifying all files in ${SUBDIR}/solid." "cyan" "*"
-#   for file in *; do
-#       # delete the first and last lines to get <path ..../> part
-#       SVGPATH=$(sed '1d; $d' "${file}")
-#       # replace new line with space
-#       SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
+  bannerColor "Changing dir to ${DIR}/${SUBDIR}" "blue" "*"
+  cd "${DIR}/${SUBDIR}" || exit
+  # For each svelte file modify contents of all file
+  bannerColor "Modifying all files in ${SUBDIR}/solid." "cyan" "*"
+  for file in *; do
+      # delete the first and last lines to get <path ..../> part
+      SVGPATH=$(sed '1d; $d' "${file}")
+      # replace new line with space
+      SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
 
-#       sed -i "s;replace_svg_micro;${SVGPATH};" "${DIR}/${file}"
-#     done
-# }
+      sed -i "s;replace_svg_micro;${SVGPATH};" "${DIR}/${file}"
+    done
+}
 
 fn_modify_mini_micro() {
   DIR="$1/${2}" # ${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR} means lib dir
   REPLACE_STRING="$3"
 
-  bannerColor "Changing dir to ${DIR}" "blue" "*"
+  bannerColor "Changing dir to ${DIR}. and 3: ${REPLACE_STRING}" "blue" "*"
   cd "${DIR}" || exit
 
   # For each Svelte file, modify contents
-  bannerColor "Modifying all files in ${2}/solid." "cyan" "*"
+  bannerColor "Modifying all files in ${2}." "cyan" "*"
   for file in *; do
     # delete the first and last lines to get <path ..../> part
     SVGPATH=$(sed '1d; $d' "${file}")
     # replace new line with space
     SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
 
-    sed -i "s;replace_svg_${3};${SVGPATH};" "${DIR}/${file}"
+    sed -i "s;replace_svg_${REPLACE_STRING};${SVGPATH};" "${DIR}/${file}"
   done
 }
 
@@ -86,13 +86,16 @@ fn_modify_svg() {
     done
   done
 
-  fn_modify_mini_micro "${CURRENTDIR}" "${MINISVG}/solid" "mini"
-  fn_modify_mini_micro "${CURRENTDIR}" "${MICRO}/solid" "micro"
+  bannerColor "Adding mini." "blue" "*"
+  fn_modify_mini "${CURRENTDIR}" "${MINISVG}/solid"
+  bannerColor "Adding micro." "blue" "*"
+  fn_modify_micro "${CURRENTDIR}" "${MICRO}/solid"
 
   # remove src dir
   bannerColor "Removing src dir." "blue" "*"
   rm -rf "${CURRENTDIR:?}/24"
   rm -rf "${CURRENTDIR:?}/20"
+  rm -rf "${CURRENTDIR:?}/16"
   bannerColor "Removed ${SUBDIR} dir." "green" "*"
 
   bannerColor 'Replacing fill=" #..." and stroke="#..." with fill={color}.' "blue" "*"
@@ -110,9 +113,8 @@ fn_modify_svg() {
 
 
 fn_modify_filenames() {
-  CURRENTDIR=$1
   cd "${CURRENTDIR}" || exit 1
-
+  bannerColor "cd to ${CURRENTDIR}." "blue" "*"
   bannerColor "Adding arialabel to all files." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
     FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
@@ -150,7 +152,7 @@ fn_hero2() {
 
   fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
 
-  fn_modify_filenames "${CURRENTDIR}"
+  fn_modify_filenames
 
   #############################
   #    INDEX.JS PART 1 IMPORT #

@@ -66,7 +66,7 @@ fn_hero() {
 
   fn_modify_filenames 
 
-  cp "${script_dir}/templates/heros/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/templates/heros/Icon6.svelte" "${CURRENTDIR}/Icon.svelte"
 
   cd "${CURRENTDIR}" || exit 1
 
