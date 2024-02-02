@@ -101,7 +101,10 @@ fn_flowbite() {
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
   clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"
-
+  # since there are two x.svg and X.svg rename X.svg to twitter.svg
+  mv "${CURRENTDIR}/solid/brands/X.svg" "${CURRENTDIR}/solid/brands/twitter.svg"
+  mv "${CURRENTDIR}/outline/media/Grid (24x24px).svg" "${CURRENTDIR}/outline/media/pause.svg"
+  
   # For each svelte file modify contents of all file by adding
   bannerColor 'Modifying all files.' "blue" "*"
   
