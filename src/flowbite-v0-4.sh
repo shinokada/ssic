@@ -104,6 +104,9 @@ fn_flowbite() {
   # since there are two x.svg and X.svg rename X.svg to twitter.svg
   mv "${CURRENTDIR}/solid/brands/X.svg" "${CURRENTDIR}/solid/brands/twitter.svg"
   mv "${CURRENTDIR}/outline/media/Grid (24x24px).svg" "${CURRENTDIR}/outline/media/pause.svg"
+  mv "${CURRENTDIR}/solid/general/mobile phone.svg" "${CURRENTDIR}/solid/general/mobile-phone.svg" 
+  mv "${CURRENTDIR}/solid/general/circle check.svg" "${CURRENTDIR}/solid/general/circle-check.svg" 
+  # exit
   
   # For each svelte file modify contents of all file by adding
   bannerColor 'Modifying all files.' "blue" "*"
