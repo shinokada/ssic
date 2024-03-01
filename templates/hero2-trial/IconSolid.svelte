@@ -47,7 +47,7 @@ viewBox="0 0 24 24"
 
 <!--
 @component
-[Go to Document](https://svelte-heros-v2.vercel.app/)
+[Go to Document](https://svelte-heros-v2.codewithshin.com/)
 ## Props
 @ name: string = '';
 @ width = "24";

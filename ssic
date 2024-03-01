@@ -131,6 +131,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/awesome-v0-6.sh"
         fn_awesome "$@"
         ;;
+    awesome-next)
+        eval "$(getoptions parser_definition_awesome parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/awesome-v2-next.sh"
+        fn_awesome "$@"
+        ;;
     bootstrap)
         eval "$(getoptions parser_definition_bootstrap parse "$0")"
         parse "$@"
@@ -225,6 +233,14 @@ if [ $# -gt 0 ]; then
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/flowbite-v0-4.sh"
+        fn_flowbite "$@"
+        ;;
+    flowbite-next)
+        eval "$(getoptions parser_definition_flowbite parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flowbite-v2-next.sh"
         fn_flowbite "$@"
         ;;
     google-material-design)

@@ -42,7 +42,7 @@
 
 <!--
   @component
-  [Go to Document](https://flowbite-svelte-icons.vercel.app/)
+  [Go to Document](https://flowbite-svelte-icons.codewithshin.com/)
 
   ## Props
   @prop name;
