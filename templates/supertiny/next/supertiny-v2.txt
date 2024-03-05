@@ -1,0 +1,15 @@
+<script lang='ts'>
+  import { getContext } from 'svelte';
+  interface CtxType {
+		size?: string;
+		role?: string;
+	}
+  const ctx: CtxType = getContext('iconCtx') ?? {};
+  interface Props{
+    size?: string;
+    role?: string;
+    ariaLabel?: string;
+    class?: string;
+  }
+  let { size = ctx.size || '24', role = ctx.role || 'img',  ariaLabel = replace_ariaLabel, class: classname, ...restProps } = $props<Props>();
+</script>

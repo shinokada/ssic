@@ -331,6 +331,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/supertiny-v0-3.sh"
         fn_supertiny "$@"
         ;;
+    supertiny-next)
+        eval "$(getoptions parser_definition_supertiny parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/supertiny/supertiny-v2-next.sh"
+        fn_supertiny "$@"
+        ;;
     tabler)
         eval "$(getoptions parser_definition_tabler parse "$0")"
         parse "$@"

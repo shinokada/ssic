@@ -3,11 +3,12 @@
   interface Props{
     icon: ComponentType;
     size?: number;
+    color?: string;
     role?: string;
     ariaLabel?: string;
     class?: string;
   }
-  let {icon, size = 24, role = 'img', ariaLabel = 'Icon', class: classname, ...restProps} = $props<Props>()
+  let {icon, size = 24, color, role = 'img', ariaLabel = 'Icon', class: classname, ...restProps} = $props<Props>()
 </script>
 
 <svelte:component 
@@ -15,6 +16,7 @@
   {role}
   this={icon} 
   {size} 
+  {color} 
   class={classname} 
   aria-label={ariaLabel}
 />
