@@ -1,33 +1,59 @@
-fn_modify_svg() {
-  # removing width="16" height="16"
-  sed -i 's/width="[^"]*"/width="{size}"/' ./*.* >/dev/null 2>&1
-  sed -i 's/height="[^"]*"/height="{size}"/' ./*.* >/dev/null 2>&1
+fn_svg_path(){
+  bannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
+  cd "${CURRENTDIR}" || exit
 
-  # change fill="none" to fill={color}
-  sed -i 's/fill="none"/fill={color}/' ./*.* >/dev/null 2>&1
+  for file in *; do
+    FILENAME=$(basename "${file%.*}")
+    # create svelte file like address-book-solid.svelte
+    SVETLENAME="${CURRENTDIR}/${FILENAME}.svelte"
+    cp "${script_dir}/templates/radix/radix.txt" "${SVETLENAME}"
 
-  # remove fill="currentColor"
-  sed -i 's/fill="currentColor"//' ./*.* >/dev/null 2>&1
-
-  bannerColor "Inserting script tag to all files." "magenta" "*"
-  # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-  sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; export let color = ctx.color || "currentColor"; <\/script>/' ./*.* && sed -i 's/viewBox=/ {...$$restProps} {role} aria-label={ariaLabel} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' ./*.*
-
-  bannerColor "Getting file names." "blue" "*"
-  # get textname from filename
-  for filename in "${CURRENTDIR}"/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
-    sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}"
+    SVGPATH=$(extract_svg_path "$file")
+    # replace replace_svg_path with svg path
+    # with g option for all occurrences
+    sed -i "s;replace_svg_path;${SVGPATH};g" "${SVETLENAME}"
+    # get viewBox value
+    # VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
+    # sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
   done
-
-  #  modify file names
-  bannerColor "Renaming all files." "blue" "*"
-  # rename files with number at the beginning with A
-  rename -v 's{^\./(\d*)(.*)\.svg\Z}{
-  ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
-  bannerColor 'Modification is done in the dir.' "green" "*"
 }
+
+fn_modify_filenames(){
+  cd "${CURRENTDIR}" || exit 1
+
+  bannerColor "Adding arialabel to all files." "blue" "*"
+  # need this dir to store temp files
+  mkdir -p "${CURRENTDIR}/temp"
+
+  for filename in "${CURRENTDIR}"/*; do
+    FILENAMEONE=$(basename "${filename}" .svelte)
+    FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
+    
+    # echo "${FILENAME}"
+    sed -i "s;replace_ariaLabel; \"${FILENAME},\" ;" "${filename}" >/dev/null 2>&1
+
+    new_name=$(echo "${FILENAMEONE^}")
+    # Capitalize the letter after -
+    new_name=$(echo "$new_name" | sed 's/-./\U&/g')
+    # Remove all -
+    new_name=$(echo "$new_name" | sed 's/-//g')
+    # Remove all spaces
+    new_name=$(echo "$new_name" | sed 's/ //g')
+    # echo "${new_name}"
+    # echo "${filename}"
+
+    # echo "${CURRENTDIR}/${FILENAMEONE}.svelte" 
+    
+    # since you cannot move the same file name even the different case, move the files to temp directory.  Then move them back.
+    
+    mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/temp/${new_name}.svelte"
+    mv "${CURRENTDIR}/temp/${new_name}.svelte" "${CURRENTDIR}/${new_name}.svelte"
+  done
+  rm -rf "${CURRENTDIR}/temp"
+  
+  bannerColor 'Modification and renaming is done.' "green" "*"
+}
+
 
 fn_radix() {
   GITURL="git@github.com:radix-ui/icons.git"
@@ -38,7 +64,17 @@ fn_radix() {
 
   clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"
 
-  fn_modify_svg 
+  # fn_modify_svg 
+  fn_svg_path
+
+  # clean up
+  bannerColor "Removing all svg files." "blue" "*"
+  find . -type f -name "*.svg" -delete
+
+  #  modify file names
+  bannerColor 'Renaming all files.' "blue" "*"
+  
+  fn_modify_filenames
 
   cp "${script_dir}/templates/radix/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 
