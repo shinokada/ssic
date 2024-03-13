@@ -20,46 +20,6 @@ cat <<EOF > "${filename}"
 $(cat "${script_dir}/templates/supertiny/next/supertiny-v2.txt")
 $(cat "${filename}")
 EOF
-
-    # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
-    # sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; <\/script>/' "$filename"
-    # sed -i 's/viewBox=/ width="{size}" height="{size}" {...restProps} on:click  &/' "$filename"
-
-
-  #   FILENAMEONE=$(basename "${filename}" .svelte | tr '[:upper:]' '[:lower:]') 
-  #   # replace id="a" with fill id="file-name"
-  #   sed -i "s/id=\"a\"/id=\"${FILENAMEONE}\"/" "${filename}"
-  #   # replace fill="url(#a)" with fill="url(#file-name)"
-  #   sed -i "s/fill=\"url(#a)\"/fill=\"url(#${FILENAMEONE})\"/" "${filename}"
-
-  #   FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
-  #   # Capitalize the first letter
-  #   new_name=$(echo "${FILENAMEONE^}")
-  #   # Capitalize the letter after -
-  #   new_name=$(echo "$new_name" | sed 's/-./\U&/g')
-  #   # Remove all -
-  #   new_name=$(echo "$new_name" | sed 's/-//g')
-  # done
-  # for SUBSRC in "${CURRENTDIR}"/*; do
-  #   SUBDIRNAME=$(basename "${SUBSRC}") # brands, regular, solid
-  #   cd "${SUBSRC}" || exit
-  # bannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
-  # cd "${CURRENTDIR}" || exit
-  #   for file in "${CURRENTDIR}"/*; do
-  #     # bannerColor "Modifying file ${file}" "blue" "*"
-  #     FILENAME=$(basename "${file%.*}")
-  #     # create svelte file like address-book-solid.svelte
-  #     SVETLENAME="${CURRENTDIR}/${FILENAME}.svelte"
-      
-  #     cp "${script_dir}/templates/supertiny/next/supertiny-v2.txt" "${SVETLENAME}"
-
-  #     SVGPATH=$(extract_svg_path "$file")
-  #     # replace replace_svg_path with svg path
-  #     sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
-  #     # get viewBox value
-  #     VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
-  #     sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
-  #   done
   done
 }
 
