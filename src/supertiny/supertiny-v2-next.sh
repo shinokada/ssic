@@ -11,6 +11,11 @@ fn_svg_path() {
     # replace role="img" with {role} width={size} height={size} {...restProps}
     sed -i 's/role="img"/\{role\}/' "$filename"
 
+ 
+
+   
+
+
     # Azure doesn't have role="img" so add width={size} height={size} {...restProps}
     # after xmlns="http://www.w3.org/2000/svg"
     sed -i 's/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/xmlns="http:\/\/www\.w3\.org\/2000\/svg" width=\{size\} height=\{size\} \{...restProps\}/' "$filename"
@@ -20,6 +25,20 @@ cat <<EOF > "${filename}"
 $(cat "${script_dir}/templates/supertiny/next/supertiny-v2.txt")
 $(cat "${filename}")
 EOF
+
+    # if there is fill="#fff", insert fill = ctx.fill || "#fff"; 
+    if grep -q 'fill="#fff"' "$filename"; then
+      
+      # insert fill = ctx.fill || "#fff"; before class: classname 
+      sed -i 's/class\: classname/ fill = ctx.fill || "#fff", class\: classname/' "$filename"
+      # add fill?: string; after class?: string;
+      sed -i 's/class?: string;/class?: string; fill?: string;/' "$filename"
+      # add fill?: string; after interface CtxType {
+      sed -i 's/interface CtxType {/interface CtxType { fill?: string;/' "$filename"
+
+      # replace fill="#fff" with {fill}
+      sed -i 's/fill="#fff"/\{fill\}/' "$filename"
+    fi
   done
 }
 
