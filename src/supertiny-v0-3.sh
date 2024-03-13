@@ -14,7 +14,6 @@ fn_modify_svg() {
     sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; <\/script>/' "$filename"
 
     # if there is fill="#fff", insert export let fill = ctx.fill || "#fff"; before </script>
-    # sed -i 's/<\/script>/export let fill = ctx.fill || "#fff";<\/script>/' "$filename"
     if grep -q 'fill="#fff"' "$filename"; then
       # If "#fff" is found anywhere in the file
     sed -i 's/<\/script>/export let fill = ctx.fill || "#fff";<\/script>/' "$filename"
