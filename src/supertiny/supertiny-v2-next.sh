@@ -11,14 +11,9 @@ fn_svg_path() {
     # replace role="img" with {role} width={size} height={size} {...restProps}
     sed -i 's/role="img"/\{role\}/' "$filename"
 
- 
-
-   
-
-
     # Azure doesn't have role="img" so add width={size} height={size} {...restProps}
     # after xmlns="http://www.w3.org/2000/svg"
-    sed -i 's/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/xmlns="http:\/\/www\.w3\.org\/2000\/svg" width=\{size\} height=\{size\} \{...restProps\}/' "$filename"
+    sed -i 's/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/xmlns="http:\/\/www\.w3\.org\/2000\/svg" width=\{size\} height=\{size\} class=\{classname\} \{...restProps\}/' "$filename"
     # append script content 
     # destination_file = "${script_dir}/templates/supertiny/next/supertiny-v2.txt"
 cat <<EOF > "${filename}"
