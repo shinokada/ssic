@@ -153,7 +153,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/bootstrap-v0-6.sh"
+        . "${script_dir}/src/bootstrap/bootstrap-v0-6.sh"
         fn_bootstrap "$@"
         ;;
     box)
@@ -161,23 +161,15 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/boxicons-v0-3.sh"
+        . "${script_dir}/src/box/boxicons-v0-3.sh"
         fn_boxicons "$@"
-        ;;
-    css)
-        eval "$(getoptions parser_definition_css parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/css-v0-3.sh"
-        fn_css "$@"
         ;;
     circle-flags)
         eval "$(getoptions parser_definition_circle_flags parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/circle_flags-v0-7.sh"
+        . "${script_dir}/src/circle-flags/circle_flags-v0-7.sh"
         fn_circle_flags "$@"
         ;;
     coreui)
@@ -185,7 +177,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/coreui-v0-3.sh"
+        . "${script_dir}/src/coreui/coreui-v0-3.sh"
         fn_coreui "$@"
         ;;
     crypto)
@@ -193,15 +185,23 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/crypto-v0-7.sh"
+        . "${script_dir}/src/crypto/crypto-v0-7.sh"
         fn_crypto "$@"
+        ;;
+    css)
+        eval "$(getoptions parser_definition_css parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/css/css-v0-3.sh"
+        fn_css "$@"
         ;;
     evil)
         eval "$(getoptions parser_definition_evil parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/evil-v0-3.sh"
+        . "${script_dir}/src/evil/evil-v0-3.sh"
         fn_evil "$@"
         ;;
     feather)
@@ -209,7 +209,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/feather-v0-8.sh"
+        . "${script_dir}/src/feather/feather-v0-8.sh"
         fn_feather "$@"
         ;;
     file)
@@ -217,7 +217,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/file-v0-8.sh"
+        . "${script_dir}/src/fileicons/file-v0-8.sh"
         fn_file "$@"
         ;;
     flags)
@@ -225,7 +225,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flags-v0-6.sh"
+        . "${script_dir}/src/flags/flags-v0-6.sh"
         fn_flag "$@"
         ;;
     flag-icons)
@@ -233,7 +233,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flag-icons-v0-7.sh"
+        . "${script_dir}/src/flag-icons/flag-icons-v0-7.sh"
         fn_flagicons "$@"
         ;;
     flowbite)
@@ -241,7 +241,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flowbite-v0-4.sh"
+        . "${script_dir}/src/flowbite/flowbite-v0-4.sh"
         fn_flowbite "$@"
         ;;
     flowbite-next)
@@ -249,7 +249,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flowbite-v2-next.sh"
+        . "${script_dir}/src/flowbite/flowbite-v2-next.sh"
         fn_flowbite "$@"
         ;;
     google-material-design)
@@ -257,7 +257,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/google-material-v0-8.sh"
+        . "${script_dir}/src/google-material/google-material-v0-8.sh"
         fn_google_material_design "$@"
         ;;
     heros)
@@ -265,7 +265,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros-v6.sh"
+        . "${script_dir}/src/heros/heros-v6.sh"
         fn_hero "$@"
         ;;
     heros2)
@@ -273,7 +273,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros2-v0-10.sh"
+        . "${script_dir}/src/heros2/heros2-v0-10.sh"
         fn_hero2 "$@"
         ;;
     ion)
@@ -281,7 +281,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ion-v0-7.sh"
+        . "${script_dir}/src/ion/ion-v0-7.sh"
         fn_ion "$@"
         ;;
     lucide)
@@ -289,7 +289,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/lucide-v0-8.sh"
+        . "${script_dir}/src/lucide/lucide-v0-8.sh"
         fn_lucide "$@"
         ;;
     material)
@@ -297,7 +297,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/material-design-v0-8.sh"
+        . "${script_dir}/src/material/material-design-v0-8.sh"
         fn_material "$@"
         ;;
     oct)
@@ -305,7 +305,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/oct-v0-6.sh"
+        . "${script_dir}/src/oct/oct-v0-6.sh"
         fn_oct "$@"
         ;;
     radix)
@@ -313,7 +313,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/radix-v0-6.sh"
+        . "${script_dir}/src/radix/radix-v0-6.sh"
         fn_radix "$@"
         ;;
     remix)
@@ -321,7 +321,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/remix-v0-6.sh"
+        . "${script_dir}/src/remix/remix-v0-6.sh"
         fn_remix "$@"
         ;;
     simple)
@@ -329,7 +329,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/simple-v0-9.sh"
+        . "${script_dir}/src/simple/simple-v0-9.sh"
         fn_simple "$@"
         ;;
     supertiny)
@@ -337,7 +337,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/supertiny-v0-3.sh"
+        . "${script_dir}/src/supertiny/supertiny-v0-3.sh"
         fn_supertiny "$@"
         ;;
     supertiny-next)
@@ -353,7 +353,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/tabler-v0-6.sh"
+        . "${script_dir}/src/tabler/tabler-v0-6.sh"
         fn_tabler "$@"
         ;;
     teeny)
@@ -361,7 +361,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/teeny-v0-9.sh"
+        . "${script_dir}/src/teeny/teeny-v0-9.sh"
         fn_teeny "$@"
         ;;
     twemoji)
@@ -369,7 +369,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/twemoji-v0-6.sh"
+        . "${script_dir}/src/twemoji/twemoji-v0-6.sh"
         fn_twemoji "$@"
         ;;
     weather)
@@ -377,7 +377,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/weather-v0-5.sh"
+        . "${script_dir}/src/weather/weather-v0-5.sh"
         fn_weather "$@"
         ;;
     # more lines
