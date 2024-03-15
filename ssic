@@ -55,38 +55,39 @@ script_dir=${self%/*}
 # Import files
 # shellcheck disable=SC1091
 {
-    . "${script_dir}/lib/ant_definition.sh"
-    . "${script_dir}/lib/awesome_definition.sh"
     . "${script_dir}/lib/bash_helpers.sh"
-    . "${script_dir}/lib/bootstrap_definition.sh"
-    . "${script_dir}/lib/boxicons_definition.sh"
-    . "${script_dir}/lib/css_definition.sh"
-    . "${script_dir}/lib/coreui_definition.sh"
-    . "${script_dir}/lib/circle_flags_definition.sh"
-    . "${script_dir}/lib/crypto_definition.sh"
-    . "${script_dir}/lib/evil_definition.sh"
-    . "${script_dir}/lib/feather_definition.sh"
-    . "${script_dir}/lib/file_definition.sh"
-    . "${script_dir}/lib/flags_definition.sh"
-    . "${script_dir}/lib/flagicons_definition.sh"
-    . "${script_dir}/lib/flowbite_definition.sh"
     . "${script_dir}/lib/getoptions.sh"
-    . "${script_dir}/lib/google_material_design_definition.sh"
-    . "${script_dir}/lib/hero_definition.sh"
-    . "${script_dir}/lib/ion_definition.sh"
-    . "${script_dir}/lib/lucide_definition.sh"
     . "${script_dir}/lib/main_definition.sh"
-    . "${script_dir}/lib/material_definition.sh"
-    . "${script_dir}/lib/oct_definition.sh"
-    . "${script_dir}/lib/radix_definition.sh"
-    . "${script_dir}/lib/remix_definition.sh"
-    . "${script_dir}/lib/simple_definition.sh"
-    . "${script_dir}/lib/supertiny_definition.sh"
-    . "${script_dir}/lib/tabler_definition.sh"
-    . "${script_dir}/lib/teeny_definition.sh"
-    . "${script_dir}/lib/twemoji_definition.sh"
     . "${script_dir}/lib/utils.sh"
-    . "${script_dir}/lib/weather_definition.sh"
+    # icons definitions
+    . "${script_dir}/lib/definitions/ant/ant_definition.sh"
+    . "${script_dir}/lib/definitions/awesome/awesome_definition.sh"
+    . "${script_dir}/lib/definitions/bootstrap/bootstrap_definition.sh"
+    . "${script_dir}/lib/definitions/box/boxicons_definition.sh"
+    . "${script_dir}/lib/definitions/cssgg/css_definition.sh"
+    . "${script_dir}/lib/definitions/coreui/coreui_definition.sh"
+    . "${script_dir}/lib/definitions/circle/circle_flags_definition.sh"
+    . "${script_dir}/lib/definitions/crypto/crypto_definition.sh"
+    . "${script_dir}/lib/definitions/evil/evil_definition.sh"
+    . "${script_dir}/lib/definitions/feather/feather_definition.sh"
+    . "${script_dir}/lib/definitions/file/file_definition.sh"
+    . "${script_dir}/lib/definitions/flag/flagicons_definition.sh"
+    . "${script_dir}/lib/definitions/flags/flags_definition.sh"
+    . "${script_dir}/lib/definitions/flowbite/flowbite_definition.sh"
+    . "${script_dir}/lib/definitions/google/google_material_design_definition.sh"
+    . "${script_dir}/lib/definitions/hero/hero_definition.sh"
+    . "${script_dir}/lib/definitions/ion/ion_definition.sh"
+    . "${script_dir}/lib/definitions/lucide/lucide_definition.sh"
+    . "${script_dir}/lib/definitions/material/material_definition.sh"
+    . "${script_dir}/lib/definitions/oct/oct_definition.sh"
+    . "${script_dir}/lib/definitions/radix/radix_definition.sh"
+    . "${script_dir}/lib/definitions/remix/remix_definition.sh"
+    . "${script_dir}/lib/definitions/simple/simple_definition.sh"
+    . "${script_dir}/lib/definitions/supertiny/supertiny_definition.sh"
+    . "${script_dir}/lib/definitions/tabler/tabler_definition.sh"
+    . "${script_dir}/lib/definitions/teeny/teeny_definition.sh"
+    . "${script_dir}/lib/definitions/twemoji/twemoji_definition.sh"
+    . "${script_dir}/lib/definitions/weather/weather_definition.sh"
 }
 
 # Keep it. You need this for main parser.
@@ -120,7 +121,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ant-v0-5.sh"
+        . "${script_dir}/src/ant/ant-v0-5.sh"
         fn_ant "$@"
         ;;
     ant-next)
@@ -128,7 +129,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ant-v2-next.sh"
+        . "${script_dir}/src/ant/ant-v2-next.sh"
         fn_ant "$@"
         ;;
     awesome)
@@ -136,7 +137,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/awesome-v0-6.sh"
+        . "${script_dir}/src/awesome/awesome-v0-6.sh"
         fn_awesome "$@"
         ;;
     awesome-next)
@@ -144,7 +145,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/awesome-v2-next.sh"
+        . "${script_dir}/src/awesome/awesome-v2-next.sh"
         fn_awesome "$@"
         ;;
     bootstrap)
