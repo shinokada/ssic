@@ -123,6 +123,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/ant-v0-5.sh"
         fn_ant "$@"
         ;;
+    ant-next)
+        eval "$(getoptions parser_definition_ant parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/ant-v2-next.sh"
+        fn_ant "$@"
+        ;;
     awesome)
         eval "$(getoptions parser_definition_awesome parse "$0")"
         parse "$@"
