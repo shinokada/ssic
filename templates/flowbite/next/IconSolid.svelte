@@ -7,7 +7,7 @@
     ariaLabel?: string;
     class?: string;
   }
-  let {icon, size, role, ariaLabel, class: classname, ...restProps} = $props<Props>()
+  let {icon, size, role, ariaLabel, class: classname, ...restProps}: Props = $props()
 
 </script>
 

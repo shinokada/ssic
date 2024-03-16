@@ -22,8 +22,8 @@
   {role}
   width={size}
   height={size}
-  class={classname}
   fill={color}
+  class={classname}
   aria-label={ariaLabel}
   viewBox="replace_viewBox"
   >

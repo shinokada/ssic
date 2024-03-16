@@ -10,7 +10,7 @@
     strokeWidth?: string;
     class?: string;
   }
-  let {icon, size, role, ariaLabel, strokeLinecap, strokeLinejoin, strokeWidth, class: classname, ...restProps} = $props<Props>()
+  let {icon, size, role, ariaLabel, strokeLinecap, strokeLinejoin, strokeWidth, class: classname, ...restProps}: Props = $props()
 </script>
 
 <svelte:component 

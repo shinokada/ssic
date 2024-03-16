@@ -7,7 +7,7 @@
     ariaLabel?: string;
     class?: string;
   }
-  let {icon, size = 24, role = 'img', ariaLabel = 'Icon', class: classname, ...restProps} = $props<Props>()
+  let {icon, size = 24, role = 'img', ariaLabel = 'Icon', class: classname, ...restProps}: Props = $props()
 </script>
 
 <svelte:component 

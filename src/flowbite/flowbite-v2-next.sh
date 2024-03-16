@@ -10,14 +10,17 @@ fn_svg_path(){
         # create svelte file like address-book-outline.svelte
         SVETLENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
         if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-          cp "${script_dir}/templates/flowbite-svelte-5-${SUBDIRNAME}.txt" "${SVETLENAME}"
+          cp "${script_dir}/templates/flowbite/next/flowbite-svelte-5-${SUBDIRNAME}.txt" "${SVETLENAME}"
         fi
 
         # delete the first and last lines to get <path ..../> part
         # SVGPATH=$(sed '1d; $d' "${file}")
         SVGPATH=$(extract_svg_path "$file")
-        # replace new line with space
-        # SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
+        # if SUBDIRNAME has solid, replace <path with <path fill="currentColor"
+        if [ "${SUBDIRNAME}" = "solid" ]; then
+          SVGPATH=$(echo "${SVGPATH}" | sed 's;<path;<path fill="currentColor";g')
+        fi
+        
         # sed -i "s;replace_svg;${SVGPATH};" "${CURRENTDIR}/${file}"
         sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
         # get viewBox value
@@ -37,7 +40,7 @@ fn_modify_filenames() {
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     
     # echo "${FILENAME}"
-    sed -i "s;replace_ariaLabel; \"${FILENAME},\" ;" "${filename}" >/dev/null 2>&1
+    sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
 
     #  modify file names
     new_name=$(echo "${FILENAMEONE^}")

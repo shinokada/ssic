@@ -10,7 +10,7 @@ fn_svg_path(){
         FILENAME=$(basename "${file%.*}")
         SVETLENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
         if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-          cp "${script_dir}/templates/flowbite-${SUBDIRNAME}.txt" "${SVETLENAME}"
+          cp "${script_dir}/templates/flowbite/flowbite-${SUBDIRNAME}.txt" "${SVETLENAME}"
         fi
 
         # delete the first and last lines to get <path ..../> part
