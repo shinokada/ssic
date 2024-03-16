@@ -1,12 +1,9 @@
 fn_remove(){
   # remove <?xml version="1.0" standalone="no"?>
-  # bannerColor 'Removing <?xml version="1.0" standalone="no"?> from all files.' "blue" "*"
   sed -i 's/<?xml version="1.0" standalone="no"?>/\n/' ./*.*
   # remove <?xml version="1.0" encoding="utf-8"?>
-  # bannerColor 'Removing <?xml version="1.0" encoding="utf-8"?> from all files.' "blue" "*"
   sed -i 's/<?xml version="1.0" encoding="utf-8"?>/\n/' ./*.*
   # remove <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-  # bannerColor 'Removing DOCTYPE all files.' "blue" "*"
   sed -i 's;<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">;\n;' ./*.*
   # remove class="icon"
   sed -i 's/class="icon"/\n/' ./*.*
@@ -19,12 +16,42 @@ fn_remove(){
   sed -i 's/p-id="[0-9]*"//g' ./*.*
 }
 
+fn_replace_twotone(){
+    if grep -q 'fill="#333"' "${file}"; then
+      # remove fill={color}
+      sed -i 's/fill={color}/\n/' "${filename}"
+      # change export let color="currentColor"; to export let strokeColor="currentColor"
+      # export let strokeColor = ctx.color || "#333";
+      sed -i 's/export let color = ctx.color || "currentColor";/export let strokeColor = ctx.strokeColor || "#333";/' "${filename}"
+      # change fill="#333" to fill={strokeColor}
+      sed -i 's/fill="#333"/fill={strokeColor}/' "${file}"
+    fi
+    if grep -q 'fill="#E6E6E6"' "${file}"; then
+      # change fill="#E6E6E6" to fill={insideColor}
+      sed -i 's/fill="#E6E6E6"/fill={insideColor}/' "${file}"
+    fi
+    # Files with #D9D9D9 fill inside
+    if grep -q 'fill="#D9D9D9"' "${file}"; then
+      # change fill={color} to fill={strokeColor}
+      sed -i 's/fill={color}/fill={strokeColor}/' "${file}"
+      # change fill="#D9D9D9" to fill={fillInside}
+      sed -i 's/fill="#D9D9D9"/fill={insideColor}/' "${file}"
+    fi
+}
+
 fn_svg_path(){
   for SUBSRC in "${CURRENTDIR}"/*; do
-    SUBDIRNAME=$(basename "${SUBSRC}") # brands, regular, solid
+    SUBDIRNAME=$(basename "${SUBSRC}") # filled, outlined, twotone
     cd "${SUBSRC}" || exit
     fn_remove
   
+    # if SUBDIRNAME is twotone
+    # if [ "${SUBDIRNAME}" = "twotone" ]; then
+    #   for file in *; do
+    #     fn_replace_twotone
+    #   done
+    # fi
+
     for file in *; do
       FILENAME=$(basename "${file%.*}")
       # create svelte file like address-book-solid.svelte
@@ -61,7 +88,7 @@ fn_modify_filenames() {
     new_name=$(echo "$new_name" | sed 's/-//g')
     # Remove all spaces
     new_name=$(echo "$new_name" | sed 's/ //g')
-    echo "${new_name}"
+    # echo "${new_name}"
     # echo "${CURRENTDIR}/${FILENAMEONE}.svelte" 
     mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/${new_name}.svelte"
   done
@@ -94,6 +121,9 @@ fn_ant() {
   bannerColor 'Renaming all files.' "blue" "*"
   
   fn_modify_filenames
+
+  # if file name has TWOTONE:
+  
 
   cd "${CURRENTDIR}" || exit 1
 

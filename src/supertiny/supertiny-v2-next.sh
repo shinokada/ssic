@@ -47,7 +47,7 @@ fn_add_arialabel() {
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     
     # echo "${FILENAME}"
-    sed -i "s;replace_ariaLabel; \"${FILENAME},\" ;" "${filename}" >/dev/null 2>&1
+    sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
 
     new_name=$(echo "${FILENAMEONE^}")
     # Capitalize the letter after -
