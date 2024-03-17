@@ -276,6 +276,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/heros2/heros2-v0-10.sh"
         fn_hero2 "$@"
         ;;
+    heros2-next)
+        eval "$(getoptions parser_definition_hero parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/heros2/heros2-v2-next.sh"
+        fn_hero2 "$@"
+        ;;
     ion)
         eval "$(getoptions parser_definition_ion parse "$0")"
         parse "$@"

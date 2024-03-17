@@ -27,6 +27,7 @@ parser_definition() {
     cmd flowbite-next -- "Create Flowbite-svelte-icons next version"
     cmd heros -- "Create Heroicons v-1."
     cmd heros2 -- "Create Heroicons v-2."
+    cmd heros2-next -- "Create Heroicons v2 next."
     cmd ion -- "Create Ionicons."
     cmd lucide -- "Create Lucide-icons."
     cmd material -- "Create Material-design-icons from https://github.com/Templarian/MaterialDesign."

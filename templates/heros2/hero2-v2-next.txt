@@ -1,0 +1,62 @@
+<script lang="ts">
+  import { getContext } from 'svelte';
+
+  interface CtxType {
+    size?: string;
+    color?: string;
+    variation?: "solid" | "outline" | "mini" | "micro";
+    strokeWidth?: string;
+  }
+  
+  interface Props {
+    size?: string;
+    color?: string;
+    variation?: "solid" | "outline" | "mini" | "micro";
+    strokeWidth?: string;
+    ariaLabel?: string;
+  }
+  
+  const ctx: CtxType = getContext('iconCtx') ?? {};
+
+  let { size = ctx.size || '24', color = ctx.color || 'currentColor',  variation = ctx.variation || "outline", strokeWidth = ctx.strokeWidth || '1.5', ariaLabel = 'replace_aria-label', ...restProps }: Props = $props();
+
+  let viewBox: string = $state(''); 
+
+  $effect(() => {
+    if (variation === 'mini') {
+      size = size || "20";
+      viewBox = '0 0 20 20';
+    } else if (variation === 'micro'){
+      size = size || "16";
+      viewBox = '0 0 16 16';
+    } else {
+      size = size || "24";
+      viewBox = '0 0 24 24';
+    }
+  })
+  
+</script>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  {...restProps}
+  role='img'
+  aria-label={ariaLabel}
+  fill="none"
+  {viewBox}
+  stroke-width={strokeWidth}
+>
+
+{#if variation === 'outline'}
+  replace_svg_outline
+{:else if variation === 'mini'}
+  replace_svg_mini
+{:else if variation === 'micro'}
+  replace_svg_micro
+{:else}
+  replace_svg_solid
+{/if}
+</svg>
+
