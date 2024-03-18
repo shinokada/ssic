@@ -1,3 +1,88 @@
+fn_svg_path(){
+  for file in *; do
+    # echo ${file}
+    # echo ${TEMPLATE}
+    FILENAME=$(basename "${file%.*}")
+    SVETLENAME="${CURRENTDIR}/${FILENAME}.svelte"
+    # create svelte file like address-book-solid.svelte
+    if [ ! -f "${SVETLENAME}" ]; then
+      cp "${TEMPLATE}" "${SVETLENAME}"
+    fi
+
+    SVGPATH=$(extract_svg_path "$file")
+    # replace replace_svg_path with svg path
+    sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
+    # get viewBox value
+    VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
+    sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
+  done
+}
+
+
+fn_add_arialabel() {
+  cd "${CURRENTDIR}" || exit 1
+
+  bannerColor "Adding arialabel to all files." "blue" "*"
+  for filename in "${CURRENTDIR}"/*; do
+    # FILENAMEONE=$(basename "${filename}" .svelte)
+    FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
+    
+    # echo "${FILENAME}"
+    sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
+
+    # new_name=$(echo "${FILENAMEONE^}")
+    # # Capitalize the letter after -
+    # new_name=$(echo "$new_name" | sed 's/-./\U&/g')
+    # # Remove all -
+    # new_name=$(echo "$new_name" | sed 's/-//g')
+    # # Remove all spaces
+    # new_name=$(echo "$new_name" | sed 's/ //g')
+    # echo "${new_name}"
+    # echo "${CURRENTDIR}/${FILENAMEONE}.svelte" 
+    # mkdir -p "${CURRENTDIR}/tempDir"
+    # mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
+    # find
+    # rm -rf "${CURRENTDIR}/tempDir"
+  done
+  
+  bannerColor 'Added arialabel to all files.' "green" "*"
+}
+
+fn_remove_svg(){
+    for filename in "${CURRENTDIR}"/*; do
+
+        find . -type f -name "*.svg" -exec rm {} \;
+    done
+}
+
+fn_rename(){
+    bannerColor "Renaming all files." "blue" "*"
+    mkdir -p "${CURRENTDIR}/tempDir"
+    for filename in "${CURRENTDIR}"/*; do
+        FILENAMEONE=$(basename "${filename}" .svelte)
+        # echo "${FILENAMEONE}"
+        new_name=$(echo "${FILENAMEONE^}")
+        # Capitalize the letter after -
+        new_name=$(echo "$new_name" | sed 's/-./\U&/g')
+        # Remove all -
+        new_name=$(echo "$new_name" | sed 's/-//g')
+        # Remove all spaces
+        new_name=$(echo "$new_name" | sed 's/ //g')
+        # echo "${new_name}"
+        if [[ -f "$filename" ]]; then
+            mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
+        fi
+        # rm "${CURRENTDIR}/${FILENAMEONE}.svelte"
+    done
+    
+    # with -maxdepth 1 to avoid recursion
+    # find "${CURRENTDIR}/tempDir" -maxdepth 1 -name "*.svelte" -exec mv -t "${CURRENTDIR}" {} \;
+    # mv "${CURRENTDIR}/tempDir/*" "${CURRENTDIR}"
+    find "${CURRENTDIR}/tempDir" -maxdepth 1 -name "*.svelte" -exec mv -t "${CURRENTDIR}" {} \;
+    # find
+    rm -rf "${CURRENTDIR}/tempDir"
+}
+
 # Function to extract box width and height from an SVG file
 extract_box_dimensions() {
   local file="$1"

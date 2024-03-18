@@ -209,7 +209,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/feather/feather-v0-8.sh"
+        . "${script_dir}/src/feather/feather-v1.sh"
         fn_feather "$@"
         ;;
     file)
