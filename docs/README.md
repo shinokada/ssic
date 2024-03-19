@@ -1,6 +1,10 @@
+<p align="center">
+<a href='https://ko-fi.com/Z8Z2CHALG' target='_blank'><img height='42' style='border:0px;height:42px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' alt='Buy Me a Coffee at ko-fi.com' /></a>
+</p>
+
 # SSIC: Svelte SVG Icon Creator
 
-This Bash script creates SVG icons for Svelte/SvelteKit from a wide variety of icon libraries.
+This Bash script creates 29 SVG icons for Svelte/SvelteKit from a wide variety of icon libraries.
 
 - 780+ Ant design icons
 - 2000+ Font Awesome icons
@@ -25,6 +29,7 @@ This Bash script creates SVG icons for Svelte/SvelteKit from a wide variety of i
 - 600+ Teeny icons
 - 3600+ Twitter emoji icons
 - 210+ Weather icons
+- and more ...
 
 ## Requirements
 
