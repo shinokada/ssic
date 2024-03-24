@@ -137,7 +137,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/awesome/awesome-v0-6.sh"
+        . "${script_dir}/src/awesome/awesome-v1.sh"
         fn_awesome "$@"
         ;;
     awesome-next)
@@ -241,7 +241,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flowbite/flowbite-v0-4.sh"
+        . "${script_dir}/src/flowbite/flowbite-v1.sh"
         fn_flowbite "$@"
         ;;
     flowbite-next)

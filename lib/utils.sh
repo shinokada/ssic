@@ -1,20 +1,80 @@
-fn_svg_path(){
+fn_create_index_js() {
+  cd "${CURRENTDIR}" || exit 1
+
+  bannerColor 'Creating index.js file.' "blue" "*"
+
+  find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
+  print "export { default as " $(NF-1) " } from \047" $0 "\047;"
+  }' >index.js
+
+  bannerColor 'Added export to index.js file.' "green" "*"
+}
+
+fn_replace_viewbox() {
+  # get viewBox value
+  VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
+  sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVELTENAME}"
+}
+
+fn_svg_path_with_one_subdir(){
+  for SUBSRC in "${CURRENTDIR}"/*; do
+    SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
+    cd "${SUBSRC}" || exit
+    for file in *; do
+    FILENAME=$(basename "${file%.*}")
+    SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
+    if [ ! -f "${SUBDIRNAME}/${file}" ]; then
+        cp "${TEMPLATE}" "${SVELTENAME}"
+    fi
+    SVGPATH=$(extract_svg_path "$file")
+    sed -i "s;replace_svg_path;${SVGPATH};" "${SVELTENAME}"
+
+    fn_replace_viewbox
+    done
+  done
+}
+
+fn_svg_path_two_subdirs(){
+
+  for SUBSRC in "${CURRENTDIR}"/*; do
+    SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
+    cd "${SUBSRC}" || exit
+
+    for CATEGORY in "${SUBSRC}"/*; do
+      cd "${CATEGORY}" || exit
+      for file in *; do
+        FILENAME=$(basename "${file%.*}")
+        SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
+        if [ ! -f "${SUBDIRNAME}/${file}" ]; then
+          cp "${script_dir}/templates/flowbite/flowbite-${SUBDIRNAME}.txt" "${SVELTENAME}"
+        fi
+
+        SVGPATH=$(extract_svg_path "$file")
+        sed -i "s;replace_svg_path;${SVGPATH};" "${SVELTENAME}"
+
+        fn_replace_viewbox
+      done
+    done
+  done
+}
+
+fn_svg(){
   for file in *; do
     # echo ${file}
     # echo ${TEMPLATE}
     FILENAME=$(basename "${file%.*}")
-    SVETLENAME="${CURRENTDIR}/${FILENAME}.svelte"
+    SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
     # create svelte file like address-book-solid.svelte
-    if [ ! -f "${SVETLENAME}" ]; then
-      cp "${TEMPLATE}" "${SVETLENAME}"
+    if [ ! -f "${SVELTENAME}" ]; then
+      cp "${TEMPLATE}" "${SVELTENAME}"
     fi
 
     SVGPATH=$(extract_svg_path "$file")
     # replace replace_svg_path with svg path
-    sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
+    sed -i "s;replace_svg_path;${SVGPATH};" "${SVELTENAME}"
     # get viewBox value
     VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
-    sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
+    sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVELTENAME}"
   done
 }
 
@@ -29,20 +89,6 @@ fn_add_arialabel() {
     
     # echo "${FILENAME}"
     sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
-
-    # new_name=$(echo "${FILENAMEONE^}")
-    # # Capitalize the letter after -
-    # new_name=$(echo "$new_name" | sed 's/-./\U&/g')
-    # # Remove all -
-    # new_name=$(echo "$new_name" | sed 's/-//g')
-    # # Remove all spaces
-    # new_name=$(echo "$new_name" | sed 's/ //g')
-    # echo "${new_name}"
-    # echo "${CURRENTDIR}/${FILENAMEONE}.svelte" 
-    # mkdir -p "${CURRENTDIR}/tempDir"
-    # mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
-    # find
-    # rm -rf "${CURRENTDIR}/tempDir"
   done
   
   bannerColor 'Added arialabel to all files.' "green" "*"

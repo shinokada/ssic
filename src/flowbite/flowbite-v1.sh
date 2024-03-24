@@ -13,16 +13,8 @@ fn_svg_path(){
           cp "${script_dir}/templates/flowbite/flowbite-${SUBDIRNAME}.txt" "${SVETLENAME}"
         fi
 
-        # delete the first and last lines to get <path ..../> part
-        # SVGPATH=$(sed '1d; $d' "${file}")
         SVGPATH=$(extract_svg_path "$file")
-        # replace new line with space
-        # SVGPATH=$(echo "${SVGPATH}" | tr '\n' ' ')
-        # sed -i "s;replace_svg;${SVGPATH};" "${CURRENTDIR}/${file}"
         sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
-        # get viewBox value
-        VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
-        sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
       done
     done
   done
@@ -60,19 +52,19 @@ fn_modify_file(){
   bannerColor "Modifying stroke, stroke-linecap etc." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
     # replace #2F2F38 with currentColor
-    sed -i "s;#2F2F38;currentColor;" "${filename}"
+    # sed -i "s;#2F2F38;currentColor;" "${filename}"
 
     if grep -q 'stroke-linecap="round"' "${filename}"; then
       # replace stroke-linecap="round" with stroke-linecap="{strokeLinecap}"
       sed -i 's/stroke-linecap="round"/stroke-linecap="\{strokeLinecap\}"/' "${filename}"
       # insert export let strokeLinecap:  "round" | "inherit" | "butt" | "square" | null | undefined = "round"; before </script>
-      sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | null | undefined = ctx.strokeLinecap || "round";' "${filename}"
+      sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | undefined = ctx.strokeLinecap || "round";' "${filename}"
     fi
 
     if grep -q 'stroke-linejoin="round"' "${filename}"; then
       # replace stroke-linejoin="round" with stroke-linejoin="{strokeLinejoin}"
       sed -i 's/stroke-linejoin="round"/stroke-linejoin="\{strokeLinejoin\}"/' "${filename}"
-      sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | null | undefined = ctx.strokeLinejoin || "round";' "${filename}"
+      sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | undefined = ctx.strokeLinejoin || "round";' "${filename}"
     fi
 
     if grep -q 'stroke-width="2"' "${filename}"; then

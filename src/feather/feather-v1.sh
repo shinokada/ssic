@@ -54,7 +54,7 @@ fn_feather() {
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
   bannerColor 'Modifying all files.' "blue" "*"
-  fn_svg_path
+  fn_svg
 
   # remove all svg files
   find . -type f -name "*.svg" -exec rm {} \;

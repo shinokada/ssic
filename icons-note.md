@@ -2,6 +2,7 @@
 
 - Flowbite icons (Flowbite-Svelte-Icons)
 Sub-directories, outline and solid.
+Sub-sub-directories, arrows, e-commerce, emoji, files:folders, general, media, text, user, weather
 
 - Awesome: Font Awesome (Svelte-Awesome-Icons)
 Sub-directories, brand, regular, and solid.
