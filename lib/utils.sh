@@ -7,6 +7,12 @@ fn_create_index_js() {
   print "export { default as " $(NF-1) " } from \047" $0 "\047;"
   }' >index.js
 
+  # find . -type f -name '*.svelte' | sort | awk -F'/' '{
+  #   extension = $NF;
+  #   filename = substr($NF, 0, length($NF)-length(extension));
+  #   print "export { default as " filename " } from \047" $0 "\047;"
+  # }' >index.js
+
   bannerColor 'Added export to index.js file.' "green" "*"
 }
 
@@ -82,8 +88,8 @@ fn_svg(){
 fn_add_arialabel() {
   cd "${CURRENTDIR}" || exit 1
 
-  bannerColor "Adding arialabel to all files." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
+  
     # FILENAMEONE=$(basename "${filename}" .svelte)
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     
@@ -105,20 +111,20 @@ fn_rename(){
     bannerColor "Renaming all files." "blue" "*"
     mkdir -p "${CURRENTDIR}/tempDir"
     for filename in "${CURRENTDIR}"/*; do
-        FILENAMEONE=$(basename "${filename}" .svelte)
-        # echo "${FILENAMEONE}"
-        new_name=$(echo "${FILENAMEONE^}")
-        # Capitalize the letter after -
-        new_name=$(echo "$new_name" | sed 's/-./\U&/g')
-        # Remove all -
-        new_name=$(echo "$new_name" | sed 's/-//g')
-        # Remove all spaces
-        new_name=$(echo "$new_name" | sed 's/ //g')
-        # echo "${new_name}"
-        if [[ -f "$filename" ]]; then
-            mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
-        fi
-        # rm "${CURRENTDIR}/${FILENAMEONE}.svelte"
+      FILENAMEONE=$(basename "${filename}" .svelte)
+      # echo "${FILENAMEONE}"
+      new_name=$(echo "${FILENAMEONE^}")
+      # Capitalize the letter after -
+      new_name=$(echo "$new_name" | sed 's/-./\U&/g')
+      # Remove all -
+      new_name=$(echo "$new_name" | sed 's/-//g')
+      # Remove all spaces
+      new_name=$(echo "$new_name" | sed 's/ //g')
+      # echo "${new_name}"
+      if [[ -f "$filename" ]]; then
+          mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
+      fi
+      # rm "${CURRENTDIR}/${FILENAMEONE}.svelte"
     done
     
     # with -maxdepth 1 to avoid recursion

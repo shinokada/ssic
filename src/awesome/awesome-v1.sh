@@ -8,6 +8,8 @@ fn_awesome() {
   
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
 
+  # rename brands directory to brand
+  mv brands brand
   # remove font awesome comments
   bannerColor 'Removing unnecessary font awesome comments.' "blue" "*"
   find . -type f -exec sed -i '/<!--! Font Awesome Free/,/-->/ s/<!--! Font Awesome Free.*-->//' {} \;
@@ -17,7 +19,7 @@ fn_awesome() {
 
   # Remove svg files from regular, brands and solid directories
   bannerColor 'Removing svg files from regular, brands and solid directories.' "blue" "*"
-  rm -rf "${CURRENTDIR}/brands" "${CURRENTDIR}/regular" "${CURRENTDIR}/solid"
+  rm -rf "${CURRENTDIR}/brand" "${CURRENTDIR}/regular" "${CURRENTDIR}/solid"
 
   bannerColor 'Adding arialabel to all files.' "blue" "*"
   fn_add_arialabel
