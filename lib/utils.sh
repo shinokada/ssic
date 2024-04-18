@@ -1,3 +1,15 @@
+add_A_if_starts_with_number() {
+  for file in *; do
+    filename=$(basename -- "$file")
+    if [[ $filename =~ ^[0-9] ]]; then
+      mv "$file" "A$file"
+      echo "Added 'A' to the beginning of the filename."
+    else
+      echo "Filename does not start with a number."
+    fi
+  done
+}
+
 fn_create_index_js() {
   cd "${CURRENTDIR}" || exit 1
 
@@ -40,8 +52,8 @@ fn_svg_path_with_one_subdir(){
   done
 }
 
+# Loop through directories and files to generate Svelte files with SVG paths and viewboxes replaced.
 fn_svg_path_two_subdirs(){
-
   for SUBSRC in "${CURRENTDIR}"/*; do
     SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
     cd "${SUBSRC}" || exit
@@ -64,6 +76,7 @@ fn_svg_path_two_subdirs(){
   done
 }
 
+# Generates Svelte files from SVG files in the current directory.
 fn_svg(){
   for file in *; do
     # echo ${file}
@@ -229,6 +242,26 @@ extract_icon_name() {
 extract_svg_path() {
   SVGPATH=$(tr '\n' ' ' < "$1" | sed 's/<svg[^>]*>//g; s/<\/svg>//g')
   echo "$SVGPATH"
+}
+remove_svg_tags() {
+  # Input file path
+  input_file="$1"
+  # Output file path (modified content)
+  output_file="${input_file}_modified.svg"
+
+  # Check if input file exists
+  if [[ ! -f "$input_file" ]]; then
+    echo "Error: Input file '$input_file' does not exist."
+    return 1
+  fi
+
+  # Extract content without tags using tr and sed
+  modified_content=$(tr '\n' ' ' < "$input_file" | sed 's/<svg[^>]*>//g; s/<\/svg>//g')
+
+  # Write modified content to a new file
+  echo "$modified_content" > "$output_file"
+
+  echo "Successfully extracted content without tags to: $output_file"
 }
 
 # Function to extract width and height values from SVG code

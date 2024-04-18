@@ -353,7 +353,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/supertiny/supertiny-v2-next.sh"
+        . "${script_dir}/src/supertiny/supertiny-v2-next-2.sh"
         fn_supertiny "$@"
         ;;
     tabler)

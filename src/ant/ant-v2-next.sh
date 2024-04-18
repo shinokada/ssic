@@ -44,13 +44,6 @@ fn_svg_path(){
     SUBDIRNAME=$(basename "${SUBSRC}") # filled, outlined, twotone
     cd "${SUBSRC}" || exit
     fn_remove
-  
-    # if SUBDIRNAME is twotone
-    # if [ "${SUBDIRNAME}" = "twotone" ]; then
-    #   for file in *; do
-    #     fn_replace_twotone
-    #   done
-    # fi
 
     for file in *; do
       FILENAME=$(basename "${file%.*}")
@@ -97,10 +90,6 @@ fn_modify_filenames() {
 }
 
 fn_ant() {
-  ################
-  # This script creates a single directory main
-  # Move it's contents to Repo lib dir.
-  ######################
   GITURL="https://github.com/ant-design/ant-design-icons"
   DIRNAME='packages/icons-svg/svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ant-design-icons-next"
@@ -121,9 +110,6 @@ fn_ant() {
   bannerColor 'Renaming all files.' "blue" "*"
   
   fn_modify_filenames
-
-  # if file name has TWOTONE:
-  
 
   cd "${CURRENTDIR}" || exit 1
 
