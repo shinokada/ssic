@@ -13,9 +13,6 @@
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     role?: string;
     color?: string;
-    strokeLinecap?: "round" | "inherit" | "butt" | "square" | undefined;
-    strokeLinejoin?: "round" | "inherit" | "miter" | "bevel" | undefined;
-    strokeWidth?: string;
     withEvents?: boolean;
   }
 

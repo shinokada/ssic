@@ -4,14 +4,16 @@
     icon: ComponentType;
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     role?: string;
+    color?: string;
     ariaLabel?: string;
     class?: string;
   }
-  let {icon, size, role, ariaLabel, class: classname, ...restProps}: Props = $props()
+  let {icon, size, role, color, ariaLabel, class: classname, ...restProps}: Props = $props()
 
 </script>
 
 <svelte:component 
+fill={color}
   {...restProps} 
   {role}
   this={icon} 

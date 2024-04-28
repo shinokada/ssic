@@ -1,5 +1,4 @@
 fn_svg_path(){
-
   for SUBSRC in "${CURRENTDIR}"/*; do
     SUBDIRNAME=$(basename "${SUBSRC}") # outline or solid
     cd "${SUBSRC}" || exit
@@ -10,7 +9,7 @@ fn_svg_path(){
         FILENAME=$(basename "${file%.*}")
         SVETLENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
         if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-          cp "${script_dir}/templates/flowbite/flowbite-${SUBDIRNAME}.txt" "${SVETLENAME}"
+          cp "${script_dir}/templates/flowbite/flowbite-base.txt" "${SVETLENAME}"
         fi
 
         SVGPATH=$(extract_svg_path "$file")
@@ -28,7 +27,6 @@ fn_modify_filenames() {
     FILENAMEONE=$(basename "${filename}" .svelte)
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     
-    # echo "${FILENAME}"
     sed -i "s;</script>;export let ariaLabel=\"${FILENAME}\" &;" "${filename}" >/dev/null 2>&1
 
     #  modify file names
@@ -51,35 +49,24 @@ fn_modify_file(){
   cd "${CURRENTDIR}" || exit 1
   bannerColor "Modifying stroke, stroke-linecap etc." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
-    # replace #2F2F38 with currentColor
-    # sed -i "s;#2F2F38;currentColor;" "${filename}"
-
-    if grep -q 'stroke-linecap="round"' "${filename}"; then
-      # replace stroke-linecap="round" with stroke-linecap="{strokeLinecap}"
-      sed -i 's/stroke-linecap="round"/stroke-linecap="\{strokeLinecap\}"/' "${filename}"
-      # insert export let strokeLinecap:  "round" | "inherit" | "butt" | "square" | null | undefined = "round"; before </script>
-      sed -i '/<\/script>/i export let strokeLinecap: "round" | "inherit" | "butt" | "square" | undefined = ctx.strokeLinecap || "round";' "${filename}"
+    # if filename has Outline, like NpmOutline.svelte add  fill="none"\n{color} before {...restProps} otherwise add fill={color} before {...restProps}
+    if [[ "${filename}" == *Outline.svelte ]]; then
+      # sed -i 's|{...$$restProps}|fill="none"\n{color}\n&|' "${filename}"
+      sed -i '/{...$$restProps}/i fill="none"\n{color}' "${filename}"
+    else
+      # sed -i 's|{...$$restProps}|fill={color}\n&|;' "${filename}"
+       sed -i '/{...$$restProps}/i fill={color}' "${filename}"
     fi
-
-    if grep -q 'stroke-linejoin="round"' "${filename}"; then
-      # replace stroke-linejoin="round" with stroke-linejoin="{strokeLinejoin}"
-      sed -i 's/stroke-linejoin="round"/stroke-linejoin="\{strokeLinejoin\}"/' "${filename}"
-      sed -i '/<\/script>/i export let strokeLinejoin:"round" | "inherit" | "miter" | "bevel" | undefined = ctx.strokeLinejoin || "round";' "${filename}"
-    fi
-
+    # replace stroke-width="2" with stroke-width={strokeWidth}
+    # sed -i "s;stroke-width=\"2\";stroke-width=\{strokeWidth\};" "${filename}"
     if grep -q 'stroke-width="2"' "${filename}"; then
       # replace stroke-width="2" with stroke-width="{strokeWidth}"
       sed -i 's/stroke-width="2"/stroke-width="\{strokeWidth\}"/g' "${filename}"
-      sed -i '/<\/script>/i export let strokeWidth= ctx.strokeWidth || "2";' "${filename}"
+      # insert export let strokeWidth: Props["strokeWidth"] = ctx.strokeWidth || "2"; before export let desc: DescType = {};
+      sed -i '/export let desc: DescType = {};/i export let strokeWidth: Props["strokeWidth"] = ctx.strokeWidth || "2";' "${filename}"
+      # add strokeWidth?: string; before withEvents?: boolean;
+      sed -i '/withEvents?: boolean;/i strokeWidth?: string;' "${filename}"
     fi
-
-    # if grep -q 'stroke="currentColor"' "${filename}"; then
-    #   # replace stroke="currentColor" with stroke={color}
-    #   sed -i 's/stroke="currentColor"/stroke=\{color\}/g' "${filename}"
-    # fi
-
-    sed -i 's/fill="#000"\|fill="#[0-9A-Fa-f]\{6\}"/fill="currentColor"/g' "${filename}"
-    sed -i 's/stroke="#[0-9A-Fa-f]\{6\}"/stroke="currentColor"/g' "${filename}"
   done
 }
 
@@ -87,27 +74,21 @@ fn_modify_file(){
 fn_flowbite() {
   GITURL="https://github.com/themesberg/flowbite-icons"
   DIRNAME='src'
-  # SVGDIR='src'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flowbite-svelte-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
   clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"
   
-  # For each svelte file modify contents of all file by adding
   bannerColor 'Modifying all files.' "blue" "*"
   
   fn_svg_path 
 
   # Remove 
   rm -rf "${CURRENTDIR}/outline" "${CURRENTDIR}/solid"
-
-  #  modify file names
-  bannerColor 'Renaming all files.' "blue" "*"
   
   fn_modify_filenames
  
-  # rename file names
   bannerColor 'Renaming is done.' "green" "*"
 
   fn_modify_file

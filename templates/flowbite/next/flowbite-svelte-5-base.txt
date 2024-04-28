@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import { twMerge } from 'tailwind-merge';
-    type TitleType = {
+  type TitleType = {
     id?: string;
     title?: string;
   };
@@ -15,7 +15,6 @@
     role?: string;
     color?: string;
     withEvents?: boolean;
-    strokeWidth?: string;
     onclick?: (event: MouseEvent) => void;
     onkeydown?: (event: KeyboardEvent) => void;
     onkeyup?: (event: KeyboardEvent) => void;
@@ -27,6 +26,7 @@
     title?: TitleType;
     desc?: DescType;
     ariaLabel?: string;
+    size?: "xs" | "sm" | "md" | "lg" | "xl";
   }
 
   const ctx: CtxType = getContext('iconCtx') ?? {};
@@ -38,7 +38,20 @@
     xl: 'w-8 h-8'
   };
 
-  let { size = ctx.size || 'md', role, color = ctx.color || 'currentColor', withEvents = ctx.withEvents || false, title = {}, desc = {}, strokeWidth = ctx.strokeWidth || '2', class: classname, ariaLabel= replace_ariaLabel, onclick, onkeydown, onkeyup, ...restProps }: Props = $props();
+  let { 
+    size = ctx.size || 'md', 
+    role, 
+    color = ctx.color || 'currentColor', 
+    withEvents = ctx.withEvents || false, 
+    title = {}, 
+    desc = {},  
+    class: classname, 
+    ariaLabel = replace_ariaLabel, 
+    onclick, 
+    onkeydown, 
+    onkeyup, 
+    ...restProps 
+    }: Props = $props();
 
   let ariaDescribedby = `${title.id || ''} ${desc.id || ''}`;
   let hasDescription = $state(false);
@@ -54,11 +67,9 @@
   })
 </script>
 
-
 {#if withEvents}
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  fill={color}
   {...restProps}
   class={twMerge(
     'shrink-0',
@@ -84,7 +95,6 @@
 {:else}
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  fill={color}
   {...restProps}
   class={twMerge(
     'shrink-0',

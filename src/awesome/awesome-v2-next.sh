@@ -50,7 +50,7 @@ fn_modify_filenames() {
 fn_awesome() {
   GITURL="git@github.com:FortAwesome/Font-Awesome.git"
   DIRNAME='svgs'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-awesome-icons-next"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-awesome-icons-next-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   
