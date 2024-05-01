@@ -5,7 +5,7 @@ fn_file() {
   GITURL="https://github.com/file-icons/icons"
   DIRNAME='svg'
   # SVGDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-file-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/file-icons/svelte-file-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

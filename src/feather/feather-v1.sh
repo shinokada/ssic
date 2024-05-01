@@ -46,7 +46,7 @@ fn_feather() {
   GITURL="git@github.com:feathericons/feather.git"
   DIRNAME='icons'
   # ICONDIR='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-feathers"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/feathers/svelte-feathers"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   TEMPLATE="${script_dir}/templates/feather/feather-v1.txt"

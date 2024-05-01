@@ -2,7 +2,7 @@ fn_flag() {
   GITURL="git@github.com:hampusborgos/country-flags.git"
   REPONAME='country-flags'
   DIRNAME='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-flags"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flags/svelte-flags"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

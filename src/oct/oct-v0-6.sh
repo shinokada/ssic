@@ -27,7 +27,7 @@ fn_modify_svg() {
 fn_oct() {
   GITURL="git@github.com:primer/octicons.git"
   DIRNAME='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-oct"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/oct/svelte-oct"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

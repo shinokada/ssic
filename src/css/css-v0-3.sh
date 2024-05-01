@@ -42,7 +42,7 @@ fn_css(){
   ######################
   GITURL="https://github.com/astrit/css.gg"
   DIRNAME='icons/svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-cssgg-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/cssgg/svelte-cssgg-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

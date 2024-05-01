@@ -2,7 +2,7 @@ fn_flagicons() {
   GITURL="https://github.com/lipis/flag-icons"
   DIRNAME='flags/4x3'
   # SVGDIR='flags/4x3'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-flag-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flag-icons/svelte-flag-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

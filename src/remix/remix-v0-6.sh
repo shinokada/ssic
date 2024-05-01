@@ -35,7 +35,7 @@ fn_modify_svg() {
 fn_remix() {
   GITURL="https://github.com/Remix-Design/RemixIcon"
   DIRNAME='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-remix"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/remix/svelte-remix"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   DIR_ARR=(

@@ -1,7 +1,7 @@
 fn_ion() {
   GITURL="git@github.com:ionic-team/ionicons.git"
   DIRNAME='src/svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ionicons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/ion/svelte-ionicons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

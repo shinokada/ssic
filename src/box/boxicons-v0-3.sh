@@ -53,7 +53,7 @@ fn_modify_filenames() {
 fn_boxicons() {
   GITURL="https://github.com/atisawd/boxicons"
   SVGDIR='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-boxicons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/box/svelte-boxicons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

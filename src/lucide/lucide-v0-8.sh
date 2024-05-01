@@ -1,7 +1,7 @@
 fn_lucide() {
     GITURL="git@github.com:lucide-icons/lucide.git"
     DIRNAME='icons'
-    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-lucide"
+    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/lucide/svelte-lucide"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

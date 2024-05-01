@@ -95,8 +95,9 @@ fn_modify_svg() {
   rm -rf "${CURRENTDIR:?}/16"
   bannerColor "Removed ${SUBDIR} dir." "green" "*"
 
-  bannerColor 'Replacing fill=" #..." and stroke="#..." with fill={color}.' "blue" "*"
-  sed -i 's/fill="[^"]*"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
+  bannerColor 'Replacing fill="#..." and stroke="#..." with fill={color}.' "blue" "*"
+  sed -i 's/fill="#[^"]*"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
+  # sed -i 's/fill="#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
   sed -i 's/stroke="[^"]*"/stroke="{color}"/g' "${CURRENTDIR:?}"/*.*
   sed -i 's/stroke-width="1.5"/stroke-width="{strokeWidth}"/g' "${CURRENTDIR:?}"/*.*
   bannerColor "Replacing completed." "green" "*"
@@ -117,7 +118,7 @@ fn_modify_filenames() {
   for filename in "${CURRENTDIR}"/*; do
     FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
     echo "${FILENAME}"
-    sed -i "s;replace_aria-label;\"${FILENAME}\";" "${filename}" >/dev/null 2>&1
+    sed -i "s;replace_ariaLabel;\"${FILENAME}\";" "${filename}" >/dev/null 2>&1
   done
   bannerColor "Added arialabel to all files." "green" "*"
 
@@ -139,7 +140,7 @@ fn_hero2() {
   SVGDIR='24'
   MINISVG='20'
   MICRO='16'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-heros-v2-next"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/heros-v2/svelte-heros-v2-next-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

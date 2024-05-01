@@ -28,7 +28,7 @@ fn_modify_filenames() {
 fn_twemoji() {
   GITURL="https://github.com/twitter/twemoji"
   DIRNAME='assets/svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-twitter-emoji"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/twitter/svelte-twitter-emoji"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

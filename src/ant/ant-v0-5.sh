@@ -31,7 +31,7 @@ fn_ant() {
   ######################
   GITURL="https://github.com/ant-design/ant-design-icons"
   DIRNAME='packages/icons-svg/svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-ant-design-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/ant/svelte-ant-design-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   

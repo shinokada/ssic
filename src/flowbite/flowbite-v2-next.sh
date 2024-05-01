@@ -72,7 +72,7 @@ fn_modify_file(){
 fn_flowbite() {
   GITURL="https://github.com/themesberg/flowbite-icons"
   DIRNAME='src'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flowbite-svelte-icons-next-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flowbite-icons/flowbite-svelte-icons-next-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
