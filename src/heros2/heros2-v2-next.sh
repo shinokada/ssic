@@ -99,6 +99,8 @@ fn_modify_svg() {
   sed -i 's/fill="#[^"]*"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
   # sed -i 's/fill="#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
   sed -i 's/stroke="[^"]*"/stroke="{color}"/g' "${CURRENTDIR:?}"/*.*
+  # replacing fill="black" with fill={color}
+  sed -i 's/fill="black"/fill="{color}"/g' "${CURRENTDIR:?}"/*.*
   sed -i 's/stroke-width="1.5"/stroke-width="{strokeWidth}"/g' "${CURRENTDIR:?}"/*.*
   bannerColor "Replacing completed." "green" "*"
 
