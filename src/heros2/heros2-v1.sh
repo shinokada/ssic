@@ -72,7 +72,7 @@ fn_modify_svg() {
       # if ${DIR}/${file} doesn't exist, create it
       if [ ! -f "${DIR}/${file}" ]; then
         # copy "${script_dir}/templates/hero2.txt" to ${DIR}/${file}
-        cp "${script_dir}/templates/heros2/hero2-v2-next.txt" "${DIR}/${file}"
+        cp "${script_dir}/templates/heros2/hero2-v1.txt" "${DIR}/${file}"
       fi
       # echo "${file}"
       SVGPATH=$(sed '1d; $d' "$file")
@@ -142,14 +142,14 @@ fn_hero2() {
   SVGDIR='24'
   MINISVG='20'
   MICRO='16'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-heros-v2-next-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-heros-v2"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
   # clone from github
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
   
-  cp "${script_dir}/templates/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/templates/hero2-10/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 
   fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
 

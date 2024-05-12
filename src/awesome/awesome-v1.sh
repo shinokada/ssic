@@ -1,7 +1,7 @@
 fn_awesome() {
   GITURL="git@github.com:FortAwesome/Font-Awesome.git"
   DIRNAME='svgs'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/awesome/svelte-awesome-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-awesome-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   TEMPLATE="${script_dir}/templates/template-v1.txt"

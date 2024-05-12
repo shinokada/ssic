@@ -273,7 +273,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros2/heros2-v0-10.sh"
+        . "${script_dir}/src/heros2/heros2-v1.sh"
         fn_hero2 "$@"
         ;;
     heros2-next)
@@ -298,6 +298,14 @@ if [ $# -gt 0 ]; then
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/lucide/lucide-v0-8.sh"
+        fn_lucide "$@"
+        ;;
+    lucide-next)
+        eval "$(getoptions parser_definition_lucide parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/lucide/lucide-v2-next.sh"
         fn_lucide "$@"
         ;;
     material)
@@ -353,7 +361,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/supertiny/supertiny-v2-next-2.sh"
+        . "${script_dir}/src/supertiny/supertiny-v2-next.sh"
         fn_supertiny "$@"
         ;;
     tabler)

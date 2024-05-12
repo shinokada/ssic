@@ -2,7 +2,7 @@ fn_simple() {
     GITURL="git@github.com:simple-icons/simple-icons.git"
     DIRNAME='icons'
     SVELTE_LIB_DIR='src/lib'
-    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/simples/svelte-simples"
+    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-simples"
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
     
     clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"

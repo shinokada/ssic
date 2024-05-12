@@ -67,7 +67,7 @@ fn_crypto() {
   GITURL="git@github.com:spothq/cryptocurrency-icons.git"
   DIRNAME='svg'
   # DIRNAME='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/crypto/svelte-cryptocurrency-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-cryptocurrency-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

@@ -11,51 +11,39 @@
     desc?: string;
   };
   
-  interface BaseProps {
+  interface CtxType {
     size?: string;
     role?: string;
     color?: string;
     variation?: "solid" | "outline" | "mini" | "micro";
     strokeWidth?: string;
     withEvents?: boolean;
-    onclick?: (event: MouseEvent) => void;
-    onkeydown?: (event: KeyboardEvent) => void;
-    onkeyup?: (event: KeyboardEvent) => void;
-    class?: string;
-  }
-  
-  interface CtxType extends BaseProps {}
-  
-  interface Props extends BaseProps{
-    title?: TitleType;
-    desc?: DescType;
-    ariaLabel?: string;
   }
   
   const ctx: CtxType = getContext('iconCtx') ?? {};
 
-  let { 
-    size = ctx.size || '24', 
-    role = ctx.role || 'img', 
-    color = ctx.color || 'currentColor', 
-    variation = ctx.variation || "outline",
-    strokeWidth = ctx.strokeWidth || '1.5',
-    withEvents = ctx.withEvents || false, 
-    title, 
-    desc, 
-    class: classname, 
-    ariaLabel = replace_ariaLabel, 
-    onclick, 
-    onkeydown, 
-    onkeyup,
-    ...restProps 
-  }: Props = $props();
+  export let size: string = ctx.size || '24';
+  export let role: string = ctx.role || 'img';
+  export let color: string = ctx.color || 'currentColor';
+  export let variation: "solid" | "outline" | "mini" | "micro" = ctx.variation || "outline";
+  export let strokeWidth: string = ctx.strokeWidth || '1.5'
+  export let withEvents: boolean = ctx.withEvents || false;
+  export let title: TitleType = {};
+  export let desc: DescType = {};
+  export let ariaLabel: string = "academic cap";
 
   let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
-  const hasDescription = $derived(!!(title?.id || desc?.id));
-  let viewBox: string = $state(''); 
+  let hasDescription = false;
+  let viewBox: string = ''; 
 
-  $effect(() => {
+  function updateHasDescription() {
+    hasDescription = !!(title?.id || desc?.id); 
+  }
+  updateHasDescription();
+
+  $: {
+    updateHasDescription();
+ 
     if (variation === 'mini') {
       size = size || "20";
       viewBox = '0 0 20 20';
@@ -66,26 +54,31 @@
       size = size || "24";
       viewBox = '0 0 24 24';
     }
-  })
+  }
   
 </script>
 
 {#if withEvents}
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    {...restProps}
+    {...$$restProps}
     {role}
     width={size}
     height={size}
-    class={classname}
     fill="none"
     aria-label={ariaLabel}
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
     {viewBox}
     stroke-width={strokeWidth}
-    onclick={onclick}
-    onkeydown={onkeydown}
-    onkeyup={onkeyup}
+    on:click
+    on:keydown
+    on:keyup
+    on:focus
+    on:blur
+    on:mouseenter
+    on:mouseleave
+    on:mouseover
+    on:mouseout
   >
     {#if title?.id && title.title}
       <title id="{title.id}">{title.title}</title>
@@ -106,11 +99,10 @@
 {:else}
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    {...restProps}
+    {...$$restProps}
     {role}
     width={size}
     height={size}
-    class={classname}
     fill="none"
     aria-label={ariaLabel}
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
@@ -134,5 +126,3 @@
       {/if}
   </svg>
 {/if}
-
-

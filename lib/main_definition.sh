@@ -30,6 +30,7 @@ parser_definition() {
     cmd heros2-next -- "Create Heroicons v2 next."
     cmd ion -- "Create Ionicons."
     cmd lucide -- "Create Lucide-icons."
+    cmd lucide-next -- "Create Lucide-icons for next version."
     cmd material -- "Create Material-design-icons from https://github.com/Templarian/MaterialDesign."
     cmd google-material-design -- "Create Material-design-icons from https://github.com/marella/material-design-icons/tree/main/svg."
     cmd oct -- "Create Octicons."

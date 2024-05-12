@@ -61,7 +61,7 @@ fn_modify_svg() {
 fn_coreui(){
   GITURL="https://github.com/coreui/coreui-icons"
   DIRNAME='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/coreui/svelte-coreui-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-coreui-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

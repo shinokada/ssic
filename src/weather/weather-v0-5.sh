@@ -35,7 +35,7 @@ fn_modify_svg() {
 fn_weather() {
   GITURL="git@github.com:erikflowers/weather-icons.git"
   DIRNAME='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/weather/svelte-weather"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-weather"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

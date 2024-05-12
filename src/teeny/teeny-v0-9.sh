@@ -52,7 +52,7 @@ fn_teeny() {
   GITURL="https://github.com/teenyicons/teenyicons"
   DIRNAME='src'
   # SVGDIR='src'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/teeny/svelte-teenyicons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-teenyicons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

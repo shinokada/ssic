@@ -41,17 +41,7 @@
   let { size = ctx.size || 'md', role, color = ctx.color || 'currentColor', withEvents = ctx.withEvents || false, title = {}, desc = {}, strokeWidth = ctx.strokeWidth || '2', class: classname, ariaLabel= replace_ariaLabel, onclick, onkeydown, onkeyup, ...restProps }: Props = $props();
 
   let ariaDescribedby = `${title.id || ''} ${desc.id || ''}`;
-  let hasDescription = $state(false);
-
-  function updateHasDescription() {
-    // Double negation converts truthy values to true, falsy to false
-    hasDescription = !!(title.id || desc.id); 
-  }
-  updateHasDescription();
-
-  $effect(() => {
-    updateHasDescription();
-  })
+  const hasDescription = $derived(!!(title.id || desc.id));
 </script>
 
 

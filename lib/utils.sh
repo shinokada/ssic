@@ -114,10 +114,9 @@ fn_add_arialabel() {
 }
 
 fn_remove_svg(){
-    for filename in "${CURRENTDIR}"/*; do
-
-        find . -type f -name "*.svg" -exec rm {} \;
-    done
+  for filename in "${CURRENTDIR}"/*; do
+    find . -type f -name "*.svg" -exec rm {} \;
+  done
 }
 
 fn_rename(){

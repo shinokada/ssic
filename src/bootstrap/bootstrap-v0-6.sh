@@ -39,7 +39,7 @@ fn_modify_svg() {
 fn_bootstrap() {
   GITURL="https://github.com/twbs/icons"
   DIRNAME='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/bootstrap/svelte-bootstrap-svg-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-bootstrap-svg-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

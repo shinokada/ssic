@@ -10,12 +10,11 @@
 
 <svelte:component 
   {...$$restProps} 
-  this={icon} 
+  this={icon}
   {size} 
   {variation} 
   {color} 
   class={$$props.class} 
   {strokeWidth} 
-  {viewBox} 
-  aria-label={ariaLabel}
+  {viewBox}
 />

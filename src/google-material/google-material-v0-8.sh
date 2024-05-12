@@ -59,7 +59,7 @@ fn_modify_filenames() {
 fn_google_material_design() {
   GITURL="git@github.com:marella/material-design-icons.git"
   DIRNAME='svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/google-materialdesign/svelte-google-materialdesign-icons"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-google-materialdesign-icons"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

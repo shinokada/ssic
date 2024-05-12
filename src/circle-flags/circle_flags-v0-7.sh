@@ -2,7 +2,7 @@ fn_circle_flags() {
   GITURL="https://github.com/HatScripts/circle-flags"
   DIRNAME='flags'
   # SVGDIR='flags'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/circle-flags/svelte-circle-flags"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-circle-flags"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

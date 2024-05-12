@@ -31,8 +31,8 @@
     role = ctx.role || 'img', 
     color = ctx.color || 'currentColor', 
     withEvents = ctx.withEvents || false, 
-    title = {}, 
-    desc = {}, 
+    title, 
+    desc, 
     class: classname, 
     ariaLabel = replace_ariaLabel, 
     onclick, 
@@ -41,18 +41,8 @@
     ...restProps 
   }: Props = $props();
 
-  let ariaDescribedby = `${title.id || ''} ${desc.id || ''}`;
-  let hasDescription = $state(false);
-
-  function updateHasDescription() {
-    // Double negation converts truthy values to true, falsy to false
-    hasDescription = !!(title.id || desc.id); 
-  }
-  updateHasDescription();
-
-  $effect(() => {
-    updateHasDescription();
-  })
+  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
+  const hasDescription = $derived(!!(title?.id || desc?.id));
 </script>
 
 {#if withEvents}
@@ -71,10 +61,10 @@
     onkeydown={onkeydown}
     onkeyup={onkeyup}
   >
-    {#if title.id && title.title}
+    {#if title?.id && title.title}
       <title id="{title.id}">{title.title}</title>
     {/if}
-    {#if desc.id && desc.desc}
+    {#if desc?.id && desc.desc}
       <desc id="{desc.id}">{desc.desc}</desc>
     {/if}
       replace_svg_path
@@ -92,10 +82,10 @@
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
     viewBox="replace_viewBox"
   >
-    {#if title.id && title.title}
+    {#if title?.id && title.title}
       <title id="{title.id}">{title.title}</title>
     {/if}
-    {#if desc.id && desc.desc}
+    {#if desc?.id && desc.desc}
       <desc id="{desc.id}">{desc.desc}</desc>
     {/if}
       replace_svg_path
