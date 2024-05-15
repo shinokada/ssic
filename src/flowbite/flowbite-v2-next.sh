@@ -59,9 +59,9 @@ fn_modify_file(){
     # sed -i "s;stroke-width=\"2\";stroke-width=\{strokeWidth\};" "${filename}"
     if grep -q 'stroke-width="2"' "${filename}"; then
       # replace stroke-width="2" with stroke-width="{strokeWidth}"
-      sed -i 's/stroke-width="2"/stroke-width="\{strokeWidth\}"/g' "${filename}"
-      # add strokeWidth = ctx.strokeWidth || '2', before desc = {},
-      sed -i '/desc = {},/i strokeWidth= ctx.strokeWidth || "2",' "${filename}"
+      sed -i 's/stroke-width="2"/stroke-width=\{strokeWidth\}/g' "${filename}"
+      # add strokeWidth = ctx.strokeWidth || '2', before desc,
+      sed -i '/desc,/i strokeWidth= ctx.strokeWidth || "2",' "${filename}"
       # add strokeWidth?: string; before withEvents?: boolean;
       sed -i '/withEvents?: boolean;/i strokeWidth?: string;' "${filename}"
     fi
