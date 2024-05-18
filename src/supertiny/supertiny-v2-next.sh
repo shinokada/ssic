@@ -9,13 +9,13 @@ fn_svg_path() {
 
     FILENAME=$(basename "${file%.*}")
     # create svelte file like address-book-solid.svelte
-    SVETLENAME="${CURRENTDIR}/${FILENAME}.svelte"
+    SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/templates/supertiny/next/supertiny-v2.txt" "${SVETLENAME}"
+    cp "${script_dir}/templates/supertiny/next/supertiny-v2.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
     # replace replace_svg_path with svg path
-    sed -i "s|replace_svg_path|${SVGPATH}|" "${SVETLENAME}"
+    sed -i "s|replace_svg_path|${SVGPATH}|" "${SVELTENAME}"
   done
 }
 

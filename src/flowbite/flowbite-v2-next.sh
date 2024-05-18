@@ -7,13 +7,13 @@ fn_svg_path(){
       cd "${CATEGORY}" || exit
       for file in *; do
         FILENAME=$(basename "${file%.*}")
-        SVETLENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
+        SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
         if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-          cp "${script_dir}/templates/flowbite/next/flowbite-svelte-5-base.txt" "${SVETLENAME}"
+          cp "${script_dir}/templates/flowbite/next/flowbite-svelte-5-base.txt" "${SVELTENAME}"
         fi
 
         SVGPATH=$(extract_svg_path "$file")
-        sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
+        sed -i "s;replace_svg_path;${SVGPATH};" "${SVELTENAME}"
       done
     done
   done

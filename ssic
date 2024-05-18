@@ -228,6 +228,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/flags/flags-v0-6.sh"
         fn_flag "$@"
         ;;
+    flags-next)
+        eval "$(getoptions parser_definition_flags parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flags/flags-v2.sh"
+        fn_flag "$@"
+        ;;
     flag-icons)
         eval "$(getoptions parser_definition_flagicons parse "$0")"
         parse "$@"

@@ -1,18 +1,18 @@
 # fn_svg_path(){
 #   for file in *; do
 #     FILENAME=$(basename "${file%.*}")
-#     SVETLENAME="${CURRENTDIR}/${FILENAME}.svelte"
+#     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
 #     # create svelte file like address-book-solid.svelte
 #     if [ ! -f "${file}" ]; then
-#       cp "${TEMPLATE}" "${SVETLENAME}"
+#       cp "${TEMPLATE}" "${SVELTENAME}"
 #     fi
 
 #     SVGPATH=$(extract_svg_path "$file")
 #     # replace replace_svg_path with svg path
-#     sed -i "s;replace_svg_path;${SVGPATH};" "${SVETLENAME}"
+#     sed -i "s;replace_svg_path;${SVGPATH};" "${SVELTENAME}"
 #     # get viewBox value
 #     VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
-#     sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVETLENAME}"
+#     sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVELTENAME}"
 #   done
 # }
 

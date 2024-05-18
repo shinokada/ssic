@@ -22,6 +22,7 @@ parser_definition() {
     cmd feather -- "Create Feathericons."
     cmd file -- "Create file-icons."
     cmd flags -- "Create country flag icons."
+    cmd flags-next -- "Create country flag icons."
     cmd flag-icons -- "Create country flag icons from https://github.com/lipis/flag-icons/tree/main/flags/4x3."
     cmd flowbite -- "Create Flowbite-icons"
     cmd flowbite-next -- "Create Flowbite-svelte-icons next version"

@@ -11,33 +11,27 @@ fn_svg_path() {
     # create svelte file like address-book-solid.svelte
     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/templates/lucide/next/lucide-v2-next.txt" "${SVELTENAME}"
+    cp "${script_dir}/templates/flags/next/flags-v2.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
     # replace replace_svg_path with svg path
     sed -i "s|replace_svg_path|${SVGPATH}|" "${SVELTENAME}"
+    # replace replace_viewbox with file's veiwbox value
+    VIEWVALUE=$(sed -n 's/.*viewBox="\([^"]*\)".*/\1/p' "${file}")
+    sed -i "s;replace_viewBox;${VIEWVALUE};" "${SVELTENAME}"
   done
 }
 
 
-fn_lucide() {
-    GITURL="git@github.com:lucide-icons/lucide.git"
-    DIRNAME='icons'
-    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-lucide-next-runes-webkit"
-    SVELTE_LIB_DIR='src/lib'
-    CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
+fn_flag() {
+  GITURL="git@github.com:hampusborgos/country-flags.git"
+  REPONAME='country-flags'
+  DIRNAME='svg'
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-flags-runes-webkit"
+  SVELTE_LIB_DIR='src/lib'
+  CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
     clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"
-
-    bannerColor 'Remove all json files.' "blue" "*"
-    if ls *.json &> /dev/null; then
-      echo "Directory contains JSON files."
-      bannerColor 'Directory contains JSON files. Removing them ...' "blue" "*"
-      rm *.json
-      bannerColor 'Removed.' "green" "*"
-    else
-      bannerColor 'Directory does not contain any JSON files.' "blue" "*"
-    fi
     
     bannerColor 'Running fn_svg_path ...' "blue" "*"
     fn_svg_path
@@ -51,7 +45,7 @@ fn_lucide() {
     bannerColor 'Running fn_rename ...' "blue" "*"
     fn_rename
 
-    cp "${script_dir}/templates/lucide/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+    cp "${script_dir}/templates/flags/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 
     bannerColor 'Creating index.js file.' "blue" "*"
     fn_create_index_js
