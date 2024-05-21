@@ -300,6 +300,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/ion/ion-v0-7.sh"
         fn_ion "$@"
         ;;
+    ion-next)
+        eval "$(getoptions parser_definition_ion parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/ion/ion-v2.sh"
+        fn_ion "$@"
+        ;;
     lucide)
         eval "$(getoptions parser_definition_lucide parse "$0")"
         parse "$@"
@@ -340,12 +348,29 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/radix/radix-v0-6.sh"
         fn_radix "$@"
         ;;
+    radix-next)
+        eval "$(getoptions parser_definition_radix parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/radix/radix-v2.sh"
+        fn_radix "$@"
+        ;;
     remix)
         eval "$(getoptions parser_definition_remix parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/remix/remix-v0-6.sh"
+        fn_remix "$@"
+        ;;
+    
+    remix-next)
+        eval "$(getoptions parser_definition_remix parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/remix/remix-v2.sh"
         fn_remix "$@"
         ;;
     simple)

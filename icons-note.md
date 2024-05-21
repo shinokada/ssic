@@ -23,7 +23,7 @@ Sub-directories, brand, regular, and solid.
 - Circle flags
 - Cssgg
 - Evil
-- Feather: No sub-directory.
+- Feather
 - File icons
 - Flag icons
 - Flags
