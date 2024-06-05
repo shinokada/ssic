@@ -244,6 +244,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/flag-icons/flag-icons-v0-7.sh"
         fn_flagicons "$@"
         ;;
+    flag-icons-next)
+        eval "$(getoptions parser_definition_flagicons parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flag-icons/flag-icons-v2.sh"
+        fn_flagicons "$@"
+        ;;
     flowbite)
         eval "$(getoptions parser_definition_flowbite parse "$0")"
         parse "$@"
@@ -403,6 +411,14 @@ if [ $# -gt 0 ]; then
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/tabler/tabler-v0-6.sh"
+        fn_tabler "$@"
+        ;;
+    tabler-next)
+        eval "$(getoptions parser_definition_tabler parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/tabler/tabler-v2.sh"
         fn_tabler "$@"
         ;;
     teeny)

@@ -16,6 +16,7 @@ Sub-directories, brand, regular, and solid.
 - Heros, Outline, Solid
 - Heros-v2, Outline, Solid, Mini, Micro
 - Remix
+- Tabler
 - Teenyicons, Outline, Solid
 
 ## No Sub-directories
@@ -33,7 +34,6 @@ Sub-directories, brand, regular, and solid.
 - Oct
 - Radix
 - Simples
-- Tabler
 - SuperTinyIcons (Svelte-Supertiny)
 - Twitter emoji
 - Weather
