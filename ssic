@@ -284,6 +284,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/heros/heros-v6.sh"
         fn_hero "$@"
         ;;
+    heros-next)
+        eval "$(getoptions parser_definition_hero parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/heros/heros-next-v2.sh"
+        fn_hero_next "$@"
+        ;;
     heros2)
         eval "$(getoptions parser_definition_hero parse "$0")"
         parse "$@"
@@ -419,7 +427,23 @@ if [ $# -gt 0 ]; then
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/tabler/tabler-v2.sh"
-        fn_tabler "$@"
+        fn_tabler_next "$@"
+        ;;
+    tabler-outline-next)
+        eval "$(getoptions parser_definition_tabler parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/tabler/tabler-outline-v2.sh"
+        fn_tabler_outline "$@"
+        ;;
+    tabler-filled-next)
+        eval "$(getoptions parser_definition_tabler parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/tabler/tabler-filled-v2.sh"
+        fn_tabler_filled "$@"
         ;;
     teeny)
         eval "$(getoptions parser_definition_teeny parse "$0")"

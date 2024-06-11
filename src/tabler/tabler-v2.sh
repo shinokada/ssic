@@ -1,3 +1,5 @@
+# Only outline icons without Outline as the suffix will be created
+
 fn_svg_path(){
   for SUBSRC in "${CURRENTDIR}"/*; do
     SUBDIRNAME=$(basename "${SUBSRC}") # outline and filled
@@ -73,10 +75,10 @@ fn_modify_filenames() {
   bannerColor 'Modification and renaming is done.' "green" "*"
 }
 
-fn_tabler() {
+fn_tabler_next() {
   GITURL="https://github.com/tabler/tabler-icons"
   DIRNAME='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-tabler-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/Runes-dev-icons/svelte-tabler-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   
@@ -94,6 +96,7 @@ fn_tabler() {
   fn_modify_filenames
 
   cp "${script_dir}/templates/remix/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/templates/types/types.txt" "${CURRENTDIR}/types.ts"
 
 
   fn_create_index_js

@@ -203,6 +203,7 @@ clone_repo(){
       exit 1
     }
   fi
+  bannerColor "Cloned ${DIRNAME}." "green" "*"
 }
 
 extract_icon_name() {

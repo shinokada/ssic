@@ -35,5 +35,7 @@ Sub-directories, brand, regular, and solid.
 - Radix
 - Simples
 - SuperTinyIcons (Svelte-Supertiny)
+- Tabler-outline
+- Tabler-filled
 - Twitter emoji
 - Weather

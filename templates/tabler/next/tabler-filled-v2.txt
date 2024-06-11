@@ -33,15 +33,16 @@
     aria-label={ariaLabel}
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
     viewBox="0 0 24 24"
+    fill={color}
     onclick={onclick}
     onkeydown={onkeydown}
     onkeyup={onkeyup}
   >
     {#if title?.id && title.title}
-    <title id="{title.id}">{title.title}</title>
+      <title id="{title.id}">{title.title}</title>
     {/if}
     {#if desc?.id && desc.desc}
-    <desc id="{desc.id}">{desc.desc}</desc>
+      <desc id="{desc.id}">{desc.desc}</desc>
     {/if}
     {@render path()} 
   </svg>
@@ -56,13 +57,14 @@
     aria-label={ariaLabel}
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
     viewBox="0 0 24 24"
+    fill={color}
   >
-  {#if title?.id && title.title}
-    <title id="{title.id}">{title.title}</title>
+    {#if title?.id && title.title}
+      <title id="{title.id}">{title.title}</title>
     {/if}
     {#if desc?.id && desc.desc}
-    <desc id="{desc.id}">{desc.desc}</desc>
-  {/if}
+      <desc id="{desc.id}">{desc.desc}</desc>
+    {/if}
     {@render path()} 
   </svg>
 {/if}

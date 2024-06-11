@@ -32,6 +32,7 @@
   height={size}
   viewBox="0 0 24 24"
   {...$$restProps}
+  fill="none"
   stroke={color}
   stroke-width="2"
   stroke-linecap="round"
@@ -57,6 +58,7 @@
   height={size}
   viewBox="0 0 24 24"
   {...$$restProps}
+  fill="none"
   stroke={color}
   stroke-width="2"
   stroke-linecap="round"
