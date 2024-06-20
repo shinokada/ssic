@@ -8,28 +8,26 @@ fn_modify_svg() {
   ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
 
   for filename in "${CURRENTDIR}"/*; do
+    # remove <script>, </script> and between them
+    sed -i  's/<script>.*<\/script>//' "$filename"
     # replace role="img" with {role}
     sed -i 's/role="img"/\{role\}/' "$filename"
     # inserting script tag at the beginning and insert width={size} height={size} class={$$props.class}
     sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; <\/script>/' "$filename"
 
     # if there is fill="#fff", insert export let fill = ctx.fill || "#fff"; before </script>
-    if grep -q 'fill="#fff"' "$filename"; then
-      # If "#fff" is found anywhere in the file
-    sed -i 's/<\/script>/export let fill = ctx.fill || "#fff";<\/script>/' "$filename"
-    fi
-
+    # if grep -q 'fill="#fff"' "$filename"; then
+    #   # If "#fff" is found anywhere in the file
+    # sed -i 's/<\/script>/export let fill = ctx.fill || "#fff";<\/script>/' "$filename"
+    # fi
 
     sed -i 's/viewBox=/ width="{size}" height="{size}" {...$$restProps} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' "$filename"
 
-    # replace fill="#fff" with {fill}
-    sed -i 's/fill="#fff"/\{fill\}/' "$filename"
-
     FILENAMEONE=$(basename "${filename}" .svelte | tr '[:upper:]' '[:lower:]') 
     # replace id="a" with fill id="file-name"
-    sed -i "s/id=\"a\"/id=\"${FILENAMEONE}\"/" "${filename}"
+    # sed -i "s/id=\"a\"/id=\"${FILENAMEONE}\"/" "${filename}"
     # replace fill="url(#a)" with fill="url(#file-name)"
-    sed -i "s/fill=\"url(#a)\"/fill=\"url(#${FILENAMEONE})\"/" "${filename}"
+    # sed -i "s/fill=\"url(#a)\"/fill=\"url(#${FILENAMEONE})\"/" "${filename}"
 
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     # Capitalize the first letter
