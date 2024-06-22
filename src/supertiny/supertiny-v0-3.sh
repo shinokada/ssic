@@ -16,14 +16,18 @@ fn_modify_svg() {
     sed -i '1s/^/<script>import { getContext } from "svelte"; const ctx = getContext("iconCtx") ?? {}; export let size = ctx.size || "24"; export let role = ctx.role || "img"; <\/script>/' "$filename"
 
     # if there is fill="#fff", insert export let fill = ctx.fill || "#fff"; before </script>
-    # if grep -q 'fill="#fff"' "$filename"; then
-    #   # If "#fff" is found anywhere in the file
-    # sed -i 's/<\/script>/export let fill = ctx.fill || "#fff";<\/script>/' "$filename"
-    # fi
+    if grep -q 'fill="#fff"' "$filename"; then
+      # If "#fff" is found anywhere in the file
+      sed -i 's/<\/script>/export let fill = ctx.fill || "#fff";<\/script>/' "$filename"
+    fi
 
     sed -i 's/viewBox=/ width="{size}" height="{size}" {...$$restProps} on:click on:keydown on:keyup on:focus on:blur on:mouseenter on:mouseleave on:mouseover on:mouseout &/' "$filename"
 
     FILENAMEONE=$(basename "${filename}" .svelte | tr '[:upper:]' '[:lower:]') 
+
+    # replace fill="#fff" with {fill}
+    sed -i 's/fill="\#fff"/{fill}/' "$filename"
+
     # replace id="a" with fill id="file-name"
     # sed -i "s/id=\"a\"/id=\"${FILENAMEONE}\"/" "${filename}"
     # replace fill="url(#a)" with fill="url(#file-name)"
