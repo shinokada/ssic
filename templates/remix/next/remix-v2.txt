@@ -1,43 +1,37 @@
 <script lang='ts'>
   import { getContext } from 'svelte';
+  import type { SVGAttributes } from 'svelte/elements';
+
   type TitleType = {
-    id?: string;
-    title?: string;
+    id?: string | undefined | null;
+    title?: string | undefined | null;
   };
   type DescType = {
-    id?: string;
-    desc?: string;
+    id?: string | undefined | null;
+    desc?: string | undefined | null;
   };
-  interface BaseProps {
-    size?: string;
-    role?: string;
-    color?: string;
-    withEvents?: boolean;
-    onclick?: (event: MouseEvent) => void;
-    onkeydown?: (event: KeyboardEvent) => void;
-    onkeyup?: (event: KeyboardEvent) => void;
-    class?: string;
+  interface BaseProps extends SVGAttributes<SVGElement>{
+    size?: string | undefined | null;
+    role?: string | undefined | null;
+    color?: string | undefined | null;
+    class?: string | undefined | null;
   }
   interface CtxType extends BaseProps {}
   const ctx: CtxType = getContext('iconCtx') ?? {};
   interface Props extends BaseProps{
     title?: TitleType;
     desc?: DescType;
-    ariaLabel?: string;
+    ariaLabel?: string | undefined | null;
   }
 
   let { 
     size = ctx.size || '24', 
     role = ctx.role || 'img', 
     color = ctx.color || 'currentColor', 
-    withEvents = ctx.withEvents || false, 
     title, 
     desc, 
     class: classname, 
-    ariaLabel = replace_ariaLabel, 
-    onclick, 
-    onkeydown, 
-    onkeyup,
+    ariaLabel = replace_ariaLabel,
     ...restProps 
   }: Props = $props();
 
@@ -45,49 +39,24 @@
   const hasDescription = $derived(!!(title?.id || desc?.id));
 </script>
 
-{#if withEvents}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    {...restProps}
-    {role}
-    width={size}
-    height={size}
-    class={classname}
-    fill={color}
-    aria-label={ariaLabel}
-    aria-describedby={hasDescription ? ariaDescribedby : undefined}
-    viewBox="0 0 24 24"
-    onclick={onclick}
-    onkeydown={onkeydown}
-    onkeyup={onkeyup}
-  >
-    {#if title?.id && title.title}
-      <title id="{title.id}">{title.title}</title>
-    {/if}
-    {#if desc?.id && desc.desc}
-      <desc id="{desc.id}">{desc.desc}</desc>
-    {/if}
-      replace_svg_path
-  </svg>
-{:else}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    {...restProps}
-    {role}
-    width={size}
-    height={size}
-    class={classname}
-    fill={color}
-    aria-label={ariaLabel}
-    aria-describedby={hasDescription ? ariaDescribedby : undefined}
-    viewBox="0 0 24 24"
-  >
-    {#if title?.id && title.title}
-      <title id="{title.id}">{title.title}</title>
-    {/if}
-    {#if desc?.id && desc.desc}
-      <desc id="{desc.id}">{desc.desc}</desc>
-    {/if}
-      replace_svg_path
-  </svg>
-{/if}
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  {...restProps}
+  {role}
+  width={size}
+  height={size}
+  class={classname}
+  fill={color}
+  aria-label={ariaLabel}
+  aria-describedby={hasDescription ? ariaDescribedby : undefined}
+  viewBox="0 0 24 24"
+>
+  {#if title?.id && title.title}
+    <title id="{title.id}">{title.title}</title>
+  {/if}
+  {#if desc?.id && desc.desc}
+    <desc id="{desc.id}">{desc.desc}</desc>
+  {/if}
+    replace_svg_path
+</svg>
+
