@@ -1,5 +1,5 @@
 # Only outline icons without Outline as the suffix will be created
-
+# svelte-tabler has only outline icons
 fn_svg_path(){
   for SUBSRC in "${CURRENTDIR}"/*; do
     SUBDIRNAME=$(basename "${SUBSRC}") # outline and filled
@@ -20,7 +20,7 @@ fn_svg_path(){
       # create svelte file like address-book-solid.svelte
       SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
       if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-        cp "${script_dir}/templates/tabler/next/tabler-v2.txt" "${SVELTENAME}"
+        cp "${script_dir}/src/tabler/next/tabler-v2.txt" "${SVELTENAME}"
       fi
 
       SVGPATH=$(extract_svg_path "$file")
@@ -69,8 +69,6 @@ fn_modify_filenames() {
       sed -i 's/viewBox="0 0 24 24"/viewBox="0 0 24 24" \n fill={color}/' "${new_name}.svelte"
     fi 
   done
-
-  
   
   bannerColor 'Modification and renaming is done.' "green" "*"
 }
@@ -78,7 +76,7 @@ fn_modify_filenames() {
 fn_tabler_next() {
   GITURL="https://github.com/tabler/tabler-icons"
   DIRNAME='icons'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/Runes-dev-icons/svelte-tabler-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-tabler-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   
@@ -95,8 +93,8 @@ fn_tabler_next() {
   
   fn_modify_filenames
 
-  cp "${script_dir}/templates/remix/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
-  cp "${script_dir}/templates/types/types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/tabler/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/tabler/next/tabler-v2-types.txt" "${CURRENTDIR}/types.ts"
 
 
   fn_create_index_js

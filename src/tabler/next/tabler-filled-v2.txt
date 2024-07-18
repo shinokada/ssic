@@ -1,38 +1,16 @@
 <script lang='ts'>
   import { getContext } from 'svelte';
-  import type { SVGAttributes } from 'svelte/elements';
-
-  type TitleType = {
-    id?: string;
-    title?: string;
-  };
-  type DescType = {
-    id?: string;
-    desc?: string;
-  };
-  interface BaseProps extends SVGAttributes<SVGElement> {
-    size?: string;
-    role?: string;
-    color?: string;
-  }
-  interface CtxType extends BaseProps {}
+  import type { CtxType, Props } from './types';
   const ctx: CtxType = getContext('iconCtx') ?? {};
-  interface Props extends BaseProps{
-    title?: TitleType;
-    desc?: DescType;
-    ariaLabel?: string;
-  }
-
   let { 
     size = ctx.size || '24', 
     role = ctx.role || 'img', 
-    color = ctx.color || 'currentColor', 
+    color = ctx.color || 'currentColor',
     title, 
-    desc,
+    desc, 
     ariaLabel = replace_ariaLabel, 
     ...restProps 
   }: Props = $props();
-
   let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
   const hasDescription = $derived(!!(title?.id || desc?.id));
 </script>
@@ -43,10 +21,11 @@
   {role}
   width={size}
   height={size}
-  fill={color}
+  class={classname}
   aria-label={ariaLabel}
   aria-describedby={hasDescription ? ariaDescribedby : undefined}
-  viewBox="replace_viewBox"
+  viewBox="0 0 24 24"
+  fill={color}
 >
   {#if title?.id && title.title}
     <title id="{title.id}">{title.title}</title>
@@ -54,6 +33,6 @@
   {#if desc?.id && desc.desc}
     <desc id="{desc.id}">{desc.desc}</desc>
   {/if}
-    replace_svg_path
+  replace_svg_path 
 </svg>
 

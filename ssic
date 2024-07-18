@@ -421,14 +421,17 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/tabler/tabler-v0-6.sh"
         fn_tabler "$@"
         ;;
-    tabler-next)
-        eval "$(getoptions parser_definition_tabler parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/tabler/tabler-v2.sh"
-        fn_tabler_next "$@"
-        ;;
+    # 
+    # Use tabler-outline-next instead. It is too big to add both icons
+    # 
+    # tabler-next)
+    #     eval "$(getoptions parser_definition_tabler parse "$0")"
+    #     parse "$@"
+    #     eval "set -- $REST"
+    #     # shellcheck disable=SC1091
+    #     . "${script_dir}/src/tabler/tabler-v2.sh"
+    #     fn_tabler_next "$@"
+    #     ;;
     tabler-outline-next)
         eval "$(getoptions parser_definition_tabler parse "$0")"
         parse "$@"
@@ -437,14 +440,15 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/tabler/tabler-outline-v2.sh"
         fn_tabler_outline "$@"
         ;;
-    tabler-filled-next)
-        eval "$(getoptions parser_definition_tabler parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/tabler/tabler-filled-v2.sh"
-        fn_tabler_filled "$@"
-        ;;
+    # Too big to add filled icons
+    # tabler-filled-next)
+    #     eval "$(getoptions parser_definition_tabler parse "$0")"
+    #     parse "$@"
+    #     eval "set -- $REST"
+    #     # shellcheck disable=SC1091
+    #     . "${script_dir}/src/tabler/tabler-filled-v2.sh"
+    #     fn_tabler_filled "$@"
+    #     ;;
     teeny)
         eval "$(getoptions parser_definition_teeny parse "$0")"
         parse "$@"

@@ -4,84 +4,47 @@
 
   const ctx: CtxType = getContext('iconCtx') ?? {};
 
-  let { 
+  let {
     size = ctx.size || '24', 
     role = ctx.role || 'img', 
     color = ctx.color || 'currentColor', 
     variation = ctx.variation || "outline",
     strokeWidth = ctx.strokeWidth || '1.5',
-    withEvents = ctx.withEvents || false, 
     title, 
     desc, 
-    class: classname, 
     ariaLabel = replace_ariaLabel, 
-    onclick, 
-    onkeydown, 
-    onkeyup,
     ...restProps 
   }: Props = $props();
 
   let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
   const hasDescription = $derived(!!(title?.id || desc?.id));
-  let viewBox: string = $state(''); 
-  
+  let viewBox: string = $state('');   
 </script>
 
-{#snippet path()}
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  {...restProps}
+  {role}
+  width={size}
+  height={size}
+  fill="none"
+  aria-label={ariaLabel}
+  aria-describedby={hasDescription ? ariaDescribedby : undefined}
+  viewBox = '0 0 24 24'
+  stroke-width={strokeWidth}
+>
+  {#if title?.id && title.title}
+    <title id="{title.id}">{title.title}</title>
+  {/if}
+  {#if desc?.id && desc.desc}
+    <desc id="{desc.id}">{desc.desc}</desc>
+  {/if}
   {#if variation === 'outline'}
     replace_svg_outline
   {:else}
     replace_svg_solid
   {/if}
-{/snippet}
+</svg>
 
-{#if withEvents}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    {...restProps}
-    {role}
-    width={size}
-    height={size}
-    class={classname}
-    fill="none"
-    aria-label={ariaLabel}
-    aria-describedby={hasDescription ? ariaDescribedby : undefined}
-    viewBox = '0 0 24 24'
-    stroke-width={strokeWidth}
-    onclick={onclick}
-    onkeydown={onkeydown}
-    onkeyup={onkeyup}
-  >
-    {#if title?.id && title.title}
-      <title id="{title.id}">{title.title}</title>
-    {/if}
-    {#if desc?.id && desc.desc}
-      <desc id="{desc.id}">{desc.desc}</desc>
-    {/if}
-      {@render path()}
-  </svg>
-{:else}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    {...restProps}
-    {role}
-    width={size}
-    height={size}
-    class={classname}
-    fill="none"
-    aria-label={ariaLabel}
-    aria-describedby={hasDescription ? ariaDescribedby : undefined}
-    viewBox = '0 0 24 24'
-    stroke-width={strokeWidth}
-  >
-    {#if title?.id && title.title}
-      <title id="{title.id}">{title.title}</title>
-    {/if}
-    {#if desc?.id && desc.desc}
-      <desc id="{desc.id}">{desc.desc}</desc>
-    {/if}
-      {@render path()}
-  </svg>
-{/if}
 
 

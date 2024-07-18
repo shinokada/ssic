@@ -27,7 +27,7 @@ fn_svg_path(){
       # create svelte file like address-book-solid.svelte
       SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
       if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-        cp "${script_dir}/templates/template-v2.txt" "${SVELTENAME}"
+        cp "${script_dir}/src/ant/next/ant-v2-template.txt" "${SVELTENAME}"
       fi
 
       SVGPATH=$(extract_svg_path "$file")
@@ -101,7 +101,8 @@ fn_ant() {
 
   cd "${CURRENTDIR}" || exit 1
 
-  cp "${script_dir}/templates/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/ant/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/ant/next/ant-v2-types.txt" "${CURRENTDIR}/types.ts"
 
   bannerColor 'Creating index.js file.' "blue" "*"
 

@@ -150,7 +150,7 @@ fn_hero2() {
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
   
   cp "${script_dir}/templates/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
-
+  cp "${script_dir}/src/heros2/heros2-types.txt" "${CURRENTDIR}/types.ts"
   fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
 
   fn_modify_filenames

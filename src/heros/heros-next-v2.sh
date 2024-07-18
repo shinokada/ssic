@@ -69,7 +69,7 @@ fn_hero_next() {
   GITURL="https://github.com/tailwindlabs/heroicons/tree/v1"
   DIRNAME='src'
   # SVGDIR='src'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/Runes-dev-icons/svelte-heros-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-heros-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

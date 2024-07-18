@@ -62,8 +62,8 @@ fn_modify_file(){
       sed -i 's/stroke-width="2"/stroke-width=\{strokeWidth\}/g' "${filename}"
       # add strokeWidth = ctx.strokeWidth || '2', before desc,
       sed -i '/desc,/i strokeWidth= ctx.strokeWidth || "2",' "${filename}"
-      # add strokeWidth?: string; before withEvents?: boolean;
-      sed -i '/withEvents?: boolean;/i strokeWidth?: string;' "${filename}"
+      # add strokeWidth?: string; before class?: string | undefined | null;
+      sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
     fi
   done
 }
