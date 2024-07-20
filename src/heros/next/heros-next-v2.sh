@@ -18,7 +18,7 @@ fn_modify_svg() {
       # if ${DIR}/${file} doesn't exist, create it
       if [ ! -f "${CURRENTDIR}/${file}" ]; then
         # copy "${script_dir}/templates/hero2.txt" to ${DIR}/${file}
-        cp "${script_dir}/templates/heros/next/heros-v2.txt" "${CURRENTDIR}/${file}"
+        cp "${script_dir}/src/heros/next/heros-v2-template.txt" "${CURRENTDIR}/${file}"
       fi
       # echo "${file}"
       SVGPATH=$(sed '1d; $d' "$file")
@@ -91,8 +91,8 @@ fn_hero_next() {
 
   fn_modify_filenames
 
-  cp "${script_dir}/templates/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
-  cp "${script_dir}/templates/types/heros-types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/heros/next/heros-v2-Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/heros/next/heros-types.txt" "${CURRENTDIR}/types.ts"
 
   bannerColor 'Creating index.js file.' "blue" "*"
   fn_create_index_js

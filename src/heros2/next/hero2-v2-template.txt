@@ -1,0 +1,68 @@
+<script lang="ts">
+  import { getContext } from 'svelte';
+  import type { CtxType, Props } from './types'
+  
+  const ctx: CtxType = getContext('iconCtx') ?? {};
+
+  let { 
+    size = ctx.size || '24', 
+    role = ctx.role || 'img', 
+    color = ctx.color || 'currentColor', 
+    variation = ctx.variation || "outline",
+    strokeWidth = ctx.strokeWidth || '1.5',
+    title, 
+    desc, 
+    ariaLabel = replace_ariaLabel, 
+    ...restProps 
+  }: Props = $props();
+
+  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
+  const hasDescription = $derived(!!(title?.id || desc?.id));
+  let viewBox: string | undefined = $state(undefined); 
+
+  $effect(() => {
+    if (variation === 'mini') {
+      size = size || "20";
+      viewBox = '0 0 20 20';
+    } else if (variation === 'micro'){
+      size = size || "16";
+      viewBox = '0 0 16 16';
+    } else {
+      size = size || "24";
+      viewBox = '0 0 24 24';
+    }
+  })
+  
+</script>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  {...restProps}
+  {role}
+  width={size}
+  height={size}
+  fill="none"
+  aria-label={ariaLabel}
+  aria-describedby={hasDescription ? ariaDescribedby : undefined}
+  {viewBox}
+  stroke-width={strokeWidth}
+>
+  {#if title?.id && title.title}
+    <title id="{title.id}">{title.title}</title>
+  {/if}
+  {#if desc?.id && desc.desc}
+    <desc id="{desc.id}">{desc.desc}</desc>
+  {/if}
+    {#if variation === 'outline'}
+      replace_svg_outline
+    {:else if variation === 'mini'}
+      replace_svg_mini
+    {:else if variation === 'micro'}
+      replace_svg_micro
+    {:else}
+      replace_svg_solid
+    {/if}
+</svg>
+
+
+

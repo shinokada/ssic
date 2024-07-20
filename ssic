@@ -289,7 +289,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros/heros-next-v2.sh"
+        . "${script_dir}/src/heros/next/heros-next-v2.sh"
         fn_hero_next "$@"
         ;;
     heros2)
@@ -305,7 +305,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros2/heros2-v2-next.sh"
+        . "${script_dir}/src/heros2/next/heros2-v2-next.sh"
         fn_hero2 "$@"
         ;;
     ion)

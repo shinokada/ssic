@@ -72,7 +72,7 @@ fn_modify_svg() {
       # if ${DIR}/${file} doesn't exist, create it
       if [ ! -f "${DIR}/${file}" ]; then
         # copy "${script_dir}/templates/hero2.txt" to ${DIR}/${file}
-        cp "${script_dir}/templates/heros2/hero2-v2-next.txt" "${DIR}/${file}"
+        cp "${script_dir}/src/heros2/next/hero2-v2-template.txt" "${DIR}/${file}"
       fi
       # echo "${file}"
       SVGPATH=$(sed '1d; $d' "$file")
@@ -149,8 +149,8 @@ fn_hero2() {
   # clone from github
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
   
-  cp "${script_dir}/templates/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
-  cp "${script_dir}/src/heros2/heros2-types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/heros2/next/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/heros2/next/heros2-types.txt" "${CURRENTDIR}/types.ts"
   fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
 
   fn_modify_filenames
