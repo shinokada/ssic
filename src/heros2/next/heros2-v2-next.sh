@@ -125,9 +125,15 @@ fn_modify_filenames() {
   bannerColor "Added arialabel to all files." "green" "*"
 
   #  modify file names
-  bannerColor "Renaming all files." "blue" "*"
+  
   # rename files with number at the beginning with A
-  rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
+  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
+  if [[ "$file" =~ ^[0-9] ]]; then
+    bannerColor "Adding A in front of number." "blue" "*"
+    new_name="A${file:0:1}${file:1}"
+    mv "$file" "$new_name"
+  fi
+  bannerColor "Changing the suffix from .svg to .svelte." "blue" "*"
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
   ($1 eq "" ? "" : "A$1") . ($2 =~ s/\w+/\u$&/gr =~ s/-//gr) . ".svelte" }ge' ./*.svg >/dev/null 2>&1
 
