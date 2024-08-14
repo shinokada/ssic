@@ -11,7 +11,7 @@ fn_svg_path() {
     # create svelte file like address-book-solid.svelte
     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/templates/flags/next/flags-v2.txt" "${SVELTENAME}"
+    cp "${script_dir}/src/flags/next/flags-v2.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
     # replace replace_svg_path with svg path
@@ -45,7 +45,7 @@ fn_flag() {
     bannerColor 'Running fn_rename ...' "blue" "*"
     fn_rename
 
-    cp "${script_dir}/templates/flags/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+    cp "${script_dir}/src/flags/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 
     bannerColor 'Creating index.js file.' "blue" "*"
     fn_create_index_js

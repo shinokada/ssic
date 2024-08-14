@@ -41,7 +41,7 @@
     title, 
     desc,  
     class: className, 
-    ariaLabel =  "address book outline" , 
+    ariaLabel =  replace_ariaLabel, 
     ...restProps 
     }: Props = $props();
 

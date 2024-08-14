@@ -11,7 +11,7 @@ fn_svg_path() {
     # create svelte file like address-book-solid.svelte
     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/templates/supertiny/next/supertiny-v2.txt" "${SVELTENAME}"
+    cp "${script_dir}/src/supertiny/next/supertiny-v2.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
     # replace replace_svg_path with svg path
@@ -70,7 +70,7 @@ fn_supertiny(){
 
   cd "${CURRENTDIR}" || exit 1
 
-  cp "${script_dir}/templates/supertiny/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  # cp "${script_dir}/src/supertiny/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 
   fn_create_index_js
 

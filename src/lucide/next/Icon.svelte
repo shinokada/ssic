@@ -3,16 +3,16 @@
   import type { Props } from './types'
 
   interface IconProps extends Props{
-    icon: Component;
+    Icon: Component;
   }
 
-  let { icon, size = '24', role = 'img', ariaLabel = 'Icon', ...restProps }: IconProps = $props();
+  let { Icon, size = '24', color = 'currentColor', role = 'img', ariaLabel = 'Icon', ...restProps }: IconProps = $props();
 </script>
 
-<svelte:component 
+<Icon
   {...restProps} 
   {role}
-  this={icon} 
   {size} 
-  aria-label={ariaLabel}
+  {color}
+  {ariaLabel}
 />

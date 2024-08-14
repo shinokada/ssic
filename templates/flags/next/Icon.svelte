@@ -3,18 +3,12 @@
   import type { SVGAttributes } from 'svelte/elements';
 
   interface Props extends SVGAttributes<SVGElement> {
-    icon: Component;
+    Icon: Component;
     size?: string;
     role?: string;
     ariaLabel?: string;
   }
-  let {icon, size = '24', role = 'img', ariaLabel = 'Icon', ...restProps}: Props = $props()
+  let { Icon, size = '24', role = 'img', ariaLabel = 'Icon', ...restProps }: Props = $props();
 </script>
 
-<svelte:component 
-  {...restProps} 
-  {role}
-  this={icon} 
-  {size}
-  aria-label={ariaLabel}
-/>
+<Icon {...restProps} {role} {size} aria-label={ariaLabel} />

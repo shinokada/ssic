@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { Component } from 'svelte';
   import type { SVGAttributes } from 'svelte/elements';
-
-  interface Props extends SVGAttributes<SVGElement> {
+  interface Props extends SVGAttributes<SVGSVGElement>{
     Icon: Component;
     size?: string;
     role?: string;
@@ -14,7 +13,7 @@
 <Icon
   {...restProps} 
   {role}
-  {size}
+  {size} 
   {color}
   {ariaLabel}
 />

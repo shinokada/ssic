@@ -11,7 +11,7 @@ fn_svg_path() {
     # create svelte file like address-book-solid.svelte
     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/src/radix/radix-v2-template.txt" "${SVELTENAME}"
+    cp "${script_dir}/src/radix/next/radix-v2-template.txt" "${SVELTENAME}"
 
     SVGPATH=$(extract_svg_path "$file")
     # replace replace_svg_path with svg path
@@ -47,8 +47,8 @@ fn_radix() {
   bannerColor 'Running fn_rename ...' "blue" "*"
   fn_rename
 
-  cp "${script_dir}/src/radix/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
-  cp "${script_dir}/src/radix/radix-v2-types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/radix/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/radix/next/radix-v2-types.txt" "${CURRENTDIR}/types.ts"
 
   bannerColor 'Creating index.js file.' "blue" "*"
   fn_create_index_js

@@ -91,8 +91,8 @@ fn_flowbite() {
 
   fn_modify_file
 
-  cp "${script_dir}/templates/flowbite/next/IconOutline.svelte" "${CURRENTDIR}/IconSolid.svelte" || exit 1
-  cp "${script_dir}/templates/flowbite/next/IconSolid.svelte" "${CURRENTDIR}/IconOutline.svelte" || exit 1
+  cp "${script_dir}/src/flowbite/next/IconOutline.svelte" "${CURRENTDIR}/IconOutline.svelte" || exit 1
+  cp "${script_dir}/src/flowbite/next/IconSolid.svelte" "${CURRENTDIR}/IconSolid.svelte" || exit 1
 
   cd "${CURRENTDIR}" || exit 1
 

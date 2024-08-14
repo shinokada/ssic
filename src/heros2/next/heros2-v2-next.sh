@@ -125,13 +125,12 @@ fn_modify_filenames() {
   bannerColor "Added arialabel to all files." "green" "*"
 
   #  modify file names
-  
   # rename files with number at the beginning with A
-  # rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
   if [[ "$file" =~ ^[0-9] ]]; then
     bannerColor "Adding A in front of number." "blue" "*"
-    new_name="A${file:0:1}${file:1}"
-    mv "$file" "$new_name"
+    rename -v 's/^(\d+)\.svg\Z/A${1}.svg/' [0-9]*.svg
+    # new_name="A${file:0:1}${file:1}"
+    # mv "$file" "$new_name"
   fi
   bannerColor "Changing the suffix from .svg to .svelte." "blue" "*"
   rename -v 's{^\./(\d*)(.*)\.svg\Z}{
@@ -155,7 +154,7 @@ fn_hero2() {
   # clone from github
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
   
-  cp "${script_dir}/src/heros2/next/TemplateIconv2.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/heros2/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
   cp "${script_dir}/src/heros2/next/heros2-types.txt" "${CURRENTDIR}/types.ts"
   fn_modify_svg "${CURRENTDIR}" "${SVGDIR}"
 

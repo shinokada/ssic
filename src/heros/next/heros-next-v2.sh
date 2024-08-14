@@ -91,7 +91,7 @@ fn_hero_next() {
 
   fn_modify_filenames
 
-  cp "${script_dir}/src/heros/next/heros-v2-Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/heros/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
   cp "${script_dir}/src/heros/next/heros-types.txt" "${CURRENTDIR}/types.ts"
 
   bannerColor 'Creating index.js file.' "blue" "*"
