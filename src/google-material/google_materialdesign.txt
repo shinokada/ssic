@@ -44,6 +44,6 @@
   {:else if variation === 'sharp'}
     replace_svg_sharp
   {:else if variation === 'two-tone'}
-    replace_svg_two
+    replace_svg_two-tone
   {/if}
 </svg>
