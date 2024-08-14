@@ -18,7 +18,7 @@ fn_modify_svg() {
         # if ${DIR}/${file} doesn't exist, create it
         if [ ! -f "${CURRENTDIR}/${file}" ]; then
           # copy "${script_dir}/templates/teeny.txt" to ${DIR}/${file}
-          cp "${script_dir}/templates/google_materialdesign.txt" "${CURRENTDIR}/${file}"
+          cp "${script_dir}/src/google-material/google_materialdesign.txt" "${CURRENTDIR}/${file}"
         fi
         SVGPATH=$(grep -oP '(?<=viewBox="0 0 24 24">).*(?=</svg>)' "${file}")
         sed -i "s;replace_svg_${SUBDIRNAME};${SVGPATH};" "${CURRENTDIR}/${file}"
@@ -72,7 +72,7 @@ fn_google_material_design() {
 
   fn_modify_filenames
 
-  cp "${script_dir}/templates/googlematerial/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/google-material/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
 
   bannerColor 'Creating index.js file.' "blue" "*"
 
