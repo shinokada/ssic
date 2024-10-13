@@ -16,8 +16,6 @@ interface BaseProps extends SVGAttributes<SVGElement>{
   strokeWidth?: string;
 }
 
-export interface CtxType extends BaseProps {}
-
 export interface Props extends BaseProps{
   title?: TitleType;
   desc?: DescType;

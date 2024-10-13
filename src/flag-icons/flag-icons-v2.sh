@@ -46,6 +46,7 @@ fn_flagicons() {
   fn_rename
 
   cp "${script_dir}/src/flag-icons/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/flag-icons/next/types.txt" "${CURRENTDIR}/types.ts"
 
   bannerColor 'Creating index.js file.' "blue" "*"
   fn_create_index_js

@@ -321,7 +321,7 @@ if [ $# -gt 0 ]; then
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ion/ion-v2.sh"
+        . "${script_dir}/src/ion/next/ion-v2.sh"
         fn_ion "$@"
         ;;
     lucide)

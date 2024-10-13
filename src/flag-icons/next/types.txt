@@ -1,19 +1,18 @@
 import type { SVGAttributes } from 'svelte/elements';
-type TitleType = {
+
+export type TitleType = {
   id?: string;
   title?: string;
 };
 
-type DescType = {
+export type DescType = {
   id?: string;
   desc?: string;
 };
 
-export interface BaseProps extends SVGAttributes<SVGElement>{
+export interface BaseProps extends SVGAttributes<SVGElement> {
   size?: string;
   role?: string;
-  color?: string;
-  strokeWidth?: string;
 }
 
 export interface Props extends BaseProps{
