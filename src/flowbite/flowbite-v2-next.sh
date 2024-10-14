@@ -55,9 +55,11 @@ fn_modify_file(){
     else
       sed -i 's|{...restProps}|fill={color}\n&|;' "${filename}"
     fi
-    # replace stroke-width="2" with stroke-width={strokeWidth}
-    # sed -i "s;stroke-width=\"2\";stroke-width=\{strokeWidth\};" "${filename}"
+
     if grep -q 'stroke-width="2"' "${filename}"; then
+      # replace BaseProps with OutlineBaseProps, etc using \b word boundary
+      sed -i 's/\bBaseProps\b/OutlineBaseProps/g' "${filename}"
+      sed -i 's/\bProps\b/OutlineProps/g' "${filename}"
       # replace stroke-width="2" with stroke-width="{strokeWidth}"
       sed -i 's/stroke-width="2"/stroke-width=\{strokeWidth\}/g' "${filename}"
       # add strokeWidth = ctx.strokeWidth || '2', before desc,
@@ -93,6 +95,7 @@ fn_flowbite() {
 
   cp "${script_dir}/src/flowbite/next/IconOutline.svelte" "${CURRENTDIR}/IconOutline.svelte" || exit 1
   cp "${script_dir}/src/flowbite/next/IconSolid.svelte" "${CURRENTDIR}/IconSolid.svelte" || exit 1
+  cp "${script_dir}/src/flowbite/next/flowbite-v2-types.txt" "${CURRENTDIR}/types.ts"
 
   cd "${CURRENTDIR}" || exit 1
 
