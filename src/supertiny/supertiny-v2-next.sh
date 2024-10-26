@@ -46,7 +46,7 @@ fn_add_arialabel() {
 fn_supertiny(){
   GITURL="https://github.com/edent/SuperTinyIcons"
   DIRNAME='images/svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/Runes-dev-icons/svelte-supertiny-next-new"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/Runes-dev-icons/svelte-supertiny-runes-webkit"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
@@ -70,9 +70,9 @@ fn_supertiny(){
 
   cd "${CURRENTDIR}" || exit 1
 
-  # cp "${script_dir}/src/supertiny/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
-
   fn_create_index_js
+  cp "${script_dir}/src/supertiny/next/types.txt" "${CURRENTDIR}/types.ts"
+
 
   bannerColor 'All done.' "green" "*"
 }
