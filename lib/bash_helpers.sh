@@ -241,18 +241,18 @@ random_array_element() {
     printf '%s\n' "${arr[RANDOM % $#]}"
 }
 
-head() {
-    # Get the first N lines of a file
-    # Usage: head 2 ~/.bashrc
-    # Prompt
-    # PS1='➜ '
+# head() {
+#     # Get the first N lines of a file
+#     # Usage: head 2 ~/.bashrc
+#     # Prompt
+#     # PS1='➜ '
 
-    # head 1 ~/.bashrc
-    # Prompt
+#     # head 1 ~/.bashrc
+#     # Prompt
 
-    mapfile -tn "$1" line < "$2"
-    printf '%s\n' "${line[@]}"
-}
+#     mapfile -tn "$1" line < "$2"
+#     printf '%s\n' "${line[@]}"
+# }
 
 tail() {
     # Get the last N lines of a file
