@@ -5,7 +5,6 @@ fn_modify_svg() {
   # pwd
   bannerColor "Modifying all files." "cyan" "*"
 
-  # removing width="24" height="24"
   sed -i 's/width="16" height="16"/width="{size}" height="{size}"/' ./*.* >/dev/null 2>&1
 
   # remove fill="currentColor"

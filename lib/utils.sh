@@ -13,7 +13,7 @@ add_A_if_starts_with_number() {
 fn_create_index_js() {
   cd "${CURRENTDIR}" || exit 1
 
-  bannerColor 'Creating index.js file.' "blue" "*"
+  newBannerColor 'Creating index.js file.' "blue" "*"
 
   find . -type f -name '*.svelte' | sort | awk -F'[/.]' '{
   print "export { default as " $(NF-1) " } from \047" $0 "\047;"
@@ -25,7 +25,7 @@ fn_create_index_js() {
   #   print "export { default as " filename " } from \047" $0 "\047;"
   # }' >index.js
 
-  bannerColor 'Added export to index.js file.' "green" "*"
+  newBannerColor 'Added export to index.js file.' "green" "*"
 }
 
 fn_replace_viewbox() {
@@ -110,7 +110,7 @@ fn_add_arialabel() {
     sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
   done
   
-  bannerColor 'Added arialabel to all files.' "green" "*"
+  newBannerColor 'Added arialabel to all files.' "green" "*"
 }
 
 fn_remove_svg(){
@@ -120,7 +120,7 @@ fn_remove_svg(){
 }
 
 fn_rename(){
-    bannerColor "Renaming all files." "blue" "*"
+    newBannerColor "Renaming all files." "blue" "*"
     mkdir -p "${CURRENTDIR}/tempDir"
     for filename in "${CURRENTDIR}"/*; do
       FILENAMEONE=$(basename "${filename}" .svelte)
@@ -132,6 +132,10 @@ fn_rename(){
       new_name=$(echo "$new_name" | sed 's/-//g')
       # Remove all spaces
       new_name=$(echo "$new_name" | sed 's/ //g')
+      # Prepend 'A' if filename starts with a number
+      if [[ $new_name =~ ^[0-9] ]]; then
+          new_name="A${new_name}"
+      fi
       # echo "${new_name}"
       if [[ -f "$filename" ]]; then
           mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
@@ -182,7 +186,7 @@ clone_repo(){
   local GITURL="$3"
 
   if [ -d "${CURRENTDIR}" ]; then
-    bannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
+    newBannerColor "Removing the previous ${DIRNAME} dir." "blue" "*"
     rm -rf "${CURRENTDIR:?}/"
   fi
   mkdir -p "${CURRENTDIR}"
@@ -190,20 +194,20 @@ clone_repo(){
   # clone the repo
   # If DIRNAME is provided, clone the repo using it
   if [ -n "${DIRNAME}" ]; then
-    bannerColor "Cloning ${DIRNAME}." "green" "*"
+    newBannerColor "Cloning ${DIRNAME}." "green" "*"
     npx tiged "${GITURL}/${DIRNAME}" "${CURRENTDIR}" >/dev/null 2>&1 || {
       echo "Not able to clone."
       exit 1
     }
   else
     # Clone the repo without using DIRNAME
-    bannerColor "Cloning without DIRNAME." "green" "*"
+    newBannerColor "Cloning without DIRNAME." "green" "*"
     npx tiged "${GITURL}" "${CURRENTDIR}" >/dev/null 2>&1 || {
       echo "Not able to clone."
       exit 1
     }
   fi
-  bannerColor "Cloned ${DIRNAME}." "green" "*"
+  newBannerColor "Cloned ${DIRNAME}." "green" "*"
 }
 
 extract_icon_name() {
@@ -402,8 +406,8 @@ function bannerSimple() {
     echo
 }
 
-# Usage: bannerColor "my title" "red" "*"
-function bannerColor() {
+# Usage: newBannerColor "my title" "red" "*"
+function newBannerColor() {
     case ${2} in
     black)
         color=0
@@ -442,6 +446,53 @@ function bannerColor() {
     echo "${edge}"
     echo "${msg}"
     echo "${edge}"
+    tput sgr 0
+    echo
+}
+
+function newnewBannerColor() {
+    case ${2} in
+    black)
+        color=0
+        ;;
+    red)
+        color=1
+        ;;
+    green)
+        color=2
+        ;;
+    yellow)
+        color=3
+        ;;
+    blue)
+        color=4
+        ;;
+    magenta)
+        color=5
+        ;;
+    cyan)
+        color=6
+        ;;
+    white)
+        color=7
+        ;;
+    *)
+        echo "color is not set"
+        exit 1
+        ;;
+    esac
+
+    # Set border width to 4th argument if provided, otherwise default to 10
+    border_width=${4:-10}
+    
+    # Create border string with specified width
+    border=$(printf "%0.s${3}" $(seq 1 $border_width))
+    
+    tput setaf ${color}
+    tput bold
+    echo "${border}"
+    echo "${1}"  # Print the message as-is, without adding border characters
+    echo "${border}"
     tput sgr 0
     echo
 }
