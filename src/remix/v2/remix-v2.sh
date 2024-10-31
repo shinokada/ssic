@@ -16,7 +16,7 @@ fn_svg_path(){
       # create svelte file like address-book-solid.svelte
       SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
       if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-        cp "${script_dir}/src/remix/next/remix-v2-template.txt" "${SVELTENAME}"
+        cp "${script_dir}/src/remix/v2/remix-v2-template.txt" "${SVELTENAME}"
       fi
 
       SVGPATH=$(extract_svg_path "$file")
@@ -78,8 +78,8 @@ fn_remix() {
   
   fn_modify_filenames
 
-  cp "${script_dir}/src/remix/next/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
-  cp "${script_dir}/src/remix/next/remix-v2-types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/remix/v2/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
+  cp "${script_dir}/src/remix/v2/remix-v2-types.txt" "${CURRENTDIR}/types.ts"
 
   fn_create_index_js
 

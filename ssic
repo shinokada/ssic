@@ -124,12 +124,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/ant/ant-v0-5.sh"
         fn_ant "$@"
         ;;
-    ant-next)
+    ant-v2)
         eval "$(getoptions parser_definition_ant parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ant/ant-v2-next.sh"
+        . "${script_dir}/src/ant/v2/ant-v2.sh"
         fn_ant "$@"
         ;;
     awesome)
@@ -140,12 +140,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/awesome/awesome-v1.sh"
         fn_awesome "$@"
         ;;
-    awesome-next)
+    awesome-v2)
         eval "$(getoptions parser_definition_awesome parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/awesome/awesome-v2-next.sh"
+        . "${script_dir}/src/awesome/v2/awesome-v2.sh"
         fn_awesome "$@"
         ;;
     bootstrap)
@@ -154,6 +154,14 @@ if [ $# -gt 0 ]; then
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/bootstrap/bootstrap-v0-6.sh"
+        fn_bootstrap "$@"
+        ;;
+    bootstrap-v2)
+        eval "$(getoptions parser_definition_bootstrap parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/bootstrap/v2/bootstrap-v2.sh"
         fn_bootstrap "$@"
         ;;
     box)
@@ -220,22 +228,6 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/fileicons/file-v0-8.sh"
         fn_file "$@"
         ;;
-    flags)
-        eval "$(getoptions parser_definition_flags parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/flags/flags-v0-6.sh"
-        fn_flag "$@"
-        ;;
-    flags-next)
-        eval "$(getoptions parser_definition_flags parse "$0")"
-        parse "$@"
-        eval "set -- $REST"
-        # shellcheck disable=SC1091
-        . "${script_dir}/src/flags/flags-v2.sh"
-        fn_flag "$@"
-        ;;
     flag-icons)
         eval "$(getoptions parser_definition_flagicons parse "$0")"
         parse "$@"
@@ -244,13 +236,29 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/flag-icons/flag-icons-v0-7.sh"
         fn_flagicons "$@"
         ;;
-    flag-icons-next)
+    flag-icons-v2)
         eval "$(getoptions parser_definition_flagicons parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flag-icons/flag-icons-v2.sh"
+        . "${script_dir}/src/flag-icons/v2/flag-icons-v2.sh"
         fn_flagicons "$@"
+        ;;
+    flags)
+        eval "$(getoptions parser_definition_flags parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flags/flags-v0-6.sh"
+        fn_flag "$@"
+        ;;
+    flags-v2)
+        eval "$(getoptions parser_definition_flags parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/flags/v2/flags-v2.sh"
+        fn_flag "$@"
         ;;
     flowbite)
         eval "$(getoptions parser_definition_flowbite parse "$0")"
@@ -260,12 +268,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/flowbite/flowbite-v1.sh"
         fn_flowbite "$@"
         ;;
-    flowbite-next)
+    flowbite-v2)
         eval "$(getoptions parser_definition_flowbite parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/flowbite/flowbite-v2-next.sh"
+        . "${script_dir}/src/flowbite/v2/flowbite-v2.sh"
         fn_flowbite "$@"
         ;;
     google-material-design)
@@ -300,12 +308,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/heros2/heros2-v1.sh"
         fn_hero2 "$@"
         ;;
-    heros2-next)
+    heros2-v2)
         eval "$(getoptions parser_definition_hero parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros2/next/heros2-v2-next.sh"
+        . "${script_dir}/src/heros2/v2/heros2-v2.sh"
         fn_hero2 "$@"
         ;;
     ion)
@@ -316,12 +324,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/ion/ion-v0-7.sh"
         fn_ion "$@"
         ;;
-    ion-next)
+    ion-v2)
         eval "$(getoptions parser_definition_ion parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/ion/next/ion-v2.sh"
+        . "${script_dir}/src/ion/v2/ion-v2.sh"
         fn_ion "$@"
         ;;
     lucide)
@@ -332,12 +340,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/lucide/lucide-v0-8.sh"
         fn_lucide "$@"
         ;;
-    lucide-next)
+    lucide-v2)
         eval "$(getoptions parser_definition_lucide parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/lucide/lucide-v2-next.sh"
+        . "${script_dir}/src/lucide/v2/lucide-v2.sh"
         fn_lucide "$@"
         ;;
     material)
@@ -364,12 +372,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/radix/radix-v0-6.sh"
         fn_radix "$@"
         ;;
-    radix-next)
+    radix-v2)
         eval "$(getoptions parser_definition_radix parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/radix/radix-v2.sh"
+        . "${script_dir}/src/radix/v2/radix-v2.sh"
         fn_radix "$@"
         ;;
     remix)
@@ -380,13 +388,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/remix/remix-v0-6.sh"
         fn_remix "$@"
         ;;
-    
-    remix-next)
+    remix-v2)
         eval "$(getoptions parser_definition_remix parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/remix/remix-v2.sh"
+        . "${script_dir}/src/remix/v2/remix-v2.sh"
         fn_remix "$@"
         ;;
     simple)
@@ -405,12 +412,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/supertiny/supertiny-v0-3.sh"
         fn_supertiny "$@"
         ;;
-    supertiny-next)
+    supertiny-v2)
         eval "$(getoptions parser_definition_supertiny parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/supertiny/supertiny-v2-next.sh"
+        . "${script_dir}/src/supertiny/v2/supertiny-v2.sh"
         fn_supertiny "$@"
         ;;
     tabler)
@@ -432,12 +439,12 @@ if [ $# -gt 0 ]; then
     #     . "${script_dir}/src/tabler/tabler-v2.sh"
     #     fn_tabler_next "$@"
     #     ;;
-    tabler-outline-next)
+    tabler-outline-v2)
         eval "$(getoptions parser_definition_tabler parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/tabler/tabler-outline-v2.sh"
+        . "${script_dir}/src/tabler/v2/tabler-outline-v2.sh"
         fn_tabler_outline "$@"
         ;;
     # Too big to add filled icons

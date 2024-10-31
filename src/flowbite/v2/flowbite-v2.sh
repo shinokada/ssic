@@ -9,7 +9,7 @@ fn_svg_path(){
         FILENAME=$(basename "${file%.*}")
         SVELTENAME="${CURRENTDIR}/${FILENAME}-${SUBDIRNAME}.svelte"
         if [ ! -f "${SUBDIRNAME}/${file}" ]; then
-          cp "${script_dir}/src/flowbite/next/flowbite-svelte-5-base.txt" "${SVELTENAME}"
+          cp "${script_dir}/src/flowbite/v2/flowbite-svelte-5-base.txt" "${SVELTENAME}"
         fi
 
         SVGPATH=$(extract_svg_path "$file")
@@ -93,9 +93,9 @@ fn_flowbite() {
 
   fn_modify_file
 
-  cp "${script_dir}/src/flowbite/next/IconOutline.svelte" "${CURRENTDIR}/IconOutline.svelte" || exit 1
-  cp "${script_dir}/src/flowbite/next/IconSolid.svelte" "${CURRENTDIR}/IconSolid.svelte" || exit 1
-  cp "${script_dir}/src/flowbite/next/flowbite-v2-types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/flowbite/v2/IconOutline.svelte" "${CURRENTDIR}/IconOutline.svelte" || exit 1
+  cp "${script_dir}/src/flowbite/v2/IconSolid.svelte" "${CURRENTDIR}/IconSolid.svelte" || exit 1
+  cp "${script_dir}/src/flowbite/v2/flowbite-v2-types.txt" "${CURRENTDIR}/types.ts"
 
   cd "${CURRENTDIR}" || exit 1
 

@@ -11,7 +11,7 @@ fn_svg_path() {
     # create svelte file like address-book-solid.svelte
     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/src/supertiny/next/supertiny-v2.txt" "${SVELTENAME}"
+    cp "${script_dir}/src/supertiny/v2/supertiny-v2.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
     # Remove script tags from the SVG path
@@ -96,7 +96,7 @@ fn_supertiny(){
   cd "${CURRENTDIR}" || exit 1
 
   fn_create_index_js
-  cp "${script_dir}/src/supertiny/next/types.txt" "${CURRENTDIR}/types.ts"
+  cp "${script_dir}/src/supertiny/v2/types.txt" "${CURRENTDIR}/types.ts"
 
 
   bannerColor 'All done.' "green" "*"
