@@ -292,12 +292,12 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/heros/heros-v6.sh"
         fn_hero "$@"
         ;;
-    heros-next)
+    heros-v2)
         eval "$(getoptions parser_definition_hero parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/heros/next/heros-next-v2.sh"
+        . "${script_dir}/src/heros/next/heros-v2.sh"
         fn_hero_next "$@"
         ;;
     heros2)

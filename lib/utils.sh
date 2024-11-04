@@ -407,7 +407,7 @@ function bannerSimple() {
 }
 
 # Usage: newBannerColor "my title" "red" "*"
-function newBannerColor() {
+function bannerColor() {
     case ${2} in
     black)
         color=0
@@ -450,7 +450,7 @@ function newBannerColor() {
     echo
 }
 
-function newnewBannerColor() {
+function newBannerColor() {
     case ${2} in
     black)
         color=0

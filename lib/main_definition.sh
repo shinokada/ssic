@@ -29,7 +29,7 @@ parser_definition() {
     cmd flowbite -- "Create Flowbite-icons"
     cmd flowbite-v2 -- "Create Flowbite-svelte-icons v2 version"
     cmd heros -- "Create Heroicons v-1."
-    cmd heros-next -- "Create Heroicons v-1 for next version."
+    cmd heros-v2 -- "Create Heroicons for v2."
     cmd heros2 -- "Create Heroicons v-2."
     cmd heros2-v2 -- "Create Heroicons v2 v2."
     cmd ion -- "Create Ionicons."
