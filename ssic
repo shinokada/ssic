@@ -59,6 +59,7 @@ script_dir=${self%/*}
     . "${script_dir}/lib/getoptions.sh"
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
+    . "${script_dir}/lib/definitions/animate/animate_definition.sh"
     # icons definitions
     . "${script_dir}/lib/definitions/ant/ant_definition.sh"
     . "${script_dir}/lib/definitions/awesome/awesome_definition.sh"
@@ -116,6 +117,14 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
+    animate)
+        eval "$(getoptions parser_definition_animate parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/animate/v1.sh"
+        fn_animate "$@"
+        ;;
     ant)
         eval "$(getoptions parser_definition_ant parse "$0")"
         parse "$@"
