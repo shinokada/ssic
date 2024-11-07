@@ -25,8 +25,8 @@ fn_svg_path() {
 fn_animate() {
   GITURL="git@github.com:tailwindlabs/heroicons.git"
   DIRNAME="src/24/outline"
-  LOCAL_REPO_NAME="$HOME/Svelte/Runes-dev/svelte-animate"
-  SVELTE_LIB_DIR='src/lib/icons'
+  LOCAL_REPO_NAME="$HOME/Svelte/Runes-dev/svelte-hero-draw"
+  SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
