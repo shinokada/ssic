@@ -119,6 +119,41 @@ fn_remove_svg(){
   done
 }
 
+fn_rename_with_repo(){
+  local repo="$1"
+    newBannerColor "Renaming all files." "blue" "*"
+    mkdir -p "${CURRENTDIR}/tempDir"
+    for filename in "${CURRENTDIR}"/*; do
+      FILENAMEONE=$(basename "${filename}" .svelte)
+      # echo "${FILENAMEONE}"
+      new_name=$(echo "${FILENAMEONE^}")
+      # Capitalize the letter after -
+      new_name=$(echo "$new_name" | sed 's/-./\U&/g')
+      # Remove all -
+      new_name=$(echo "$new_name" | sed 's/-//g')
+      # Remove all spaces
+      new_name=$(echo "$new_name" | sed 's/ //g')
+      # add repo name
+      new_name="${new_name}${repo}"
+      # Prepend 'A' if filename starts with a number
+      if [[ $new_name =~ ^[0-9] ]]; then
+          new_name="A${new_name}"
+      fi
+      # echo "${new_name}"
+      if [[ -f "$filename" ]]; then
+          mv "${CURRENTDIR}/${FILENAMEONE}.svelte" "${CURRENTDIR}/tempDir/${new_name}.svelte"
+      fi
+      # rm "${CURRENTDIR}/${FILENAMEONE}.svelte"
+    done
+    
+    # with -maxdepth 1 to avoid recursion
+    # find "${CURRENTDIR}/tempDir" -maxdepth 1 -name "*.svelte" -exec mv -t "${CURRENTDIR}" {} \;
+    # mv "${CURRENTDIR}/tempDir/*" "${CURRENTDIR}"
+    find "${CURRENTDIR}/tempDir" -maxdepth 1 -name "*.svelte" -exec mv -t "${CURRENTDIR}" {} \;
+    # find
+    rm -rf "${CURRENTDIR}/tempDir"
+}
+
 fn_rename(){
     newBannerColor "Renaming all files." "blue" "*"
     mkdir -p "${CURRENTDIR}/tempDir"
