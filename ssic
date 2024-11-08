@@ -117,12 +117,12 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
-    animate)
+    animate-hero)
         eval "$(getoptions parser_definition_animate parse "$0")"
         parse "$@"
         eval "set -- $REST"
         # shellcheck disable=SC1091
-        . "${script_dir}/src/animate/v1.sh"
+        . "${script_dir}/src/animate/hero/v1.sh"
         fn_animate "$@"
         ;;
     ant)
