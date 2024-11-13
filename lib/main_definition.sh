@@ -8,8 +8,10 @@ parser_definition() {
 
     msg -- '' 'Commands: '
     msg -- 'Use command -h for a command help.'
+    cmd animate-ion -- "Create animate ion icons."
     cmd animate-flowbite -- "Create animate flowbite icons."
     cmd animate-hero -- "Create animate heroicons."
+    cmd animate-radix -- "Create animate radix icons."
     cmd ant -- "Create Ant Design icons."
     cmd ant-v2 -- "Create Ant Design icons for Svelte 5 Runes mode version."
     cmd awesome -- "Create Awesome icons."

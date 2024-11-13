@@ -11,31 +11,36 @@ fn_svg_path() {
     # create svelte file like address-book-solid.svelte
     SVELTENAME="${CURRENTDIR}/${FILENAME}.svelte"
   
-    cp "${script_dir}/src/animate/hero/template.txt" "${SVELTENAME}"
+    cp "${script_dir}/src/animate/radix/template.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
+
+    SVGPATH=$(echo "$SVGPATH" | sed 's/fill="currentColor"//g')
+
+    # Prepare the transitions to be inserted
+    transition1="transition:draw={transitionParams}"
+    # transition2="transition:draw={shouldAnimate ? transitionParams2 : undefined}"
+    # transition3="transition:draw={shouldAnimate ? transitionParams3 : undefined}"
+    # transition4="transition:draw={shouldAnimate ? transitionParams4 : undefined}"
+
+    # Replace <path with <path $transition1, etc.
+    SVGPATH=$(echo "$SVGPATH" | sed "1 s|<path |<path $transition1 |")
+    # SVGPATH=$(echo "$SVGPATH" | sed "/^<path /{n;s|<path |<path $transition2 |}")
+    # SVGPATH=$(echo "$SVGPATH" | sed "/^<path /{n;n;s|<path |<path $transition3 |}")
+    # SVGPATH=$(echo "$SVGPATH" | sed "/^<path /{n;n;n;s|<path |<path $transition4 |}")
     # replace replace_svg_path with svg path
     sed -i "s|replace_svg_path|${SVGPATH}|" "${SVELTENAME}"
-    
-# old_text="transition:draw=\{shouldAnimate \? transitionParams : undefined\} stroke-linecap=\"round\" stroke-linejoin=\"round\"\\/>\n  <\\/svg>\n\{\/if\}\n<style>"
-# new_text="stroke-linecap=\"round\" stroke-linejoin=\"round\"\\/>\n  <\\/svg>\n\{\/if\}\n<style>"
-
-# # Using a different delimiter to avoid conflicts with '/' in the text
-# sed -i "s|$old_text|$new_text|g" "${SVELTENAME}"
-
   done
 }
 
 fn_animate() {
-  GITURL="git@github.com:tailwindlabs/heroicons.git"
-  DIRNAME="src/24/outline"
+  GITURL="git@github.com:radix-ui/icons.git"
+  DIRNAME='packages/radix-icons/icons'
   LOCAL_REPO_NAME="$HOME/Svelte/Runes/svelte-animated-icons"
-  SVELTE_LIB_DIR='src/lib/hero'
+  SVELTE_LIB_DIR='src/lib/radix'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
-  sed -i 's/stroke="[^"]*"/stroke={color}/g' "${CURRENTDIR:?}"/*.*
-  sed -i -E 's/stroke-width="(1\.5|2)"/stroke-width={strokeWidth}\n transition:draw={ transitionParams}/g' "${CURRENTDIR:?}"/*.*
 
   newBannerColor 'Running fn_svg_path ...' "blue" "*"
   fn_svg_path
@@ -47,9 +52,7 @@ fn_animate() {
   fn_add_arialabel
 
   newBannerColor 'Running fn_rename ...' "blue" "*"
-  fn_rename_with_repo "Hero"
-
-  # cp "${script_dir}/src/animate/hero/types.ts" "${CURRENTDIR}/herotypes.ts"
+  fn_rename_with_repo "Radix"
 
   newBannerColor 'Creating index.js file.' "blue" "*"
   fn_create_index_js

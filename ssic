@@ -117,6 +117,14 @@ if [ $# -gt 0 ]; then
     cmd=$1
     shift
     case $cmd in
+    animate-ion)
+        eval "$(getoptions parser_definition_animate parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/animate/ion/v1.sh"
+        fn_animate "$@"
+        ;;
     animate-flowbite)
         eval "$(getoptions parser_definition_animate parse "$0")"
         parse "$@"
@@ -131,6 +139,14 @@ if [ $# -gt 0 ]; then
         eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/animate/hero/v1.sh"
+        fn_animate "$@"
+        ;;
+    animate-radix)
+        eval "$(getoptions parser_definition_animate parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/animate/radix/v1.sh"
         fn_animate "$@"
         ;;
     ant)

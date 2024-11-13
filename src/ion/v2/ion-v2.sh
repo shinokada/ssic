@@ -24,7 +24,7 @@ fn_svg_path() {
 
 
 fn_ion() {
-   GITURL="git@github.com:ionic-team/ionicons.git"
+  GITURL="git@github.com:ionic-team/ionicons.git"
   DIRNAME='src/svg'
   LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-ionicons-runes-webkit"
   SVELTE_LIB_DIR='src/lib'

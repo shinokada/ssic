@@ -21,8 +21,7 @@
 		size?: number;
 		role?: string;
 		color?: string;
-		strokeWidth?: number;
-    transitionParams?: DrawParams;
+		transitionParams?: DrawParams;
 	}
 
 	let {
@@ -31,41 +30,41 @@
 		size = 24,
 		role = 'img',
 		color = 'currentColor',
-		strokeWidth = 1.5,
 		title,
 		desc,
 		ariaLabel = 'archive box',
-    transitionParams = { duration: 800, delay: 0 },
+		transitionParams = { duration: 800, delay: 0 },
 		...restProps
 	}: Props = $props();
 
 	const getDuration = (params?: DrawParams): number => {
-		if (!params?.duration) return 0;
-		if (typeof params.duration === 'function') {
-			return params.duration(0);
-		}
-		return params.duration;
-	};
+    if (!params?.duration) return 0;
+    if (typeof params.duration === 'function') {
+      return params.duration(0);
+    }
+    return params.duration;
+  };
 
-	let visible = $state(true);
-	let totalDuration = $derived(getDuration(transitionParams) + pauseDuration);
+  let visible = $state(true);
+  let totalDuration = $derived(getDuration(transitionParams) + pauseDuration);
 
-	let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
-	const hasDescription = $derived(!!(title?.id || desc?.id));
+  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
+  const hasDescription = $derived(!!(title?.id || desc?.id));
 
-	const handleEvent = () => {
-		if (!visible) return;
-		visible = false;
-		setTimeout(() => {
-			visible = true;
-		}, totalDuration);
-	};
+  const handleEvent = () => {
+    if (!visible) return;
+    visible = false;
+    setTimeout(() => {
+      visible = true;
+    }, totalDuration);
+  };
 
-	// Set CSS variable for the placeholder size
-	$effect(() => {
-		document.documentElement.style.setProperty('--size', `${size}px`);
-	});
+  // Set CSS variable for the placeholder size
+  $effect(() => {
+    document.documentElement.style.setProperty('--size', `${size}px`);
+  });
 </script>
+
 
 {#snippet iconsvg()}
   <svg
@@ -74,10 +73,10 @@
     {role}
     width={size}
     height={size}
-    fill="none"
+    fill={color}
     aria-label={ariaLabel}
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
-    viewBox="0 0 24 24"
+    viewBox="0 0 512 512"
   >
     {#if title?.id && title.title}
       <title id={title.id}>{title.title}</title>

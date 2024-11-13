@@ -1,6 +1,6 @@
 fn_svg_path() {
 
-  bannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
+  newBannerColor "Changing dir to ${CURRENTDIR}" "blue" "*"
   cd "${CURRENTDIR}" || exit
 
   for file in *; do
@@ -14,8 +14,8 @@ fn_svg_path() {
     cp "${script_dir}/src/supertiny/v2/supertiny-v2.txt" "${SVELTENAME}"
     
     SVGPATH=$(extract_svg_path "$file")
-    # Remove script tags from the SVG path
-    # SVGPATH=$(echo "$SVGPATH" | sed 's/<script>.*\(\]\]>\)\?<\/script>//g')
+    # Replace fill="#fff" with fill="none"
+    SVGPATH=$(echo "$SVGPATH" | sed 's/d="m0 0H512V512H0" fill="#fff"/d="m0 0H512V512H0" fill="none"/g')
 
     # replace replace_svg_path with svg path
     sed -i "s|replace_svg_path|${SVGPATH}|" "${SVELTENAME}"
@@ -41,6 +41,9 @@ fn_svg_path() {
         sed -i "/viewBox=\"[^\"]*\"/a\   ${FILL_VALUE}" "${SVELTENAME}"
     fi
 
+    # for file name is Slack insert stroke-width="78" stroke-linecap="round" after viewBox="0 0 512 512"
+    # sed -i "/viewBox=\"[^\"]*\"/a\   stroke-width=\"78\" stroke-linecap=\"round\"" "${SVELTENAME}"
+
   done
 }
 
@@ -48,7 +51,7 @@ fn_svg_path() {
 fn_add_arialabel() {
   cd "${CURRENTDIR}" || exit 1
 
-  bannerColor "Adding arialabel to all files." "blue" "*"
+  newBannerColor "Adding arialabel to all files." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
     FILENAMEONE=$(basename "${filename}" .svelte)
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
@@ -65,7 +68,7 @@ fn_add_arialabel() {
     new_name=$(echo "$new_name" | sed 's/ //g')
   done
   
-  bannerColor 'Added arialabel to all files.' "green" "*"
+  newBannerColor 'Added arialabel to all files.' "green" "*"
 }
 
 fn_supertiny(){
@@ -77,17 +80,17 @@ fn_supertiny(){
 
   clone_repo "${CURRENTDIR}" "$DIRNAME" "$GITURL"
 
-  bannerColor 'Modifying all files.' "blue" "*"
+  newBannerColor 'Modifying all files.' "blue" "*"
 
   fn_svg_path
 
-  bannerColor 'Removing all .svg files.' "blue" "*"
+  newBannerColor 'Removing all .svg files.' "blue" "*"
 
   fn_remove_svg
 
   add_A_if_starts_with_number
 
-  bannerColor 'Renaming all files.' "blue" "*"
+  newBannerColor 'Renaming all files.' "blue" "*"
   
   fn_add_arialabel
   
@@ -99,5 +102,5 @@ fn_supertiny(){
   cp "${script_dir}/src/supertiny/v2/types.txt" "${CURRENTDIR}/types.ts"
 
 
-  bannerColor 'All done.' "green" "*"
+  newBannerColor 'All done.' "green" "*"
 }
