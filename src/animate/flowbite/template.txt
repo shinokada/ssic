@@ -23,6 +23,11 @@
 		color?: string;
 		strokeWidth?: number;
     transitionParams?: DrawParams;
+		enableFocusStyles?: boolean;
+		focusOutlineWidth?: string | number;
+		focusOutlineColor?: string;
+		focusOutlineOffset?: string | number;
+		focusOutlineStyle?: string;
 	}
 
 	let {
@@ -34,8 +39,14 @@
 		strokeWidth = 2,
 		title,
 		desc,
-		ariaLabel = 'archive box',
-    transitionParams = { duration: 800, delay: 0 },
+		ariaLabel = replace_ariaLabel,
+    transitionParams = { duration: 500, delay: 0 },
+		enableFocusStyles = false,
+		focusOutlineWidth = 0.05, // Default to ~8.3% of icon size
+		focusOutlineColor = 'currentColor',
+		focusOutlineOffset = 0.05, // Default to ~8.3% of icon size
+		focusOutlineStyle = 'solid',
+		class: className,
 		...restProps
 	}: Props = $props();
 
@@ -61,9 +72,25 @@
 		}, totalDuration);
 	};
 
+	const calculateOutlineValue = (value: string | number): string => {
+		if (typeof value === 'number') {
+			return `calc(var(--size) * ${value})`;
+		}
+		// If it's a string with units, return as is
+		return value;
+	};
+
 	$effect(() => {
 		document.documentElement.style.setProperty('--size', `${size}px`);
 	});
+
+	const buttonId = crypto.randomUUID();
+	let focusStyles = $derived(enableFocusStyles ? `
+    --focus-outline-width: ${calculateOutlineValue(focusOutlineWidth)};
+    --focus-outline-color: ${focusOutlineColor};
+    --focus-outline-offset: ${calculateOutlineValue(focusOutlineOffset)};
+    --focus-outline-style: ${focusOutlineStyle};
+  ` : '');
 </script>
 
 {#snippet iconsvg()}
@@ -77,6 +104,8 @@
     aria-label={ariaLabel}
     aria-describedby={hasDescription ? ariaDescribedby : undefined}
     viewBox="0 0 24 24"
+		style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+		class={className}
   >
     {#if title?.id && title.title}
       <title id={title.id}>{title.title}</title>
@@ -84,45 +113,72 @@
     {#if desc?.id && desc.desc}
       <desc id={desc.id}>{desc.desc}</desc>
     {/if}
-
+		{#if visible}
     replace_svg_path
-
+    {/if}
   </svg>
 {/snippet}
 
 {#if event === 'hover'}
-	<button onmouseenter={handleEvent}>
-		<div class="placeholder">
-			{#if visible}
-				{@render iconsvg()}
-			{/if}
-		</div>
-	</button>
+  <div 
+    class="icon-wrapper"
+    role="button"
+    tabindex="0"
+    id={buttonId}
+    aria-label={`Animate ${ariaLabel} icon`}
+    onmouseenter={handleEvent}
+    onkeydown={(e) => e.key === 'Enter' && handleEvent()}
+    style={focusStyles}
+  >
+    {@render iconsvg()}
+  </div>
 {:else if event === 'click'}
-	<button onclick={handleEvent}>
-		<div class="placeholder">
-			{#if visible}
-				{@render iconsvg()}
-			{/if}
-		</div>
-	</button>
+  <div 
+    class="icon-wrapper"
+    role="button"
+    tabindex="0"
+    id={buttonId}
+    aria-label={`Animate ${ariaLabel} icon`}
+    onclick={handleEvent}
+    onkeydown={(e) => e.key === 'Enter' && handleEvent()}
+    style={focusStyles}
+  >
+    {@render iconsvg()}
+  </div>
 {:else}
-  <div class="placeholder">
+  <div 
+    class="icon-wrapper"
+    role="img"
+    aria-label={ariaLabel}
+    style={focusStyles}
+  >
     {@render iconsvg()}
   </div>
 {/if}
+
 <style>
-	button {
-		background: none;
-		border: none;
-		padding: 0;
-		font: inherit;
-		cursor: pointer;
-		outline: inherit;
-	}
-	.placeholder {
-		display: inline-block;
-		min-width: var(--size, 24px);
-		min-height: var(--size, 24px);
-	}
+  .icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--size, 24px);
+    min-height: var(--size, 24px);
+    width: var(--size, 24px);
+    height: var(--size, 24px);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    outline: inherit;
+    line-height: 0;
+  }
+
+    .icon-wrapper:focus {
+    outline-width: var(--focus-outline-width, 0);
+    outline-color: var(--focus-outline-color, transparent);
+    outline-offset: var(--focus-outline-offset, 0);
+    outline-style: var(--focus-outline-style, none);
+  }
 </style>
