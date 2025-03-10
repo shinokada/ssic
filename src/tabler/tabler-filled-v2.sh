@@ -25,7 +25,7 @@ fn_svg_path() {
 fn_tabler_filled() {
   GITURL="https://github.com/tabler/tabler-icons"
   DIRNAME='icons/filled'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/Runes-dev-icons/svelte-tabler-filled-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes-dev-icons/svelte-tabler-filled"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   

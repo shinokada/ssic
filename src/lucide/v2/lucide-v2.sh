@@ -23,7 +23,7 @@ fn_svg_path() {
 fn_lucide() {
     GITURL="git@github.com:lucide-icons/lucide.git"
     DIRNAME='icons'
-    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-lucide-next-runes-webkit"
+    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-lucide"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

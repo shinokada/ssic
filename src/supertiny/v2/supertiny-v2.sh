@@ -74,7 +74,7 @@ fn_add_arialabel() {
 fn_supertiny(){
   GITURL="https://github.com/edent/SuperTinyIcons"
   DIRNAME='images/svg'
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-supertiny-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-supertiny"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 

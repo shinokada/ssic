@@ -29,7 +29,7 @@ fn_tabler_outline() {
   GITURL="https://github.com/tabler/tabler-icons"
   DIRNAME='icons/outline'
   # creating only outline icons to the main tabler runes repo
-  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/Runes/svelte-tabler-runes-webkit"
+  LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/svelte-tabler"
   SVELTE_LIB_DIR='src/lib'
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   
