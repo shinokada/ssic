@@ -18,9 +18,6 @@ fn_create_svelte_file(){
     SUBDIRNAME=$(basename "${SUBSRC}") # dark or light
     cd "${SUBSRC}" || exit
 
-    # Counter for unique colors
-    color_count=1
-
     # Function to extract unique hex colors from an SVG
     extract_unique_colors() {
         local svg_file="$1"
@@ -38,10 +35,14 @@ fn_create_svelte_file(){
       aria_label=$(generate_aria_label "$svg_file")
 
       # Extract unique colors
-      unique_colors=($(extract_unique_colors "$svg_file"))
+      mapfile -t unique_colors < <(extract_unique_colors "$svg_file")
 
       # Create the Svelte component file
       output_file="${CURRENTDIR}/${filename}.svelte"
+
+      # Create a temporary file for sed replacements
+      temp_svg=$(mktemp)
+      cp "$svg_file" "$temp_svg"
 
       # Start creating the Svelte component
       {
@@ -61,6 +62,10 @@ fn_create_svelte_file(){
             echo "    ${prop_name}?: string;"
             color_props+=("${prop_name}")
             default_values+=("${prop_name}=\"${color}\"")
+            
+            # Escape the color for sed replacement (replace '/' with '\/')
+            escaped_color=$(echo "$color" | sed 's/[\/&]/\\&/g')
+            color_mapping+=("-e s/fill=\"${escaped_color}\"/fill={${prop_name}}/g")
         done
         
         # Add ariaLabel to interface
@@ -83,17 +88,17 @@ fn_create_svelte_file(){
         # Process SVG content
         # 1. Add restProps and aria-label to SVG tag
         # 2. Replace hex colors with prop references
+        # 3. Insert title and desc conditionals right after SVG tag
         sed -E \
             -e '/<svg/s/class="[^"]*"/class={className}/' \
             -e '/<svg/s/>/ style={`height: ${height}`} aria-label={ariaLabel} aria-describedby={hasDescription ? ariaDescribedby : undefined} {...restProps}>/' \
-            $(for ((i=1; i<=${#unique_colors[@]}; i++)); do 
-                echo "-e s/#${unique_colors[$((i-1))]}/{color$i}/g"; 
-              done) \
-            -e '/<svg>/a\{#if title?.id && title.title}\n\t<title id={title.id}>{title.title}</title>\n{/if}\n{#if desc?.id && desc.desc}\n\t<desc id={desc.id}>{desc.desc}</desc>\n{/if}' \
-            "$svg_file"
+            -e '/<svg[^>]*>/a\    {#if title?.id && title.title}\n        <title id={title.id}>{title.title}</title>\n    {/if}\n    {#if desc?.id && desc.desc}\n        <desc id={desc.id}>{desc.desc}</desc>\n    {/if}' \
+            "${color_mapping[@]}" \
+            "$temp_svg"
       } > "$output_file"
 
-      # echo "Processed $svg_file -> $output_file"
+      # Clean up temporary file
+      rm "$temp_svg"
     done
   done
 }
