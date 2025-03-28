@@ -1,0 +1,37 @@
+<script lang="ts">
+	import type { SVGAttributes } from 'svelte/elements';
+	interface Props extends SVGAttributes<SVGElement> {
+		ariaLabel?: string;
+		class?: string;
+		height?: string;
+	}
+
+	let {
+		ariaLabel = replace_arialabel,
+		class: className = 'shrink-0 w-auto max-w-[16rem] text-gray-800 dark:text-white',
+		height = '100',
+		...restProps
+	}: Props = $props();
+</script>
+
+<svg
+	class={className}
+	aria-hidden="true"
+	width=replace_width
+	height=replace_height
+	replace_viewBox
+	fill="none"
+	xmlns="http://www.w3.org/2000/svg"
+	style={`height: ${height}`}
+	aria-label={ariaLabel}
+	{...restProps}
+>
+
+{#if title?.id && title.title}
+		<title id={title.id}>{title.title}</title>
+	{/if}
+{#if desc?.id && desc.desc}
+  <desc id={desc.id}>{desc.desc}</desc>
+{/if}
+
+replace_path

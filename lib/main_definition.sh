@@ -36,6 +36,7 @@ parser_definition() {
     cmd heros-v2 -- "Create Heroicons for v2."
     cmd heros2 -- "Create Heroicons v-2."
     cmd heros2-v2 -- "Create Heroicons v2 v2."
+    cmd illust -- "Create flowbite illustrations."
     cmd ion -- "Create Ionicons."
     cmd ion-v2 -- "Create Ionicons for Svelte 5 Runes mode version."
     cmd lucide -- "Create Lucide-icons."
