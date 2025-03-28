@@ -107,7 +107,7 @@ fn_create_svelte_file(){
 fn_illust() {
     GITURL="git@github.com:themesberg/flowbite-illustrations.git"
     DIRNAME='src/3d'
-    LOCAL_REPO_NAME="$HOME/Flowbite/flowbite-svelte-illustrations"
+    LOCAL_REPO_NAME="$HOME/Svelte/SVELTE-ICON-FAMILY/flowbite-svelte-illustrations"
     SVELTE_LIB_DIR='src/lib'
     CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
 
