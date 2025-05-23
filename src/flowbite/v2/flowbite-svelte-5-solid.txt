@@ -1,10 +1,13 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import { twMerge } from 'tailwind-merge';
-    type TitleType = {
+  import clsx from 'clsx';
+
+  type TitleType = {
     id?: string;
     title?: string;
   };
+
   type DescType = {
     id?: string;
     desc?: string;
@@ -49,11 +52,7 @@
   xmlns="http://www.w3.org/2000/svg"
   fill={color}
   {...restProps}
-  class={twMerge(
-    'shrink-0',
-    sizes[size],
-    classname
-  )}
+  class={twMerge(clsx('shrink-0', sizes[size], className))}
   {role}
   aria-label={ariaLabel}
   aria-describedby={hasDescription ? ariaDescribedby : undefined}
