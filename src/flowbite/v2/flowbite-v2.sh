@@ -13,6 +13,8 @@ fn_svg_path(){
         fi
 
         SVGPATH=$(extract_svg_path "$file")
+        # Remove fill="currentColor" from the SVGPATH
+        SVGPATH=$(echo "${SVGPATH}" | sed 's/fill="currentColor"//g')
         sed -i "s;replace_svg_path;${SVGPATH};" "${SVELTENAME}"
       done
     done
@@ -64,6 +66,18 @@ fn_modify_file(){
       sed -i 's/stroke-width="2"/stroke-width=\{strokeWidth\}/g' "${filename}"
       # add strokeWidth = ctx.strokeWidth || '2', before desc,
       sed -i '/desc,/i strokeWidth= ctx.strokeWidth || "2",' "${filename}"
+      # add strokeWidth?: string; before class?: string | undefined | null;
+      sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
+    fi
+
+    if grep -q 'stroke-width="3"' "${filename}"; then
+      # replace BaseProps with OutlineBaseProps, etc using \b word boundary
+      sed -i 's/\bBaseProps\b/OutlineBaseProps/g' "${filename}"
+      sed -i 's/\bProps\b/OutlineProps/g' "${filename}"
+      # replace stroke-width="3" with stroke-width="{strokeWidth}"
+      sed -i 's/stroke-width="3"/stroke-width=\{strokeWidth\}/g' "${filename}"
+      # add strokeWidth = ctx.strokeWidth || '3', before desc,
+      sed -i '/desc,/i strokeWidth= ctx.strokeWidth || "3",' "${filename}"
       # add strokeWidth?: string; before class?: string | undefined | null;
       sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
     fi
