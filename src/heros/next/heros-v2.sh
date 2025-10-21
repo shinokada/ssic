@@ -44,14 +44,14 @@ fn_modify_svg() {
 fn_modify_filenames() {
   cd "${CURRENTDIR}" || exit 1
   newBannerColor "cd to ${CURRENTDIR}." "blue" "*"
-  newBannerColor "Adding arialabel to all files." "blue" "*"
+  # newBannerColor "Adding arialabel to all files." "blue" "*"
 
-  for filename in "${CURRENTDIR}"/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    # echo "${FILENAME}"
-    sed -i "s;replace_ariaLabel;\"${FILENAME}\";" "${filename}" >/dev/null 2>&1
-  done
-  newBannerColor "Added arialabel to all files." "green" "*"
+  # for filename in "${CURRENTDIR}"/*; do
+  #   FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
+  #   # echo "${FILENAME}"
+  #   sed -i "s;replace_ariaLabel;\"${FILENAME}\";" "${filename}" >/dev/null 2>&1
+  # done
+  # newBannerColor "Added arialabel to all files." "green" "*"
 
   #  modify file names
   newBannerColor "Renaming all files." "blue" "*"

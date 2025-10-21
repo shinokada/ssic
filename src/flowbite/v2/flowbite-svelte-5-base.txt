@@ -1,7 +1,6 @@
 <script lang="ts">
   import { getContext } from 'svelte';
-  import { twMerge } from 'tailwind-merge';
-  import clsx from 'clsx';
+  import { cn } from './helpers';
   import type { BaseProps, Props } from './types'
 
   const ctx: BaseProps = getContext('iconCtx') ?? {};
@@ -19,21 +18,23 @@
     title, 
     desc,  
     class: className, 
-    ariaLabel =replace_ariaLabel, 
+    ariaLabel, 
     ...restProps 
     }: Props = $props();
 
-  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
-  const hasDescription = $derived(!!(title?.id || desc?.id));
+  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`.trim();
+	const hasDescription = !!(title?.id || desc?.id);
+	const isLabeled = !!ariaLabel || hasDescription;
 </script>
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
   {...restProps}
-  class={twMerge(clsx('shrink-0', sizes[size], className))}
+  class={cn('shrink-0', sizes[size], className)}
+  viewBox="0 0 24 24"
   aria-label={ariaLabel}
   aria-describedby={hasDescription ? ariaDescribedby : undefined}
-  viewBox="0 0 24 24"
+	aria-hidden={!isLabeled}
 >
   {#if title?.id && title.title}
     <title id={title.id}>{title.title}</title>

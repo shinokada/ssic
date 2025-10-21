@@ -7,11 +7,13 @@
     role = ctx.role || 'img', 
     color = ctx.color || 'currentColor',
     title, 
-    desc, 
-    ariaLabel = replace_ariaLabel, 
+    desc,
+    focusable = 'false',
+    ariaLabel, 
     ...restProps 
   }: Props = $props();
-  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
+
+  let ariaDescribedby = $derived(`${title?.id || ''} ${desc?.id || ''}`.trim());
   const hasDescription = $derived(!!(title?.id || desc?.id));
 </script>
 
@@ -22,7 +24,9 @@
   width={size}
   height={size}
   class={classname}
-  aria-label={ariaLabel}
+  {focusable}
+  aria-label={title?.id ? undefined : ariaLabel}
+  aria-labelledby={title?.id || undefined}
   aria-describedby={hasDescription ? ariaDescribedby : undefined}
   viewBox="0 0 24 24"
   fill={color}

@@ -41,8 +41,8 @@ fn_bootstrap() {
   newBannerColor 'Removing all .svg files ...' "blue" "*"
   fn_remove_svg
 
-  newBannerColor 'Running fn_add_arialabel ...' "blue" "*"
-  fn_add_arialabel
+  # newBannerColor 'Running fn_add_arialabel ...' "blue" "*"
+  # fn_add_arialabel
 
   newBannerColor 'Running fn_rename ...' "blue" "*"
   fn_rename

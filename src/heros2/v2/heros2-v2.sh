@@ -115,14 +115,14 @@ fn_modify_svg() {
 fn_modify_filenames() {
   cd "${CURRENTDIR}" || exit 1
   bannerColor "cd to ${CURRENTDIR}." "blue" "*"
-  bannerColor "Adding arialabel to all files." "blue" "*"
+  # bannerColor "Adding arialabel to all files." "blue" "*"
 
-  for filename in "${CURRENTDIR}"/*; do
-    FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
-    echo "${FILENAME}"
-    sed -i "s;replace_ariaLabel;\"${FILENAME}\";" "${filename}" >/dev/null 2>&1
-  done
-  bannerColor "Added arialabel to all files." "green" "*"
+  # for filename in "${CURRENTDIR}"/*; do
+  #   FILENAME=$(basename "${filename}" .svg | tr '-' ' ')
+  #   echo "${FILENAME}"
+  #   sed -i "s;replace_ariaLabel;\"${FILENAME}\";" "${filename}" >/dev/null 2>&1
+  # done
+  # bannerColor "Added arialabel to all files." "green" "*"
 
   #  modify file names
   # rename files with number at the beginning with A

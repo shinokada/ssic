@@ -29,7 +29,7 @@ fn_modify_filenames() {
     FILENAMEONE=$(basename "${filename}" .svelte)
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     
-    sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
+    # sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
 
     #  modify file names
     new_name=$(echo "${FILENAMEONE^}")
@@ -64,10 +64,10 @@ fn_modify_file(){
       sed -i 's/\bProps\b/OutlineProps/g' "${filename}"
       # replace stroke-width="2" with stroke-width="{strokeWidth}"
       sed -i 's/stroke-width="2"/stroke-width=\{strokeWidth\}/g' "${filename}"
-      # add strokeWidth = ctx.strokeWidth || '2', before desc,
-      sed -i '/desc,/i strokeWidth= ctx.strokeWidth || "2",' "${filename}"
+      # add strokeWidth = ctx.strokeWidth || 2, before desc,
+      sed -i '/desc,/i strokeWidth= ctx.strokeWidth || 2,' "${filename}"
       # add strokeWidth?: string; before class?: string | undefined | null;
-      sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
+      # sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
     fi
 
     if grep -q 'stroke-width="3"' "${filename}"; then
@@ -76,10 +76,10 @@ fn_modify_file(){
       sed -i 's/\bProps\b/OutlineProps/g' "${filename}"
       # replace stroke-width="3" with stroke-width="{strokeWidth}"
       sed -i 's/stroke-width="3"/stroke-width=\{strokeWidth\}/g' "${filename}"
-      # add strokeWidth = ctx.strokeWidth || '3', before desc,
-      sed -i '/desc,/i strokeWidth= ctx.strokeWidth || "3",' "${filename}"
+      # add strokeWidth = ctx.strokeWidth || 3, before desc,
+      sed -i '/desc,/i strokeWidth= ctx.strokeWidth || 3,' "${filename}"
       # add strokeWidth?: string; before class?: string | undefined | null;
-      sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
+      # sed -i '/class?:  string | undefined | null;/i strokeWidth?: string | undefined | null;' "${filename}"
     fi
   done
 }
@@ -107,6 +107,7 @@ fn_flowbite() {
 
   fn_modify_file
 
+  cp "${script_dir}/src/flowbite/v2/helpers.ts" "${CURRENTDIR}/helpers.ts" || exit 1
   cp "${script_dir}/src/flowbite/v2/IconOutline.svelte" "${CURRENTDIR}/IconOutline.svelte" || exit 1
   cp "${script_dir}/src/flowbite/v2/IconSolid.svelte" "${CURRENTDIR}/IconSolid.svelte" || exit 1
   cp "${script_dir}/src/flowbite/v2/flowbite-v2-types.txt" "${CURRENTDIR}/types.ts"

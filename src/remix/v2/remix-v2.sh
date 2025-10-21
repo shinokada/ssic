@@ -32,14 +32,14 @@ fn_svg_path(){
 fn_modify_filenames() {
   cd "${CURRENTDIR}" || exit 1
 
-  bannerColor "Adding arialabel to all files." "blue" "*"
+  bannerColor "Modifing file names." "blue" "*"
   for filename in "${CURRENTDIR}"/*; do
 
     FILENAMEONE=$(basename "${filename}" .svelte)
-    FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
+    # FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
 
     # echo "${FILENAME}"
-    sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
+    # sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
 
     new_name=$(echo "${FILENAMEONE^}")
     # Capitalize the letter after -

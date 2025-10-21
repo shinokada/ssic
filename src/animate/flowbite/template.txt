@@ -22,6 +22,7 @@
     color?: string;
     strokeWidth?: number;
     transitionParams?: DrawParams;
+    focusable?: 'true' | 'false' | 'auto';
   }
 
   let {
@@ -32,7 +33,8 @@
     strokeWidth = 2,
     title,
     desc,
-    ariaLabel = replace_ariaLabel,
+    focusable = 'false',
+    ariaLabel,
     transitionParams = { duration: 500, delay: 0 },
     class: className,
     ...restProps
@@ -54,7 +56,7 @@
   let visible = $state(true);
   let totalDuration = $derived(getDuration(transitionParams) + pauseDuration);
 
-  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
+  let ariaDescribedby = $derived(`${title?.id || ''} ${desc?.id || ''}`.trim());
   const hasDescription = $derived(!!(title?.id || desc?.id));
 
   let isAnimating = $state(false);
@@ -93,7 +95,9 @@
   height={size}
   fill="none"
   role={event === 'none' ? 'img' : 'button'}
-  aria-label={ariaLabel}
+  {focusable}
+  aria-label={title?.id ? undefined : ariaLabel}
+  aria-labelledby={title?.id || undefined}
   aria-describedby={hasDescription ? ariaDescribedby : undefined}
   viewBox="0 0 24 24"
   class={className}

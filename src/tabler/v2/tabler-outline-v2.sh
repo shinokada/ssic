@@ -44,8 +44,8 @@ fn_tabler_outline() {
   bannerColor 'Removing all .svg files ...' "blue" "*"
   fn_remove_svg
 
-  bannerColor 'Running fn_add_arialabel ...' "blue" "*"
-  fn_add_arialabel
+  # bannerColor 'Running fn_add_arialabel ...' "blue" "*"
+  # fn_add_arialabel
 
   bannerColor 'Running fn_rename ...' "blue" "*"
   fn_rename

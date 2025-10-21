@@ -45,12 +45,12 @@ fn_animate() {
   fn_svg_path
 
   newBannerColor 'Removing all .svg files ...' "blue" "*"
-  rm -rf "${CURRENTDIR}/arrows" "${CURRENTDIR}/e-commerce" "${CURRENTDIR}/emoji" "${CURRENTDIR}/files:folders" "${CURRENTDIR}/general" "${CURRENTDIR}/media" "${CURRENTDIR}/text" "${CURRENTDIR}/user" "${CURRENTDIR}/weather"
+  find "${CURRENTDIR}" -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
 
   # fn_remove_svg
 
-  newBannerColor 'Running fn_add_arialabel ...' "blue" "*"
-  fn_add_arialabel
+  # newBannerColor 'Running fn_add_arialabel ...' "blue" "*"
+  # fn_add_arialabel
 
   newBannerColor 'Running fn_rename ...' "blue" "*"
   fn_rename_with_repo "Flowbite"

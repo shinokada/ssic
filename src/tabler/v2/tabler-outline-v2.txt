@@ -9,10 +9,12 @@
     strokeWidth = ctx.strokeWidth || '2',
     title,
     desc,
-    ariaLabel = replace_ariaLabel,
+    focusable = 'false',
+    ariaLabel, 
     ...restProps 
   }: Props = $props();
-  let ariaDescribedby = `${title?.id || ''} ${desc?.id || ''}`;
+
+  let ariaDescribedby = $derived(`${title?.id || ''} ${desc?.id || ''}`.trim());
   const hasDescription = $derived(!!(title?.id || desc?.id));
 </script>
 
@@ -22,7 +24,9 @@
   {role}
   width={size}
   height={size}
-  aria-label={ariaLabel}
+  {focusable}
+  aria-label={title?.id ? undefined : ariaLabel}
+  aria-labelledby={title?.id || undefined}
   aria-describedby={hasDescription ? ariaDescribedby : undefined}
   viewBox="0 0 24 24"
   fill="none" 

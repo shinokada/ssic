@@ -92,7 +92,7 @@ fn_supertiny(){
 
   newBannerColor 'Renaming all files.' "blue" "*"
   
-  fn_add_arialabel
+  # fn_add_arialabel
   
   fn_rename
 

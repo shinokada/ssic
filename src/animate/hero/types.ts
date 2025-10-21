@@ -18,4 +18,5 @@ export interface Props extends SVGAttributes<SVGElement>{
   role?: string;
   color?: string;
   strokeWidth?: number;
+  focusable?: 'true' | 'false' | 'auto';
 }

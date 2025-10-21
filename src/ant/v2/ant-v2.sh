@@ -88,6 +88,8 @@ fn_ant() {
 
   # For each svelte file modify contents of all file by adding
   bannerColor 'Modifying all files.' "blue" "*"
+  # replace fillRule with fill-rule
+  sed -i 's/fillRule/fill-rule/g' ./**/*.*
 
   fn_svg_path
 

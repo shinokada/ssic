@@ -30,7 +30,8 @@ fn_modify_filenames() {
     FILENAME=$(basename "${filename}" .svelte | tr '-' ' ')
     
     # echo "${FILENAME}"
-    sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
+    # Not adding the default aria-label
+    # sed -i "s;replace_ariaLabel; \"${FILENAME}\" ;" "${filename}" >/dev/null 2>&1
 
     new_name=$(echo "${FILENAMEONE^}")
     # Capitalize the letter after -
@@ -55,6 +56,9 @@ fn_awesome() {
   CURRENTDIR="${LOCAL_REPO_NAME}/${SVELTE_LIB_DIR}"
   
   clone_repo "$CURRENTDIR" "$DIRNAME" "$GITURL"
+
+  # remove fill="currentColor"
+  sed -i 's/fill="currentColor"//g' ./**/*.*
 
   # remove font awesome comments
   find . -type f -exec sed -i '/<!--! Font Awesome Free/,/-->/ s/<!--! Font Awesome Free.*-->//' {} \;

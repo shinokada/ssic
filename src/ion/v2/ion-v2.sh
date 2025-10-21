@@ -46,11 +46,15 @@ fn_ion() {
   bannerColor 'Removing all .svg files ...' "blue" "*"
   fn_remove_svg
 
-  bannerColor 'Running fn_add_arialabel ...' "blue" "*"
-  fn_add_arialabel
+  # bannerColor 'Running fn_add_arialabel ...' "blue" "*"
+  # fn_add_arialabel
 
   bannerColor 'Running fn_rename ...' "blue" "*"
   fn_rename
+
+  # fix LogoThreads.svelte by removing <?xml version="1.0" encoding="UTF-8"?> <g> and </g> from </g></g>
+  bannerColor 'Fixinng LogoThreads ...' "blue" "*"
+  sed -i 's/<?xml version="1.0" encoding="UTF-8"?> <g><g id="Layer_1">/<g id="Layer_1">/g; s/<\/g><\/g>/<\/g>/g' "${CURRENTDIR}/LogoThreads.svelte"
 
   cp "${script_dir}/src/ion/v2/Icon.svelte" "${CURRENTDIR}/Icon.svelte"
   cp "${script_dir}/src/ion/v2/ion-v2-types.txt" "${CURRENTDIR}/types.ts"
